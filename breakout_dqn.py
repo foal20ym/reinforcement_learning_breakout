@@ -15,14 +15,14 @@ import os
 
 
 class BreakoutDQN:
-    learning_rate = 0.001
+    learning_rate = 0.0001
     discount_factor = 0.99
-    network_sync_rate = 10_000
+    network_sync_rate = 1_000
     replay_memory_size = 100_000
     mini_batch_size = 32
     epsilon = 1.0
     epsilon_min = 0.1
-    epsilon_decay = 0.99
+    epsilon_decay = 0.995
     num_hidden_nodes = 256
 
     loss_fn = nn.HuberLoss()
@@ -52,8 +52,8 @@ class BreakoutDQN:
 
         for episode in range(1, episodes + 1):
             obs, info = env.reset()
-            #lives = info.get("lives", 5)
-            obs, _, terminated, truncated, _ = env.step(1)
+            lives = info.get("lives", 5)  # Track the initial number of lives
+            obs, _, terminated, truncated, info = env.step(1)
             obs = preprocess_frame(obs)
             frame_stack = FrameStack(4)
             frame_stack.reset()
@@ -72,15 +72,22 @@ class BreakoutDQN:
                     with torch.no_grad():
                         action = policy_dqn(state.to(self.device)).argmax().item()
 
-                next_obs, reward, terminated, truncated, _ = env.step(action)
+                next_obs, reward, terminated, truncated, info = env.step(action)
                 next_obs = preprocess_frame(next_obs)
                 frame_stack.append(next_obs)
                 next_state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
 
-                # current_lives = info.get("lives", lives)
-                # if current_lives < lives:
-                #     reward -= 10.0
-                #     lives = current_lives
+                # Detect life loss and reset frame stack
+                current_lives = info.get("lives", lives)
+                if current_lives < lives:
+                    reward -= 10.0  # Penalize life loss
+                    lives = current_lives  # Update the lives tracker
+
+                    # Reset the frame stack after life loss
+                    frame_stack.reset()
+                    for _ in range(4):
+                        frame_stack.append(next_obs)
+                    next_state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
 
                 self.memory.append((state, action, next_state, reward, terminated))
                 state = next_state
@@ -88,7 +95,7 @@ class BreakoutDQN:
                 episode_steps += 1
                 step_count += 1
 
-                if len(self.memory) > self.mini_batch_size and step_count % 4 == 0:
+                if len(self.memory) > self.mini_batch_size and step_count % 8 == 0:  # step_count % 4
                     mini_batch = self.memory.sample(self.mini_batch_size)
                     self.optimize(mini_batch, policy_dqn, target_dqn)
 
@@ -163,7 +170,10 @@ class BreakoutDQN:
         policy_dqn.eval()
 
         for episode in range(1, episodes + 1):
-            obs, _ = env.reset()
+            obs, info = env.reset()
+            lives = info.get("lives", 5)  # Track the initial number of lives
+            obs, _, terminated, truncated, info = env.step(1)  # Take a "FIRE" action to start the game
+
             obs = preprocess_frame(obs)
             frame_stack = FrameStack(4)
             frame_stack.reset()
@@ -172,19 +182,34 @@ class BreakoutDQN:
 
             state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
             total_reward = 0
-            terminated = truncated = False
-
-            # Fire the ball at the start of the episode
-            env.step(1)  # Action 1 is usually "fire" in Breakout
 
             while not (terminated or truncated):
                 with torch.no_grad():
                     q_values = policy_dqn(state.to(self.device))
                     action = q_values.argmax().item()
-                    print(f"Q-values: {q_values}, Selected Action: {action}")
 
-                next_obs, reward, terminated, truncated, _ = env.step(action)
+                next_obs, reward, terminated, truncated, info = env.step(action)
                 next_obs = preprocess_frame(next_obs)
+
+                # Detect life loss and reset frame stack
+                current_lives = info.get("lives", lives)
+                if current_lives < lives:
+                    lives = current_lives  # Update the lives tracker
+
+                    # Reset the frame stack after life loss
+                    frame_stack.reset()
+                    for _ in range(4):
+                        frame_stack.append(next_obs)
+                    state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
+
+                    # Take a "FIRE" action to resume the game
+                    next_obs, _, terminated, truncated, info = env.step(1)
+                    next_obs = preprocess_frame(next_obs)
+                    for _ in range(4):
+                        frame_stack.append(next_obs)
+                    state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
+                    continue  # Skip the rest of the loop to avoid double-processing
+
                 frame_stack.append(next_obs)
                 state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
                 total_reward += reward
@@ -195,5 +220,5 @@ class BreakoutDQN:
 
 if __name__ == "__main__":
     breakout_dqn = BreakoutDQN()
-    breakout_dqn.train(episodes=50, render=False)
-    #breakout_dqn.test(10, "models/CNN_breakout_avg_3.pt")
+    #breakout_dqn.train(episodes=50, render=False)
+    breakout_dqn.test(10, "models/CNN_breakout.pt")
