@@ -1,15 +1,17 @@
+from visualization import plot_progress
+from core.ReplayMemory import ReplayMemory
+from helpers.FramePreprocess import preprocess_frame
+from helpers.FrameStack import FrameStack
+from core.NeuralNetwork import NeuralNetwork
+from core.CNN import CNN
+from torch import nn
+import torch
 import gymnasium as gym
 import ale_py
-import gymnasium as gym
 import numpy as np
 import random
-import torch
-from torch import nn
-import torch.nn.functional as F
-import torchvision.transforms as T
-from visualization import plot_progress
-from model import CNN, NeuralNetwork, ReplayMemory, FrameStack, preprocess_frame
 import os
+
 
 
 class BreakoutDQN:
@@ -23,7 +25,8 @@ class BreakoutDQN:
     epsilon_decay = 0.99
     num_hidden_nodes = 256
 
-    loss_fn = nn.MSELoss()
+    loss_fn = nn.HuberLoss()
+    #loss_fn = nn.MSELoss()
     optimizer = None
 
     def __init__(self):
@@ -49,7 +52,7 @@ class BreakoutDQN:
 
         for episode in range(1, episodes + 1):
             obs, info = env.reset()
-            lives = info.get("lives", 5)
+            #lives = info.get("lives", 5)
             obs, _, terminated, truncated, _ = env.step(1)
             obs = preprocess_frame(obs)
             frame_stack = FrameStack(4)
@@ -74,10 +77,10 @@ class BreakoutDQN:
                 frame_stack.append(next_obs)
                 next_state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
 
-                current_lives = info.get("lives", lives)
-                if current_lives < lives:
-                    reward -= 10.0
-                    lives = current_lives
+                # current_lives = info.get("lives", lives)
+                # if current_lives < lives:
+                #     reward -= 10.0
+                #     lives = current_lives
 
                 self.memory.append((state, action, next_state, reward, terminated))
                 state = next_state
@@ -99,6 +102,8 @@ class BreakoutDQN:
             if episode % 10 == 0:
                 avg_reward = np.mean(rewards_per_episode[-10:])
                 print(f"Episode {episode}, Avg Reward: {avg_reward:.2f}, Epsilon: {self.epsilon:.3f}")
+                model_filename = f"models/CNN_breakout.pt"
+                torch.save(policy_dqn.state_dict(), model_filename)
 
                 # Check if we have a new best average reward
                 if avg_reward > best_avg_reward:
@@ -190,5 +195,5 @@ class BreakoutDQN:
 
 if __name__ == "__main__":
     breakout_dqn = BreakoutDQN()
-    breakout_dqn.train(episodes=100, render=False)
-    #breakout_dqn.test(10, "models/CNN_breakout_avg_5.pt")
+    breakout_dqn.train(episodes=50, render=False)
+    #breakout_dqn.test(10, "models/CNN_breakout_avg_3.pt")
