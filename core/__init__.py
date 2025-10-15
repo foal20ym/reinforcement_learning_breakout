@@ -2,3 +2,6 @@
 
 from .agent import *
 from .model import *
+from .CNN import *
+from .ReplayMemory import *
+from .NeuralNetwork import *
