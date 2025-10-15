@@ -89,7 +89,17 @@ class BreakoutDQN:
                         frame_stack.append(next_obs)
                     next_state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
 
-                self.memory.append((state, action, next_state, reward, terminated))
+                if action == 2 or action == 3:  # 2 = move right, 3 = move left
+                    reward += 0.15
+
+                # Penalize standing still (no-op)
+                if action == 0:
+                    reward -= 0.1
+
+                # Time survived increases reward
+                reward += 0.001
+
+                self.memory.append((state, action, next_state, reward, terminated or truncated))
                 state = next_state
                 total_reward += reward
                 episode_steps += 1
@@ -220,5 +230,5 @@ class BreakoutDQN:
 
 if __name__ == "__main__":
     breakout_dqn = BreakoutDQN()
-    #breakout_dqn.train(episodes=50, render=False)
+    #breakout_dqn.train(episodes=1000, render=False)
     breakout_dqn.test(10, "models/CNN_breakout.pt")
