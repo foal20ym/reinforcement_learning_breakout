@@ -235,7 +235,8 @@ class BreakoutDQN:
             if self.use_cnn
             else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
         )
-        policy_dqn.load_state_dict(torch.load(model_filepath))
+        policy_dqn.load_state_dict(torch.load(model_filepath, map_location=self.device))
+        policy_dqn.to(self.device)
         policy_dqn.eval()
 
         for episode in range(1, episodes + 1):
@@ -292,7 +293,7 @@ if __name__ == "__main__":
     breakout_dqn = BreakoutDQN()
 
     # Training with reward shaping (controlled by config.REWARD_SHAPING)
-    breakout_dqn.train(episodes=20, render=False)
+    #breakout_dqn.train(episodes=20, render=False)
 
     # Testing always uses original rewards
-    # breakout_dqn.test(10, "models/CNN_breakout.pt")
+    breakout_dqn.test(10, "models/CNN_breakout_avg_31.pt")
