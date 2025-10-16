@@ -200,7 +200,6 @@ class BreakoutDQN:
                     save_best_avg_reward(best_avg_reward)
                     model_filename = f"models/CNN_breakout_avg_{int(best_avg_reward)}.pt"
                     torch.save(policy_dqn.state_dict(), model_filename)
-                    self.save_checkpoint(policy_dqn, self.optimizer, episode, f"models/checkpoint_best.pth")
                     print(f"  New best average reward! Model saved as {model_filename}")
 
         env.close()
