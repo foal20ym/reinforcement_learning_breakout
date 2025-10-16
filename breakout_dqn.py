@@ -197,6 +197,26 @@ class BreakoutDQN:
         with open(filepath, "w") as file:
             file.write(f"{best_avg_reward}")
 
+    # def optimize(self, mini_batch, policy_dqn, target_dqn):
+    #     states, actions, next_states, rewards, dones = zip(*mini_batch)
+
+    #     states = torch.cat(states).to(self.device)
+    #     actions = torch.tensor(actions).unsqueeze(1).to(self.device)
+    #     next_states = torch.cat(next_states).to(self.device)
+    #     rewards = torch.tensor(rewards).to(self.device)
+    #     dones = torch.tensor(dones, dtype=torch.float32).to(self.device)
+
+    #     current_q_values = policy_dqn(states).gather(1, actions)
+    #     with torch.no_grad():
+    #         next_q_values = target_dqn(next_states).max(1)[0]
+    #         target_q_values = rewards + self.discount_factor * next_q_values * (1 - dones)
+
+    #     loss = self.loss_fn(current_q_values.squeeze(), target_q_values)
+    #     self.optimizer.zero_grad()
+    #     loss.backward()
+    #     torch.nn.utils.clip_grad_norm_(policy_dqn.parameters(), max_norm=config.GRADIENT_CLIP)
+    #     self.optimizer.step()
+
     def optimize(self, mini_batch, policy_dqn, target_dqn):
         states, actions, next_states, rewards, dones = zip(*mini_batch)
 
@@ -214,8 +234,10 @@ class BreakoutDQN:
         loss = self.loss_fn(current_q_values.squeeze(), target_q_values)
         self.optimizer.zero_grad()
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(policy_dqn.parameters(), max_norm=config.GRADIENT_CLIP)
+        torch.nn.utils.clip_grad_norm_(policy_dqn.parameters(), max_norm=10.0)
         self.optimizer.step()
+
+        return loss.item()  # Return loss value for tracking
 
     def test(self, episodes, model_filepath):
         """

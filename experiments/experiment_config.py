@@ -109,6 +109,12 @@ EXPERIMENT_CONFIGS = {
     },
 }
 
-# Quick test configuration (fewer episodes)
+# Episode configurations
 QUICK_TEST_EPISODES = 100
-FULL_TEST_EPISODES = 500
+MEDIUM_TEST_EPISODES = 500
+FULL_TEST_EPISODES = 2000
+GPU_OPTIMIZED_EPISODES = 5000  # For GPU runs
+
+# Checkpoint settings
+CHECKPOINT_FREQUENCY = 100  # Save checkpoint every N episodes
+KEEP_BEST_N_CHECKPOINTS = 1  # Keep only top N checkpoints per experiment
