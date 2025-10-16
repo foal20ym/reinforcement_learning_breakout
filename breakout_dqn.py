@@ -11,37 +11,35 @@ import ale_py
 import numpy as np
 import random
 import os
-
+from utils import config
 
 
 class BreakoutDQN:
-    learning_rate = 0.0001
-    discount_factor = 0.99
-    network_sync_rate = 1_000
-    replay_memory_size = 100_000
-    mini_batch_size = 32
-    epsilon = 1.0
-    epsilon_min = 0.1
-    epsilon_decay = 0.995
-    num_hidden_nodes = 256
-
-    loss_fn = nn.HuberLoss()
-    #loss_fn = nn.MSELoss()
-    optimizer = None
 
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.memory = ReplayMemory(self.replay_memory_size)
+        self.memory = ReplayMemory(config.REPLAY_MEMORY_SIZE)
+        self.learning_rate = config.LEARNING_RATE
+        self.discount_factor = config.DISCOUNT_FACTOR
+        self.network_sync_rate = config.NETWORK_SYNC_RATE
+        self.replay_memory_size = config.REPLAY_MEMORY_SIZE
+        self.mini_batch_size = config.MINI_BATCH_SIZE
+        self.epsilon = config.EPSILON
+        self.epsilon_min = config.EPSILON_MIN
+        self.epsilon_decay = config.EPSILON_DECAY
+        self.use_neural_net = config.USE_NEURAL_NET
+        self.use_cnn = config.USE_CNN
+        if self.use_neural_net: self.num_hidden_nodes = config.NUM_HIDDEN_NODES
+        self.loss_fn = nn.HuberLoss()
+        self.optimizer = None
 
     def train(self, episodes, render=False):
         env = gym.make('ALE/Breakout-v5', render_mode="rgb_array" if render else None)
         num_actions = env.action_space.n
         state_dim = 4 * 84 * 84  # 4 stacked frames of size 84x84
         
-        policy_dqn = CNN(num_actions).to(self.device)
-        target_dqn = CNN(num_actions).to(self.device)
-        # policy_dqn = NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
-        # target_dqn = NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+        policy_dqn = CNN(num_actions).to(self.device) if self.use_cnn else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+        target_dqn = CNN(num_actions).to(self.device) if self.use_cnn else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
         target_dqn.load_state_dict(policy_dqn.state_dict())
         self.optimizer = torch.optim.Adam(policy_dqn.parameters(), lr=self.learning_rate)
 
@@ -173,9 +171,10 @@ class BreakoutDQN:
     def test(self, episodes, model_filepath):
         env = gym.make('ALE/Breakout-v5', render_mode='human')
         num_actions = env.action_space.n
+        state_dim = 4 * 84 * 84
 
         # Load learned policy
-        policy_dqn = CNN(num_actions).to(self.device)
+        policy_dqn = CNN(num_actions).to(self.device) if self.use_cnn else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
         policy_dqn.load_state_dict(torch.load(model_filepath))
         policy_dqn.eval()
 
@@ -230,5 +229,5 @@ class BreakoutDQN:
 
 if __name__ == "__main__":
     breakout_dqn = BreakoutDQN()
-    #breakout_dqn.train(episodes=1000, render=False)
+    #breakout_dqn.train(episodes=20, render=False)
     breakout_dqn.test(10, "models/CNN_breakout.pt")
