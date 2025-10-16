@@ -24,6 +24,7 @@ class BreakoutRewardShaping(gym.Wrapper):
         side_angle_bonus=0.15,
         block_bonus_multiplier=1.5,
         ball_loss_penalty=-0.5,
+        survival_bonus=0.001,
         enable_shaping=True,
     ):
         """
@@ -43,6 +44,7 @@ class BreakoutRewardShaping(gym.Wrapper):
         self.block_bonus_multiplier = block_bonus_multiplier
         self.ball_loss_penalty = ball_loss_penalty
         self.enable_shaping = enable_shaping
+        self.survival_bonus = survival_bonus
 
         # State tracking
         self.prev_lives = None
@@ -76,7 +78,6 @@ class BreakoutRewardShaping(gym.Wrapper):
         return obs, info
 
     def step(self, action):
-        """Take a step and apply reward shaping."""
         obs, reward, terminated, truncated, info = self.env.step(action)
         self.step_count += 1
 
@@ -92,6 +93,10 @@ class BreakoutRewardShaping(gym.Wrapper):
         # Initialize shaped reward
         shaped_reward = reward
         original_reward = reward
+
+        if self.ball_in_play and not terminated:
+            shaped_reward += self.survival_bonus
+            info["survival_bonus"] = True
 
         # 1. BLOCK CLEARING BONUS
         if reward > 0:

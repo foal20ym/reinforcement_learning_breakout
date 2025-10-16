@@ -42,5 +42,6 @@ REWARD_SHAPING_PARAMS = {
     "center_position_bonus": 0.05,  # Bonus for center positioning
     "side_angle_bonus": 0.15,  # Bonus for side wall bounces
     "block_bonus_multiplier": 1.5,  # Multiplier for block breaking
-    "ball_loss_penalty": -0.5,  # Penalty for losing the ball
+    "ball_loss_penalty": -0.8,  # Stronger death penalty
+    "survival_bonus": 0.001,  # Small bonus per step alive
 }
