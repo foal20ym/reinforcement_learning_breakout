@@ -1,0 +1,356 @@
+{
+  "timestamp": "2025-10-16T13:01:48.845883",
+  "device": "cpu",
+  "gpu_used": false,
+  "num_experiments": 6,
+  "rankings": {
+    "by_avg_original_score": [
+      [
+        "paddle_hit_only",
+        1.59
+      ],
+      [
+        "block_multiplier_only",
+        1.52
+      ],
+      [
+        "side_angle_only",
+        1.45
+      ],
+      [
+        "ball_loss_penalty_only",
+        1.37
+      ],
+      [
+        "penalties_only",
+        1.19
+      ],
+      [
+        "survival_bonus_only",
+        1.13
+      ]
+    ],
+    "by_score_improvement": [
+      [
+        "ball_loss_penalty_only",
+        1.2000000000000002
+      ],
+      [
+        "penalties_only",
+        0.8
+      ],
+      [
+        "survival_bonus_only",
+        0.5
+      ],
+      [
+        "paddle_hit_only",
+        -0.20000000000000018
+      ],
+      [
+        "side_angle_only",
+        -0.4
+      ],
+      [
+        "block_multiplier_only",
+        -0.5999999999999999
+      ]
+    ],
+    "by_max_original_score": [
+      [
+        "penalties_only",
+        7.0
+      ],
+      [
+        "paddle_hit_only",
+        6.0
+      ],
+      [
+        "block_multiplier_only",
+        6.0
+      ],
+      [
+        "ball_loss_penalty_only",
+        6.0
+      ],
+      [
+        "survival_bonus_only",
+        5.0
+      ],
+      [
+        "side_angle_only",
+        4.0
+      ]
+    ],
+    "by_success_rate": [
+      [
+        "block_multiplier_only",
+        77.0
+      ],
+      [
+        "paddle_hit_only",
+        75.0
+      ],
+      [
+        "side_angle_only",
+        73.0
+      ],
+      [
+        "ball_loss_penalty_only",
+        67.0
+      ],
+      [
+        "survival_bonus_only",
+        61.0
+      ],
+      [
+        "penalties_only",
+        58.0
+      ]
+    ],
+    "by_consistency": [
+      [
+        "side_angle_only",
+        0.8297385803804114
+      ],
+      [
+        "block_multiplier_only",
+        0.8652253801459787
+      ],
+      [
+        "paddle_hit_only",
+        0.88540861739757
+      ],
+      [
+        "ball_loss_penalty_only",
+        0.971954752725028
+      ],
+      [
+        "survival_bonus_only",
+        1.0740825756327765
+      ],
+      [
+        "penalties_only",
+        1.1379963362521663
+      ]
+    ]
+  },
+  "experiments": {
+    "paddle_hit_only": {
+      "avg_original_score": 1.59,
+      "std_original_score": 1.4077997016621364,
+      "max_original_score": 6.0,
+      "min_original_score": 0.0,
+      "median_original_score": 1.0,
+      "final_avg_original": 1.4,
+      "initial_avg_original": 1.6,
+      "score_improvement": -0.20000000000000018,
+      "top_10_percent_avg": 4.5,
+      "best_20_avg": 3.75,
+      "success_rate": 75.0,
+      "double_digit_rate": 0.0,
+      "avg_shaped_reward": 1.59,
+      "max_shaped_reward": 6.0,
+      "coefficient_of_variation": 0.88540861739757,
+      "episodes_to_5": 29,
+      "episodes_to_10": "Not reached",
+      "episodes_to_15": "Not reached",
+      "episodes_to_20": "Not reached",
+      "avg_episode_length": 194.96,
+      "max_episode_length": 389.0,
+      "median_episode_length": 184.5,
+      "length_improvement": -11.800000000000011,
+      "avg_loss": 0.0029607357201163658,
+      "final_avg_loss": 0.003931281879079004,
+      "avg_lives_remaining": 0.0,
+      "total_paddle_hits": 0,
+      "avg_paddle_hits": 0.0,
+      "total_blocks_broken": 7802,
+      "avg_blocks_broken": 78.02,
+      "total_side_bounces": 0,
+      "avg_side_bounces": 0.0,
+      "total_balls_lost": 25250,
+      "avg_balls_lost": 252.5
+    },
+    "side_angle_only": {
+      "avg_original_score": 1.45,
+      "std_original_score": 1.2031209415515964,
+      "max_original_score": 4.0,
+      "min_original_score": 0.0,
+      "median_original_score": 1.0,
+      "final_avg_original": 0.9,
+      "initial_avg_original": 1.3,
+      "score_improvement": -0.4,
+      "top_10_percent_avg": 3.6,
+      "best_20_avg": 3.3,
+      "success_rate": 73.0,
+      "double_digit_rate": 0.0,
+      "avg_shaped_reward": 1.6540000000000001,
+      "max_shaped_reward": 4.9,
+      "coefficient_of_variation": 0.8297385803804114,
+      "episodes_to_5": "Not reached",
+      "episodes_to_10": "Not reached",
+      "episodes_to_15": "Not reached",
+      "episodes_to_20": "Not reached",
+      "avg_episode_length": 190.22,
+      "max_episode_length": 312.0,
+      "median_episode_length": 184.5,
+      "length_improvement": -23.599999999999994,
+      "avg_loss": 0.003190112261044619,
+      "final_avg_loss": 0.00492446121401663,
+      "avg_lives_remaining": 0.0,
+      "total_paddle_hits": 0,
+      "avg_paddle_hits": 0.0,
+      "total_blocks_broken": 7377,
+      "avg_blocks_broken": 73.77,
+      "total_side_bounces": 6347,
+      "avg_side_bounces": 63.47,
+      "total_balls_lost": 25250,
+      "avg_balls_lost": 252.5
+    },
+    "block_multiplier_only": {
+      "avg_original_score": 1.52,
+      "std_original_score": 1.3151425778218877,
+      "max_original_score": 6.0,
+      "min_original_score": 0.0,
+      "median_original_score": 1.0,
+      "final_avg_original": 1.1,
+      "initial_avg_original": 1.7,
+      "score_improvement": -0.5999999999999999,
+      "top_10_percent_avg": 4.3,
+      "best_20_avg": 3.6,
+      "success_rate": 77.0,
+      "double_digit_rate": 0.0,
+      "avg_shaped_reward": 2.28,
+      "max_shaped_reward": 9.0,
+      "coefficient_of_variation": 0.8652253801459787,
+      "episodes_to_5": 5,
+      "episodes_to_10": "Not reached",
+      "episodes_to_15": "Not reached",
+      "episodes_to_20": "Not reached",
+      "avg_episode_length": 194.23,
+      "max_episode_length": 425.0,
+      "median_episode_length": 181.5,
+      "length_improvement": -11.800000000000011,
+      "avg_loss": 0.006114820439962324,
+      "final_avg_loss": 0.007728023515324008,
+      "avg_lives_remaining": 0.0,
+      "total_paddle_hits": 0,
+      "avg_paddle_hits": 0.0,
+      "total_blocks_broken": 7931,
+      "avg_blocks_broken": 79.31,
+      "total_side_bounces": 0,
+      "avg_side_bounces": 0.0,
+      "total_balls_lost": 25250,
+      "avg_balls_lost": 252.5
+    },
+    "ball_loss_penalty_only": {
+      "avg_original_score": 1.37,
+      "std_original_score": 1.3315780112332884,
+      "max_original_score": 6.0,
+      "min_original_score": 0.0,
+      "median_original_score": 1.0,
+      "final_avg_original": 2.6,
+      "initial_avg_original": 1.4,
+      "score_improvement": 1.2000000000000002,
+      "top_10_percent_avg": 4.2,
+      "best_20_avg": 3.3,
+      "success_rate": 67.0,
+      "double_digit_rate": 0.0,
+      "avg_shaped_reward": -2.63,
+      "max_shaped_reward": 1.9999999999999998,
+      "coefficient_of_variation": 0.971954752725028,
+      "episodes_to_5": 15,
+      "episodes_to_10": "Not reached",
+      "episodes_to_15": "Not reached",
+      "episodes_to_20": "Not reached",
+      "avg_episode_length": 180.23,
+      "max_episode_length": 392.0,
+      "median_episode_length": 172.5,
+      "length_improvement": 49.099999999999994,
+      "avg_loss": 0.010028797646118453,
+      "final_avg_loss": 0.009728340334364602,
+      "avg_lives_remaining": 0.0,
+      "total_paddle_hits": 0,
+      "avg_paddle_hits": 0.0,
+      "total_blocks_broken": 6638,
+      "avg_blocks_broken": 66.38,
+      "total_side_bounces": 0,
+      "avg_side_bounces": 0.0,
+      "total_balls_lost": 25250,
+      "avg_balls_lost": 252.5
+    },
+    "survival_bonus_only": {
+      "avg_original_score": 1.13,
+      "std_original_score": 1.2137133104650373,
+      "max_original_score": 5.0,
+      "min_original_score": 0.0,
+      "median_original_score": 1.0,
+      "final_avg_original": 1.8,
+      "initial_avg_original": 1.3,
+      "score_improvement": 0.5,
+      "top_10_percent_avg": 3.7,
+      "best_20_avg": 3.0,
+      "success_rate": 61.0,
+      "double_digit_rate": 0.0,
+      "avg_shaped_reward": 1.2944599999999937,
+      "max_shaped_reward": 5.363000000000008,
+      "coefficient_of_variation": 1.0740825756327765,
+      "episodes_to_5": 26,
+      "episodes_to_10": "Not reached",
+      "episodes_to_15": "Not reached",
+      "episodes_to_20": "Not reached",
+      "avg_episode_length": 178.39,
+      "max_episode_length": 369.0,
+      "median_episode_length": 169.5,
+      "length_improvement": 10.400000000000006,
+      "avg_loss": 0.002308480010485916,
+      "final_avg_loss": 0.0026906835273747694,
+      "avg_lives_remaining": 0.0,
+      "total_paddle_hits": 0,
+      "avg_paddle_hits": 0.0,
+      "total_blocks_broken": 5640,
+      "avg_blocks_broken": 56.4,
+      "total_side_bounces": 0,
+      "avg_side_bounces": 0.0,
+      "total_balls_lost": 25250,
+      "avg_balls_lost": 252.5
+    },
+    "penalties_only": {
+      "avg_original_score": 1.19,
+      "std_original_score": 1.3542156401400778,
+      "max_original_score": 7.0,
+      "min_original_score": 0.0,
+      "median_original_score": 1.0,
+      "final_avg_original": 1.5,
+      "initial_avg_original": 0.7,
+      "score_improvement": 0.8,
+      "top_10_percent_avg": 3.8,
+      "best_20_avg": 3.35,
+      "success_rate": 58.0,
+      "double_digit_rate": 0.0,
+      "avg_shaped_reward": -2.81,
+      "max_shaped_reward": 3.000000000000001,
+      "coefficient_of_variation": 1.1379963362521663,
+      "episodes_to_5": 66,
+      "episodes_to_10": "Not reached",
+      "episodes_to_15": "Not reached",
+      "episodes_to_20": "Not reached",
+      "avg_episode_length": 176.47,
+      "max_episode_length": 412.0,
+      "median_episode_length": 167.5,
+      "length_improvement": 16.19999999999999,
+      "avg_loss": 0.010116817480733802,
+      "final_avg_loss": 0.01109021357943215,
+      "avg_lives_remaining": 0.0,
+      "total_paddle_hits": 0,
+      "avg_paddle_hits": 0.0,
+      "total_blocks_broken": 5464,
+      "avg_blocks_broken": 54.64,
+      "total_side_bounces": 0,
+      "avg_side_bounces": 0.0,
+      "total_balls_lost": 25250,
+      "avg_balls_lost": 252.5
+    }
+  }
+}
