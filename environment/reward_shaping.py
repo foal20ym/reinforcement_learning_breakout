@@ -53,6 +53,12 @@ class BreakoutRewardShaping(gym.Wrapper):
         self.frame_buffer = deque(maxlen=2)
         self.step_count = 0
 
+        # ADD: Position tracking for improved methods
+        self.last_paddle_pos = None
+        self.last_ball_pos = None
+        self.paddle_positions = deque(maxlen=100)
+        self.ball_positions = deque(maxlen=100)
+
         # Statistics tracking
         self.total_shaped_reward = 0.0
         self.shaping_stats = {
@@ -75,6 +81,12 @@ class BreakoutRewardShaping(gym.Wrapper):
         self.frame_buffer.append(obs)
         self.step_count = 0
 
+        # ADD: Reset position tracking
+        self.last_paddle_pos = None
+        self.last_ball_pos = None
+        self.paddle_positions.clear()
+        self.ball_positions.clear()
+
         return obs, info
 
     def step(self, action):
@@ -86,6 +98,26 @@ class BreakoutRewardShaping(gym.Wrapper):
 
         # Track frame for analysis
         self.frame_buffer.append(obs)
+
+        # ADD: Extract and track positions from ALE
+        try:
+            paddle_x = self.env.unwrapped.ale.getRAM()[72]  # Paddle X position
+            ball_x = self.env.unwrapped.ale.getRAM()[99]  # Ball X position
+            ball_y = self.env.unwrapped.ale.getRAM()[101]  # Ball Y position
+
+            info["paddle_x"] = paddle_x
+            info["ball_x"] = ball_x
+            info["ball_y"] = ball_y
+
+            # Track motion
+            self._track_motion(info)
+
+            # Update last positions
+            self.last_paddle_pos = paddle_x
+            self.last_ball_pos = (ball_x, ball_y)
+        except:
+            # Fallback if RAM reading fails
+            pass
 
         # Get current game state
         current_lives = self.env.unwrapped.ale.lives()
@@ -118,16 +150,26 @@ class BreakoutRewardShaping(gym.Wrapper):
             self.shaping_stats["paddle_hits"] += 1
             info["paddle_hit"] = True
 
-        # 4. CENTER POSITION BONUS
+        # 4. CENTER POSITION BONUS (use improved method if positions available)
         if self.ball_in_play and self.step_count > 30:
-            center_bonus = self._calculate_center_bonus(action)
+            if "paddle_x" in info and "ball_x" in info:
+                center_bonus = self._calculate_center_position_bonus(info)
+            else:
+                center_bonus = self._calculate_center_bonus(action)
+
             if center_bonus > 0:
                 shaped_reward += center_bonus
                 self.shaping_stats["center_bonuses"] += 1
                 info["center_bonus"] = True
 
-        # 5. SIDE ANGLE BONUS
-        if self._detect_side_bounce():
+        # 5. SIDE ANGLE BONUS (use improved method if positions available)
+        if "paddle_x" in info and "ball_x" in info:
+            side_bonus = self._calculate_side_angle_bonus(info)
+            if side_bonus > 0:
+                shaped_reward += side_bonus
+                self.shaping_stats["side_bounces"] += 1
+                info["side_bounce"] = True
+        elif self._detect_side_bounce():
             shaped_reward += self.side_angle_bonus
             self.shaping_stats["side_bounces"] += 1
             info["side_bounce"] = True
@@ -178,19 +220,40 @@ class BreakoutRewardShaping(gym.Wrapper):
 
         # Calculate difference
         diff = np.abs(curr_paddle.astype(float) - prev_paddle.astype(float))
+
+        # Avoid division by zero
+        if diff.size == 0:
+            return False
+
         change_ratio = np.sum(diff > 30) / diff.size
 
         return change_ratio > 0.02 and self.ball_in_play
 
     def _calculate_center_bonus(self, action):
-        """Calculate bonus for center positioning."""
+        """Calculate bonus for center positioning (fallback method)."""
         # Reward staying still when positioned well
         if action == 0 and self.step_count % 10 == 0:
             return self.center_position_bonus * 0.5
         return 0.0
 
+    def _calculate_center_position_bonus(self, info):
+        """Reward keeping paddle centered under the ball (improved method using positions)."""
+        paddle_x = info.get("paddle_x", 0)
+        ball_x = info.get("ball_x", 0)
+        ball_y = info.get("ball_y", 0)
+
+        # Only reward when ball is above paddle
+        if ball_y < 180:
+            distance = abs(paddle_x - ball_x)
+            # Reward inverse of distance (closer = better)
+            if distance < 50:
+                normalized_distance = distance / 50.0
+                return self.center_position_bonus * (1.0 - normalized_distance)
+
+        return 0.0
+
     def _detect_side_bounce(self):
-        """Detect side wall bounces."""
+        """Detect side wall bounces (fallback method using frame analysis)."""
         if len(self.frame_buffer) < 2:
             return False
 
@@ -225,10 +288,68 @@ class BreakoutRewardShaping(gym.Wrapper):
         left_diff = np.abs(left_curr.astype(float) - left_prev.astype(float))
         right_diff = np.abs(right_curr.astype(float) - right_prev.astype(float))
 
+        # Avoid division by zero
+        if left_diff.size == 0 or right_diff.size == 0:
+            return False
+
         left_change = np.sum(left_diff > 30) / left_diff.size
         right_change = np.sum(right_diff > 30) / right_diff.size
 
         return (left_change > 0.05 or right_change > 0.05) and self.ball_in_play
+
+    def _calculate_side_angle_bonus(self, info):
+        """Reward hitting the ball at an angle from the paddle sides (improved method)."""
+        if not self.last_paddle_pos or not self.last_ball_pos:
+            return 0.0
+
+        paddle_x = info.get("paddle_x", 0)
+        ball_x = info.get("ball_x", 0)
+        ball_y = info.get("ball_y", 0)
+
+        # Check if ball just hit paddle
+        if abs(ball_y - self.last_ball_pos[1]) < 5 and abs(ball_x - paddle_x) < 20:
+            # Ball hit from side of paddle
+            distance_from_center = abs(ball_x - paddle_x)
+            if distance_from_center > 5:  # Not center hit
+                return self.side_angle_bonus
+
+        return 0.0
+
+    def _track_motion(self, info):
+        """Track ball and paddle motion for analysis."""
+        paddle_x = info.get("paddle_x", None)
+        ball_x = info.get("ball_x", None)
+        ball_y = info.get("ball_y", None)
+
+        if paddle_x is not None:
+            self.paddle_positions.append(paddle_x)
+        if ball_x is not None and ball_y is not None:
+            self.ball_positions.append((ball_x, ball_y))
+
+        # Calculate motion statistics (with safety checks)
+        if len(self.paddle_positions) > 10:
+            paddle_arr = np.array(self.paddle_positions[-20:])
+            paddle_diff = np.diff(paddle_arr)
+
+            # Avoid division by zero
+            if paddle_diff.size > 0:
+                left_diff = paddle_diff[paddle_diff < 0]
+                right_diff = paddle_diff[paddle_diff > 0]
+
+                # Calculate with safety
+                if left_diff.size > 0:
+                    left_change = np.sum(np.abs(left_diff) > 30) / left_diff.size
+                if right_diff.size > 0:
+                    right_change = np.sum(right_diff > 30) / right_diff.size
+
+        if len(self.ball_positions) > 10:
+            ball_arr = np.array(self.ball_positions[-20:])
+            ball_y_diff = np.diff(ball_arr[:, 1])
+
+            # Avoid division by zero
+            if ball_y_diff.size > 0:
+                up_movement = np.sum(ball_y_diff < -5) / ball_y_diff.size
+                down_movement = np.sum(ball_y_diff > 5) / ball_y_diff.size
 
     def get_shaping_stats(self):
         """Return statistics about reward shaping."""

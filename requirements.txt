@@ -1,4 +1,26 @@
-ale-py
-gym
-numpy
-torch
+# Core Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Reinforcement Learning Environment
+gymnasium[atari,accept-rom-license]>=0.29.0
+ale-py>=0.8.1
+
+# Scientific Computing
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+pillow>=10.0.0
+
+# Data Processing & Analysis
+pandas>=2.0.0
+
+# Progress Bars & Monitoring
+tqdm>=4.65.0
+
+# Utilities
+pyyaml>=6.0
+opencv-python>=4.8.0

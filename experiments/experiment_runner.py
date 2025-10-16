@@ -7,11 +7,15 @@ import os
 import sys
 import json
 import time
+import argparse
 from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
 import shutil
+import random
+import gymnasium as gym
+import pickle
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -32,8 +36,16 @@ class ExperimentRunner:
     def __init__(self, output_dir="experiments/results", use_gpu=True):
         self.output_dir = output_dir
         self.checkpoint_dir = os.path.join(output_dir, "checkpoints")
-        os.makedirs(output_dir, exist_ok=True)
-        os.makedirs(self.checkpoint_dir, exist_ok=True)
+
+        # Create directories with error handling
+        try:
+            os.makedirs(output_dir, exist_ok=True)
+            os.makedirs(self.checkpoint_dir, exist_ok=True)
+        except OSError as e:
+            print(f"❌ Error creating directories: {e}")
+            print(f"💡 Tip: Check disk space with 'df -h'")
+            raise
+
         self.results = {}
 
         # GPU setup
@@ -54,7 +66,12 @@ class ExperimentRunner:
 
         config = EXPERIMENT_CONFIGS[config_name]
         exp_checkpoint_dir = os.path.join(self.checkpoint_dir, config_name)
-        os.makedirs(exp_checkpoint_dir, exist_ok=True)
+
+        try:
+            os.makedirs(exp_checkpoint_dir, exist_ok=True)
+        except OSError as e:
+            print(f"❌ Cannot create checkpoint directory: {e}")
+            raise
 
         print(f"\n{'='*80}")
         print(f"🧪 Running Experiment: {config['name']}")
@@ -91,9 +108,14 @@ class ExperimentRunner:
         # Resume from checkpoint if specified
         if resume_from:
             print(f"📂 Resuming from checkpoint: {resume_from}")
-            checkpoint = torch.load(resume_from, map_location=self.device)
-            start_episode = checkpoint["episode"]
-            print(f"   Starting from episode {start_episode}")
+            try:
+                checkpoint = torch.load(resume_from, map_location=self.device)
+                start_episode = checkpoint["episode"]
+                print(f"   Starting from episode {start_episode}")
+            except Exception as e:
+                print(f"⚠️  Failed to load checkpoint: {e}")
+                print("   Starting from scratch...")
+                resume_from = None
 
         # Run training
         try:
@@ -142,7 +164,7 @@ class ExperimentRunner:
             print(f"\n⏱️  SURVIVAL:")
             print(f"   Average episode length: {metrics['avg_episode_length']:.0f} steps")
             print(f"   Max episode length: {metrics['max_episode_length']:.0f} steps")
-            print(f"\n💾 Best checkpoint: {checkpoints['best']}")
+            print(f"\n💾 Best checkpoint: {checkpoints.get('best', 'None')}")
             print(f"{'='*80}\n")
 
             # GPU memory summary
@@ -154,14 +176,18 @@ class ExperimentRunner:
 
         except KeyboardInterrupt:
             print(f"\n⚠️  Experiment interrupted! Saving progress...")
-            self._save_experiment_results(config_name)
+            if config_name in self.results:
+                self._save_experiment_results(config_name)
             raise
         except Exception as e:
             print(f"❌ Experiment '{config_name}' failed: {e}")
+            import traceback
+
+            traceback.print_exc()
             raise
 
     def _run_training(self, agent, episodes, render, checkpoint_dir, exp_name, start_episode=0, resume_checkpoint=None):
-        """Enhanced training loop with better metric tracking."""
+        """Enhanced training loop with better metric tracking and error handling."""
         from core.ReplayMemory import ReplayMemory
         from helpers.FramePreprocess import preprocess_frame
         from helpers.FrameStack import FrameStack
@@ -202,12 +228,16 @@ class ExperimentRunner:
 
         # Load from checkpoint if resuming
         if resume_checkpoint:
-            checkpoint = torch.load(resume_checkpoint, map_location=agent.device)
-            policy_dqn.load_state_dict(checkpoint["policy_state_dict"])
-            target_dqn.load_state_dict(checkpoint["target_state_dict"])
-            agent.epsilon = checkpoint["epsilon"]
-            agent.memory = checkpoint["memory"]
-            print(f"✅ Loaded checkpoint from episode {checkpoint['episode']}")
+            try:
+                checkpoint = torch.load(resume_checkpoint, map_location=agent.device, weights_only=False)
+                policy_dqn.load_state_dict(checkpoint["policy_state_dict"])
+                target_dqn.load_state_dict(checkpoint["target_state_dict"])
+                agent.epsilon = checkpoint["epsilon"]
+                # Note: Not loading memory to avoid serialization issues
+                print(f"✅ Loaded checkpoint from episode {checkpoint['episode']}")
+            except Exception as e:
+                print(f"⚠️  Checkpoint loading failed: {e}, starting fresh")
+                target_dqn.load_state_dict(policy_dqn.state_dict())
         else:
             target_dqn.load_state_dict(policy_dqn.state_dict())
 
@@ -218,20 +248,20 @@ class ExperimentRunner:
         step_count = start_episode * 1000  # Approximate
 
         # Checkpoint tracking
-        best_avg_original_score = -float("inf")  # Track by ORIGINAL score, not shaped
+        best_avg_original_score = -float("inf")
         saved_checkpoints = []
 
         # Enhanced statistics tracking
         episode_stats = {
             "lengths": [],
-            "original_scores": [],  # TRUE game scores (blocks broken)
+            "original_scores": [],
             "shaped_rewards": [],
             "paddle_hits": [],
             "blocks_broken": [],
             "side_bounces": [],
             "balls_lost": [],
             "losses": [],
-            "lives_remaining": [],  # Track lives at end of episode
+            "lives_remaining": [],
         }
 
         # Training loop
@@ -248,7 +278,7 @@ class ExperimentRunner:
 
             state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
             total_shaped_reward = 0
-            total_original_score = 0  # Track TRUE game score
+            total_original_score = 0
             terminated = truncated = False
             episode_steps = 0
             episode_losses = []
@@ -264,7 +294,7 @@ class ExperimentRunner:
 
                 next_obs, reward, terminated, truncated, info = env.step(action)
 
-                # Track ORIGINAL game score (the TRUE metric)
+                # Track ORIGINAL game score
                 if agent.enable_reward_shaping and "original_reward" in info:
                     total_original_score += info["original_reward"]
                 else:
@@ -307,7 +337,7 @@ class ExperimentRunner:
 
             # Store comprehensive statistics
             episode_stats["lengths"].append(episode_steps)
-            episode_stats["original_scores"].append(total_original_score)  # TRUE score
+            episode_stats["original_scores"].append(total_original_score)
             episode_stats["shaped_rewards"].append(total_shaped_reward)
             episode_stats["lives_remaining"].append(current_lives)
 
@@ -321,7 +351,7 @@ class ExperimentRunner:
                 episode_stats["side_bounces"].append(stats["side_bounces"])
                 episode_stats["balls_lost"].append(stats["balls_lost"])
 
-            # Progress reporting (every 10 episodes)
+            # Progress reporting
             if episode % 10 == 0:
                 avg_shaped = np.mean(rewards_per_episode[-10:])
                 avg_original = np.mean(episode_stats["original_scores"][-10:])
@@ -336,7 +366,7 @@ class ExperimentRunner:
                 if self.use_gpu and episode % 50 == 0:
                     print(f"   GPU Memory: {torch.cuda.memory_allocated() / 1e9:.2f} GB")
 
-            # Checkpoint saving (based on ORIGINAL score, not shaped reward)
+            # Checkpoint saving (ONLY network weights, not replay memory)
             if episode % CHECKPOINT_FREQUENCY == 0 or episode == episodes:
                 avg_original_score = (
                     np.mean(episode_stats["original_scores"][-100:])
@@ -348,52 +378,58 @@ class ExperimentRunner:
                     checkpoint_dir, f"checkpoint_ep{episode:05d}_score{avg_original_score:.1f}.pt"
                 )
 
+                # Save ONLY essential data to avoid disk space issues
                 checkpoint = {
                     "episode": episode,
                     "policy_state_dict": policy_dqn.state_dict(),
                     "target_state_dict": target_dqn.state_dict(),
                     "optimizer_state_dict": agent.optimizer.state_dict(),
                     "epsilon": agent.epsilon,
-                    "rewards": rewards_per_episode,
-                    "original_scores": episode_stats["original_scores"],
-                    "memory": agent.memory,
                     "avg_original_score": avg_original_score,
                     "step_count": step_count,
+                    # Don't save: rewards, memory (too large)
                 }
 
-                torch.save(checkpoint, checkpoint_path)
-                saved_checkpoints.append(
-                    {
-                        "path": checkpoint_path,
-                        "episode": episode,
-                        "avg_original_score": avg_original_score,
-                    }
-                )
+                try:
+                    torch.save(checkpoint, checkpoint_path)
+                    saved_checkpoints.append(
+                        {
+                            "path": checkpoint_path,
+                            "episode": episode,
+                            "avg_original_score": avg_original_score,
+                        }
+                    )
+                    print(f"💾 Checkpoint saved: {checkpoint_path}")
 
-                print(f"💾 Checkpoint saved: {checkpoint_path}")
+                    # Track best checkpoint
+                    if avg_original_score > best_avg_original_score:
+                        best_avg_original_score = avg_original_score
+                        best_checkpoint_path = os.path.join(checkpoint_dir, "best_checkpoint.pt")
+                        shutil.copy(checkpoint_path, best_checkpoint_path)
+                        print(f"🏆 New best checkpoint! Original score: {avg_original_score:.2f}")
 
-                # Track best checkpoint BY ORIGINAL SCORE
-                if avg_original_score > best_avg_original_score:
-                    best_avg_original_score = avg_original_score
-                    best_checkpoint_path = os.path.join(checkpoint_dir, "best_checkpoint.pt")
-                    shutil.copy(checkpoint_path, best_checkpoint_path)
-                    print(f"🏆 New best checkpoint! Original score: {avg_original_score:.2f}")
+                    # Cleanup old checkpoints
+                    if len(saved_checkpoints) > KEEP_BEST_N_CHECKPOINTS + 1:
+                        saved_checkpoints.sort(key=lambda x: x["avg_original_score"], reverse=True)
+                        for old_ckpt in saved_checkpoints[KEEP_BEST_N_CHECKPOINTS + 1 :]:
+                            if os.path.exists(old_ckpt["path"]) and "best_checkpoint" not in old_ckpt["path"]:
+                                try:
+                                    os.remove(old_ckpt["path"])
+                                    print(f"🗑️  Removed old checkpoint: {os.path.basename(old_ckpt['path'])}")
+                                except OSError:
+                                    pass  # Ignore if can't delete
+                        saved_checkpoints = saved_checkpoints[: KEEP_BEST_N_CHECKPOINTS + 1]
 
-                # Cleanup old checkpoints (keep only best N by original score)
-                if len(saved_checkpoints) > KEEP_BEST_N_CHECKPOINTS + 1:
-                    saved_checkpoints.sort(key=lambda x: x["avg_original_score"], reverse=True)
-                    for old_ckpt in saved_checkpoints[KEEP_BEST_N_CHECKPOINTS + 1 :]:
-                        if os.path.exists(old_ckpt["path"]) and "best_checkpoint" not in old_ckpt["path"]:
-                            os.remove(old_ckpt["path"])
-                            print(f"🗑️  Removed old checkpoint: {os.path.basename(old_ckpt['path'])}")
-                    saved_checkpoints = saved_checkpoints[: KEEP_BEST_N_CHECKPOINTS + 1]
+                except OSError as e:
+                    print(f"⚠️  Failed to save checkpoint: {e}")
+                    print(f"💡 Tip: Check disk space with 'df -h'")
 
         env.close()
 
         # Checkpoint summary
         checkpoint_summary = {
             "total": len(saved_checkpoints),
-            "best": os.path.join(checkpoint_dir, "best_checkpoint.pt"),
+            "best": os.path.join(checkpoint_dir, "best_checkpoint.pt") if saved_checkpoints else None,
             "final": saved_checkpoints[-1]["path"] if saved_checkpoints else None,
             "all": saved_checkpoints,
         }
@@ -675,20 +711,34 @@ class ExperimentRunner:
             "gpu_used": self.use_gpu,
             "num_experiments": len(self.results),
             "rankings": {
-                "by_avg_reward": sorted(
-                    [(name, result["metrics"]["avg_reward"]) for name, result in self.results.items()],
+                "by_avg_original_score": sorted(
+                    [(name, result["metrics"]["avg_original_score"]) for name, result in self.results.items()],
                     key=lambda x: x[1],
                     reverse=True,
                 ),
-                "by_improvement": sorted(
-                    [(name, result["metrics"]["improvement"]) for name, result in self.results.items()],
+                "by_score_improvement": sorted(
+                    [(name, result["metrics"]["score_improvement"]) for name, result in self.results.items()],
                     key=lambda x: x[1],
                     reverse=True,
                 ),
-                "by_max_reward": sorted(
-                    [(name, result["metrics"]["max_reward"]) for name, result in self.results.items()],
+                "by_max_original_score": sorted(
+                    [(name, result["metrics"]["max_original_score"]) for name, result in self.results.items()],
                     key=lambda x: x[1],
                     reverse=True,
+                ),
+                "by_success_rate": sorted(
+                    [(name, result["metrics"]["success_rate"]) for name, result in self.results.items()],
+                    key=lambda x: x[1],
+                    reverse=True,
+                ),
+                "by_consistency": sorted(
+                    [
+                        (name, result["metrics"]["coefficient_of_variation"])
+                        for name, result in self.results.items()
+                        if result["metrics"]["coefficient_of_variation"] != float("inf")
+                    ],
+                    key=lambda x: x[1],
+                    reverse=False,  # Lower is better
                 ),
             },
             "experiments": {name: result["metrics"] for name, result in self.results.items()},
@@ -701,131 +751,154 @@ class ExperimentRunner:
         print(f"\n💾 Comparison summary saved to: {filepath}")
 
     def plot_comparison(self):
-        """Generate enhanced comparison plots."""
+        """Generate comparison plots using FAIR metrics."""
         if not self.results:
             return
 
-        fig, axes = plt.subplots(2, 3, figsize=(20, 12))
-        fig.suptitle("Reward Shaping Experiments - Comprehensive Comparison", fontsize=18, fontweight="bold")
+        fig = plt.figure(figsize=(20, 14))
+        gs = fig.add_gridspec(3, 3, hspace=0.3, wspace=0.3)
 
-        # Plot 1: Average rewards (sorted)
-        ax1 = axes[0, 0]
-        names = []
-        avg_rewards = []
-        colors = []
+        fig.suptitle(
+            "Reward Shaping Experiments - Fair Comparison (Original Game Score)", fontsize=18, fontweight="bold"
+        )
 
-        for name, result in sorted(self.results.items(), key=lambda x: x[1]["metrics"]["avg_reward"], reverse=True):
-            names.append(name)
-            avg_rewards.append(result["metrics"]["avg_reward"])
-            colors.append("gold" if name == "all_combined" else "lightblue" if name == "baseline" else "lightgreen")
+        # Get sorted names by original score
+        sorted_results = sorted(self.results.items(), key=lambda x: x[1]["metrics"]["avg_original_score"], reverse=True)
+        names = [name for name, _ in sorted_results]
 
-        bars = ax1.barh(names, avg_rewards, color=colors, alpha=0.8, edgecolor="black")
-        ax1.set_xlabel("Average Reward", fontsize=11, fontweight="bold")
-        ax1.set_title("Average Reward by Configuration", fontsize=12, fontweight="bold")
+        # Plot 1: Average ORIGINAL scores (PRIMARY METRIC)
+        ax1 = fig.add_subplot(gs[0, 0])
+        avg_scores = [self.results[name]["metrics"]["avg_original_score"] for name in names]
+        colors = [
+            "gold" if name == "all_combined" else "lightblue" if name == "baseline" else "lightgreen" for name in names
+        ]
+
+        bars = ax1.barh(names, avg_scores, color=colors, alpha=0.8, edgecolor="black")
+        ax1.set_xlabel("Average Original Score", fontsize=11, fontweight="bold")
+        ax1.set_title("🏆 Average Game Score (PRIMARY METRIC)", fontsize=12, fontweight="bold")
         ax1.grid(axis="x", alpha=0.3)
 
-        for i, (bar, val) in enumerate(zip(bars, avg_rewards)):
-            ax1.text(val, i, f" {val:.1f}", va="center", fontsize=9)
+        for i, (bar, val) in enumerate(zip(bars, avg_scores)):
+            ax1.text(val, i, f" {val:.1f}", va="center", fontsize=9, fontweight="bold")
 
-        # Plot 2: Improvement over baseline
-        ax2 = axes[0, 1]
-        baseline_reward = self.results.get("baseline", {}).get("metrics", {}).get("avg_reward", 0)
-        improvements = []
-
+        # Plot 2: Learning curves (ORIGINAL scores)
+        ax2 = fig.add_subplot(gs[0, 1])
         for name in names:
-            if name == "baseline":
-                improvements.append(0)
-            else:
-                improvement = self.results[name]["metrics"]["avg_reward"] - baseline_reward
-                improvements.append(improvement)
+            result = self.results[name]
+            scores = result["stats"]["original_scores"]
+            window = max(10, len(scores) // 20)
+            if len(scores) >= window:
+                moving_avg = np.convolve(scores, np.ones(window) / window, mode="valid")
+                ax2.plot(moving_avg, label=name, alpha=0.7, linewidth=2)
 
-        colors2 = ["red" if x < 0 else "green" if x > 0 else "gray" for x in improvements]
-        bars2 = ax2.barh(names, improvements, color=colors2, alpha=0.7, edgecolor="black")
-        ax2.axvline(x=0, color="black", linestyle="--", linewidth=1)
-        ax2.set_xlabel("Improvement over Baseline", fontsize=11, fontweight="bold")
-        ax2.set_title("Reward Improvement vs Baseline", fontsize=12, fontweight="bold")
-        ax2.grid(axis="x", alpha=0.3)
+        ax2.set_xlabel("Episode", fontsize=11, fontweight="bold")
+        ax2.set_ylabel("Original Score (Moving Avg)", fontsize=11, fontweight="bold")
+        ax2.set_title("📈 Learning Curves (True Game Score)", fontsize=12, fontweight="bold")
+        ax2.legend(loc="best", fontsize=8)
+        ax2.grid(alpha=0.3)
 
-        for i, (bar, val) in enumerate(zip(bars2, improvements)):
-            if val != 0:
-                ax2.text(val, i, f" {val:+.1f}", va="center", fontsize=9)
+        # Plot 3: Final performance (last 10 episodes)
+        ax3 = fig.add_subplot(gs[0, 2])
+        final_avgs = [self.results[name]["metrics"]["final_avg_original"] for name in names]
+        bars3 = ax3.barh(names, final_avgs, color="coral", alpha=0.7, edgecolor="black")
+        ax3.set_xlabel("Final Average (Last 10 eps)", fontsize=11, fontweight="bold")
+        ax3.set_title("🎯 Final Performance", fontsize=12, fontweight="bold")
+        ax3.grid(axis="x", alpha=0.3)
 
-        # Plot 3: Learning curves (smoothed)
-        ax3 = axes[0, 2]
-        for name, result in self.results.items():
-            rewards = result["rewards"]
-            window = max(10, len(rewards) // 20)
-            if len(rewards) >= window:
-                moving_avg = np.convolve(rewards, np.ones(window) / window, mode="valid")
-                ax3.plot(moving_avg, label=name, alpha=0.7, linewidth=2)
+        for i, (bar, val) in enumerate(zip(bars3, final_avgs)):
+            ax3.text(val, i, f" {val:.1f}", va="center", fontsize=9)
 
-        ax3.set_xlabel("Episode", fontsize=11, fontweight="bold")
-        ax3.set_ylabel("Reward (Moving Average)", fontsize=11, fontweight="bold")
-        ax3.set_title("Learning Curves (Smoothed)", fontsize=12, fontweight="bold")
-        ax3.legend(loc="best", fontsize=8, framealpha=0.9)
-        ax3.grid(alpha=0.3)
-
-        # Plot 4: Max reward comparison
-        ax4 = axes[1, 0]
-        max_rewards = [self.results[name]["metrics"]["max_reward"] for name in names]
-        bars4 = ax4.barh(names, max_rewards, color="coral", alpha=0.7, edgecolor="black")
-        ax4.set_xlabel("Maximum Reward", fontsize=11, fontweight="bold")
-        ax4.set_title("Peak Performance", fontsize=12, fontweight="bold")
+        # Plot 4: Improvement (learning delta)
+        ax4 = fig.add_subplot(gs[1, 0])
+        improvements = [self.results[name]["metrics"]["score_improvement"] for name in names]
+        colors4 = ["red" if x < 0 else "green" if x > 0 else "gray" for x in improvements]
+        bars4 = ax4.barh(names, improvements, color=colors4, alpha=0.7, edgecolor="black")
+        ax4.axvline(x=0, color="black", linestyle="--", linewidth=1)
+        ax4.set_xlabel("Score Improvement (Final - Initial)", fontsize=11, fontweight="bold")
+        ax4.set_title("⚡ Learning Speed", fontsize=12, fontweight="bold")
         ax4.grid(axis="x", alpha=0.3)
 
-        for i, (bar, val) in enumerate(zip(bars4, max_rewards)):
-            ax4.text(val, i, f" {val:.1f}", va="center", fontsize=9)
+        for i, (bar, val) in enumerate(zip(bars4, improvements)):
+            if abs(val) > 0.1:
+                ax4.text(val, i, f" {val:+.1f}", va="center", fontsize=9)
 
-        # Plot 5: Variance comparison
-        ax5 = axes[1, 1]
-        std_rewards = [self.results[name]["metrics"]["std_reward"] for name in names]
-        bars5 = ax5.barh(names, std_rewards, color="mediumpurple", alpha=0.7, edgecolor="black")
-        ax5.set_xlabel("Standard Deviation", fontsize=11, fontweight="bold")
-        ax5.set_title("Reward Stability (Lower is Better)", fontsize=12, fontweight="bold")
+        # Plot 5: Consistency (std deviation)
+        ax5 = fig.add_subplot(gs[1, 1])
+        std_scores = [self.results[name]["metrics"]["std_original_score"] for name in names]
+        bars5 = ax5.barh(names, std_scores, color="mediumpurple", alpha=0.7, edgecolor="black")
+        ax5.set_xlabel("Standard Deviation (Lower = More Consistent)", fontsize=11, fontweight="bold")
+        ax5.set_title("🎯 Consistency", fontsize=12, fontweight="bold")
         ax5.grid(axis="x", alpha=0.3)
 
-        for i, (bar, val) in enumerate(zip(bars5, std_rewards)):
+        for i, (bar, val) in enumerate(zip(bars5, std_scores)):
             ax5.text(val, i, f" {val:.1f}", va="center", fontsize=9)
 
-        # Plot 6: Episode efficiency (avg blocks broken)
-        ax6 = axes[1, 2]
-        exp_names = []
-        avg_blocks = []
+        # Plot 6: Success rate (score > 0)
+        ax6 = fig.add_subplot(gs[1, 2])
+        success_rates = [self.results[name]["metrics"]["success_rate"] for name in names]
+        bars6 = ax6.barh(names, success_rates, color="skyblue", alpha=0.8, edgecolor="black")
+        ax6.set_xlabel("Success Rate (%)", fontsize=11, fontweight="bold")
+        ax6.set_title("✅ Success Rate (Score > 0)", fontsize=12, fontweight="bold")
+        ax6.set_xlim([0, 100])
+        ax6.grid(axis="x", alpha=0.3)
 
-        for name, result in self.results.items():
-            metrics = result["metrics"]
-            if "avg_blocks_broken" in metrics:
-                exp_names.append(name)
-                avg_blocks.append(metrics["avg_blocks_broken"])
+        for i, (bar, val) in enumerate(zip(bars6, success_rates)):
+            ax6.text(val, i, f" {val:.0f}%", va="center", fontsize=9)
 
-        if exp_names:
-            bars6 = ax6.bar(range(len(exp_names)), avg_blocks, color="skyblue", alpha=0.8, edgecolor="black")
-            ax6.set_ylabel("Average Blocks Broken", fontsize=11, fontweight="bold")
-            ax6.set_title("Block Breaking Efficiency", fontsize=12, fontweight="bold")
-            ax6.set_xticks(range(len(exp_names)))
-            ax6.set_xticklabels(exp_names, rotation=45, ha="right", fontsize=9)
-            ax6.grid(axis="y", alpha=0.3)
+        # Plot 7: Episodes to milestones
+        ax7 = fig.add_subplot(gs[2, 0])
+        milestone_data = {}
+        for name in names:
+            metrics = self.results[name]["metrics"]
+            ep_5 = metrics.get("episodes_to_5", None)
+            ep_10 = metrics.get("episodes_to_10", None)
+            milestone_data[name] = {
+                "5pts": ep_5 if isinstance(ep_5, int) else None,
+                "10pts": ep_10 if isinstance(ep_10, int) else None,
+            }
 
-            for i, (bar, val) in enumerate(zip(bars6, avg_blocks)):
-                ax6.text(i, val, f"{val:.1f}", ha="center", va="bottom", fontsize=9)
-        else:
-            ax6.text(
-                0.5,
-                0.5,
-                "No block statistics available",
-                ha="center",
-                va="center",
-                transform=ax6.transAxes,
-                fontsize=11,
-            )
-            ax6.set_title("Block Breaking Efficiency", fontsize=12, fontweight="bold")
+        # Plot as grouped bars
+        x = np.arange(len(names))
+        width = 0.35
+        ep_5_vals = [milestone_data[n]["5pts"] if milestone_data[n]["5pts"] else 0 for n in names]
+        ep_10_vals = [milestone_data[n]["10pts"] if milestone_data[n]["10pts"] else 0 for n in names]
 
-        plt.tight_layout()
+        bars7a = ax7.barh(x - width / 2, ep_5_vals, width, label="To 5 pts", alpha=0.7, color="lightgreen")
+        bars7b = ax7.barh(x + width / 2, ep_10_vals, width, label="To 10 pts", alpha=0.7, color="lightcoral")
+
+        ax7.set_xlabel("Episodes", fontsize=11, fontweight="bold")
+        ax7.set_title("⏱️  Learning Speed (Episodes to Reach Score)", fontsize=12, fontweight="bold")
+        ax7.set_yticks(x)
+        ax7.set_yticklabels(names, fontsize=9)
+        ax7.legend(fontsize=9)
+        ax7.grid(axis="x", alpha=0.3)
+
+        # Plot 8: Top 10% performance
+        ax8 = fig.add_subplot(gs[2, 1])
+        top_10_avgs = [self.results[name]["metrics"]["top_10_percent_avg"] for name in names]
+        bars8 = ax8.barh(names, top_10_avgs, color="gold", alpha=0.8, edgecolor="black")
+        ax8.set_xlabel("Average of Top 10% Episodes", fontsize=11, fontweight="bold")
+        ax8.set_title("🌟 Peak Performance", fontsize=12, fontweight="bold")
+        ax8.grid(axis="x", alpha=0.3)
+
+        for i, (bar, val) in enumerate(zip(bars8, top_10_avgs)):
+            ax8.text(val, i, f" {val:.1f}", va="center", fontsize=9)
+
+        # Plot 9: Episode length (survival)
+        ax9 = fig.add_subplot(gs[2, 2])
+        avg_lengths = [self.results[name]["metrics"]["avg_episode_length"] for name in names]
+        bars9 = ax9.barh(names, avg_lengths, color="lightsteelblue", alpha=0.8, edgecolor="black")
+        ax9.set_xlabel("Average Episode Length (steps)", fontsize=11, fontweight="bold")
+        ax9.set_title("⏱️  Survival Duration", fontsize=12, fontweight="bold")
+        ax9.grid(axis="x", alpha=0.3)
+
+        for i, (bar, val) in enumerate(zip(bars9, avg_lengths)):
+            ax9.text(val, i, f" {val:.0f}", va="center", fontsize=9)
 
         # Save plot
-        plot_path = os.path.join(self.output_dir, "experiment_comparison.png")
+        plot_path = os.path.join(self.output_dir, "experiment_comparison_fair.png")
         plt.savefig(plot_path, dpi=200, bbox_inches="tight")
-        print(f"\n📈 Comparison plots saved to: {plot_path}")
+        print(f"\n📈 Fair comparison plots saved to: {plot_path}")
 
         plt.close()
 
