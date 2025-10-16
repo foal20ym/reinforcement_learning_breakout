@@ -19,7 +19,7 @@ LR_DECAY_FREQUENCY = 100  # Apply LR decay every N episodes
 # DQN-specific parameters
 REPLAY_MEMORY_SIZE = 100_000
 MINI_BATCH_SIZE = 64
-NETWORK_SYNC_RATE= 1_000
+NETWORK_SYNC_RATE = 1_000
 UPDATE_EVERY = 4  # Learn every 4 steps
 GRADIENT_CLIP = 10.0  # Clip gradients to prevent exploding gradients
 
@@ -37,3 +37,10 @@ USE_NEURAL_NET = False
 
 # Reward shaping
 REWARD_SHAPING = True
+REWARD_SHAPING_PARAMS = {
+    "paddle_hit_bonus": 0.1,  # Bonus for hitting ball with paddle
+    "center_position_bonus": 0.05,  # Bonus for center positioning
+    "side_angle_bonus": 0.15,  # Bonus for side wall bounces
+    "block_bonus_multiplier": 1.5,  # Multiplier for block breaking
+    "ball_loss_penalty": -0.5,  # Penalty for losing the ball
+}

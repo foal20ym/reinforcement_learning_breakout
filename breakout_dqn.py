@@ -4,6 +4,7 @@ from helpers.FramePreprocess import preprocess_frame
 from helpers.FrameStack import FrameStack
 from core.NeuralNetwork import NeuralNetwork
 from core.CNN import CNN
+from environment.reward_shaping import BreakoutRewardShaping, RewardShapingScheduler
 from torch import nn
 import torch
 import gymnasium as gym
@@ -29,17 +30,54 @@ class BreakoutDQN:
         self.epsilon_decay = config.EPSILON_DECAY
         self.use_neural_net = config.USE_NEURAL_NET
         self.use_cnn = config.USE_CNN
-        if self.use_neural_net: self.num_hidden_nodes = config.NUM_HIDDEN_NODES
+        if self.use_neural_net:
+            self.num_hidden_nodes = config.HIDDEN_SIZES[0]
+
+        # Reward shaping configuration from config
+        self.enable_reward_shaping = config.REWARD_SHAPING
+        self.reward_shaping_params = config.REWARD_SHAPING_PARAMS
+
         self.loss_fn = nn.HuberLoss()
         self.optimizer = None
 
     def train(self, episodes, render=False):
-        env = gym.make('ALE/Breakout-v5', render_mode="rgb_array" if render else None)
+        # Create base environment
+        base_env = gym.make("ALE/Breakout-v5", render_mode="rgb_array" if render else None)
+
+        # Wrap with reward shaping if enabled
+        if self.enable_reward_shaping:
+            env = BreakoutRewardShaping(
+                base_env,
+                paddle_hit_bonus=self.reward_shaping_params["paddle_hit_bonus"],
+                center_position_bonus=self.reward_shaping_params["center_position_bonus"],
+                side_angle_bonus=self.reward_shaping_params["side_angle_bonus"],
+                block_bonus_multiplier=self.reward_shaping_params["block_bonus_multiplier"],
+                ball_loss_penalty=self.reward_shaping_params["ball_loss_penalty"],
+                enable_shaping=True,
+            )
+            print("🎮 Reward shaping ENABLED")
+            print(f"  Paddle hit bonus: {self.reward_shaping_params['paddle_hit_bonus']}")
+            print(f"  Center bonus: {self.reward_shaping_params['center_position_bonus']}")
+            print(f"  Side angle bonus: {self.reward_shaping_params['side_angle_bonus']}")
+            print(f"  Block multiplier: {self.reward_shaping_params['block_bonus_multiplier']}x")
+            print(f"  Ball loss penalty: {self.reward_shaping_params['ball_loss_penalty']}")
+        else:
+            env = base_env
+            print("🎮 Reward shaping DISABLED (using original rewards)")
+
         num_actions = env.action_space.n
         state_dim = 4 * 84 * 84  # 4 stacked frames of size 84x84
-        
-        policy_dqn = CNN(num_actions).to(self.device) if self.use_cnn else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
-        target_dqn = CNN(num_actions).to(self.device) if self.use_cnn else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+
+        policy_dqn = (
+            CNN(num_actions).to(self.device)
+            if self.use_cnn
+            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+        )
+        target_dqn = (
+            CNN(num_actions).to(self.device)
+            if self.use_cnn
+            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+        )
         target_dqn.load_state_dict(policy_dqn.state_dict())
         self.optimizer = torch.optim.Adam(policy_dqn.parameters(), lr=self.learning_rate)
 
@@ -50,7 +88,7 @@ class BreakoutDQN:
 
         for episode in range(1, episodes + 1):
             obs, info = env.reset()
-            lives = info.get("lives", 5)  # Track the initial number of lives
+            lives = info.get("lives", 5)
             obs, _, terminated, truncated, info = env.step(1)
             obs = preprocess_frame(obs)
             frame_stack = FrameStack(4)
@@ -60,6 +98,7 @@ class BreakoutDQN:
 
             state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
             total_reward = 0
+            total_original_reward = 0  # Track original reward separately
             terminated = truncated = False
             episode_steps = 0
 
@@ -71,6 +110,13 @@ class BreakoutDQN:
                         action = policy_dqn(state.to(self.device)).argmax().item()
 
                 next_obs, reward, terminated, truncated, info = env.step(action)
+
+                # Track original reward if shaping is enabled
+                if self.enable_reward_shaping and "original_reward" in info:
+                    total_original_reward += info["original_reward"]
+                else:
+                    total_original_reward += reward
+
                 next_obs = preprocess_frame(next_obs)
                 frame_stack.append(next_obs)
                 next_state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
@@ -78,8 +124,7 @@ class BreakoutDQN:
                 # Detect life loss and reset frame stack
                 current_lives = info.get("lives", lives)
                 if current_lives < lives:
-                    reward -= 10.0  # Penalize life loss
-                    lives = current_lives  # Update the lives tracker
+                    lives = current_lives
 
                     # Reset the frame stack after life loss
                     frame_stack.reset()
@@ -87,23 +132,13 @@ class BreakoutDQN:
                         frame_stack.append(next_obs)
                     next_state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
 
-                if action == 2 or action == 3:  # 2 = move right, 3 = move left
-                    reward += 0.15
-
-                # Penalize standing still (no-op)
-                if action == 0:
-                    reward -= 0.1
-
-                # Time survived increases reward
-                reward += 0.001
-
                 self.memory.append((state, action, next_state, reward, terminated or truncated))
                 state = next_state
                 total_reward += reward
                 episode_steps += 1
                 step_count += 1
 
-                if len(self.memory) > self.mini_batch_size and step_count % 8 == 0:  # step_count % 4
+                if len(self.memory) > self.mini_batch_size and step_count % config.UPDATE_EVERY == 0:
                     mini_batch = self.memory.sample(self.mini_batch_size)
                     self.optimize(mini_batch, policy_dqn, target_dqn)
 
@@ -116,17 +151,34 @@ class BreakoutDQN:
 
             if episode % 10 == 0:
                 avg_reward = np.mean(rewards_per_episode[-10:])
-                print(f"Episode {episode}, Avg Reward: {avg_reward:.2f}, Epsilon: {self.epsilon:.3f}")
+
+                # Print with shaping statistics if enabled
+                if self.enable_reward_shaping:
+                    stats = env.get_shaping_stats()
+                    print(
+                        f"Episode {episode}, Avg Reward: {avg_reward:.2f} "
+                        f"(Original: {total_original_reward:.2f}), "
+                        f"Epsilon: {self.epsilon:.3f}"
+                    )
+                    print(
+                        f"  Shaping stats - Paddle hits: {stats['paddle_hits']}, "
+                        f"Blocks: {stats['blocks_broken']}, "
+                        f"Side bounces: {stats['side_bounces']}, "
+                        f"Balls lost: {stats['balls_lost']}"
+                    )
+                else:
+                    print(f"Episode {episode}, Avg Reward: {avg_reward:.2f}, Epsilon: {self.epsilon:.3f}")
+
                 model_filename = f"models/CNN_breakout.pt"
                 torch.save(policy_dqn.state_dict(), model_filename)
 
                 # Check if we have a new best average reward
                 if avg_reward > best_avg_reward:
                     best_avg_reward = avg_reward
-                    self.save_best_avg_reward(best_avg_reward)  # Save the new best average reward
+                    self.save_best_avg_reward(best_avg_reward)
                     model_filename = f"models/CNN_breakout_avg_{int(best_avg_reward)}.pt"
                     torch.save(policy_dqn.state_dict(), model_filename)
-                    print(f"New best average reward! Model saved as {model_filename}")
+                    print(f"  New best average reward! Model saved as {model_filename}")
 
         env.close()
         plot_progress(rewards_per_episode, epsilon_history)
@@ -137,7 +189,7 @@ class BreakoutDQN:
         if os.path.exists(filepath):
             with open(filepath, "r") as file:
                 return float(file.read().strip())
-        return -float("inf")  # Default to a very low value if the file doesn't exist
+        return -float("inf")
 
     def save_best_avg_reward(self, best_avg_reward):
         """Save the best average reward to a file."""
@@ -162,26 +214,34 @@ class BreakoutDQN:
         loss = self.loss_fn(current_q_values.squeeze(), target_q_values)
         self.optimizer.zero_grad()
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(policy_dqn.parameters(), max_norm=10.0)
+        torch.nn.utils.clip_grad_norm_(policy_dqn.parameters(), max_norm=config.GRADIENT_CLIP)
         self.optimizer.step()
 
-    """
-    Runs the environment with the learned policy by creating the environment and using the best actions learned during training
-    """
     def test(self, episodes, model_filepath):
-        env = gym.make('ALE/Breakout-v5', render_mode='human')
+        """
+        Runs the environment with the learned policy.
+        Testing always uses original rewards (no reward shaping).
+        """
+        # Always use base environment for testing (no shaping)
+        env = gym.make("ALE/Breakout-v5", render_mode="human")
         num_actions = env.action_space.n
         state_dim = 4 * 84 * 84
 
+        print("🎮 Testing with ORIGINAL rewards (no shaping)")
+
         # Load learned policy
-        policy_dqn = CNN(num_actions).to(self.device) if self.use_cnn else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+        policy_dqn = (
+            CNN(num_actions).to(self.device)
+            if self.use_cnn
+            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+        )
         policy_dqn.load_state_dict(torch.load(model_filepath))
         policy_dqn.eval()
 
         for episode in range(1, episodes + 1):
             obs, info = env.reset()
-            lives = info.get("lives", 5)  # Track the initial number of lives
-            obs, _, terminated, truncated, info = env.step(1)  # Take a "FIRE" action to start the game
+            lives = info.get("lives", 5)
+            obs, _, terminated, truncated, info = env.step(1)
 
             obs = preprocess_frame(obs)
             frame_stack = FrameStack(4)
@@ -203,7 +263,7 @@ class BreakoutDQN:
                 # Detect life loss and reset frame stack
                 current_lives = info.get("lives", lives)
                 if current_lives < lives:
-                    lives = current_lives  # Update the lives tracker
+                    lives = current_lives
 
                     # Reset the frame stack after life loss
                     frame_stack.reset()
@@ -217,7 +277,7 @@ class BreakoutDQN:
                     for _ in range(4):
                         frame_stack.append(next_obs)
                     state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
-                    continue  # Skip the rest of the loop to avoid double-processing
+                    continue
 
                 frame_stack.append(next_obs)
                 state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
@@ -227,7 +287,12 @@ class BreakoutDQN:
 
         env.close()
 
+
 if __name__ == "__main__":
     breakout_dqn = BreakoutDQN()
-    #breakout_dqn.train(episodes=20, render=False)
-    breakout_dqn.test(10, "models/CNN_breakout.pt")
+
+    # Training with reward shaping (controlled by config.REWARD_SHAPING)
+    breakout_dqn.train(episodes=20, render=False)
+
+    # Testing always uses original rewards
+    # breakout_dqn.test(10, "models/CNN_breakout.pt")
