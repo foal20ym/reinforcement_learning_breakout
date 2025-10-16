@@ -13,7 +13,7 @@ import numpy as np
 import random
 import os
 from utils import config
-
+from helpers.FileIO import save_current_episode, save_best_avg_reward, load_best_avg_reward, load_current_episode
 
 class BreakoutDQN:
 
@@ -40,7 +40,7 @@ class BreakoutDQN:
         self.loss_fn = nn.HuberLoss()
         self.optimizer = None
 
-    def train(self, episodes, render=False):
+    def train(self, episodes, render=False, resume_checkpoint=None, resume_replay=None):
         # Create base environment
         base_env = gym.make("ALE/Breakout-v5", render_mode="rgb_array" if render else None)
 
@@ -81,12 +81,29 @@ class BreakoutDQN:
         target_dqn.load_state_dict(policy_dqn.state_dict())
         self.optimizer = torch.optim.Adam(policy_dqn.parameters(), lr=self.learning_rate)
 
+        last_episode_done = 0
+        best_avg_reward = load_best_avg_reward("environment/best_avg_reward.txt")
+        if resume_checkpoint and os.path.exists(resume_checkpoint):
+            s_ep, best_avg = self.load_checkpoint(
+                policy_dqn, self.optimizer, resume_checkpoint, replay_filepath=resume_replay
+            )
+            last_episode_done = s_ep or 0
+            target_dqn.load_state_dict(policy_dqn.state_dict())
+            best_avg_reward = best_avg
+            print(f"Resuming from checkpoint {resume_checkpoint} at episode {last_episode_done}")
+        else:
+            print("Starting fresh training run")
+
+        start_episode = last_episode_done + 1
+        end_episode = last_episode_done + int(episodes)
+        print(f"Training episodes {start_episode}..{end_episode} (additional: {episodes})")
+
         rewards_per_episode = []
         epsilon_history = []
         step_count = 0
-        best_avg_reward = self.load_best_avg_reward()
+        last_completed_episode = last_episode_done
 
-        for episode in range(1, episodes + 1):
+        for episode in range(start_episode, end_episode + 1):
             obs, info = env.reset()
             lives = info.get("lives", 5)
             obs, _, terminated, truncated, info = env.step(1)
@@ -149,6 +166,9 @@ class BreakoutDQN:
             self.epsilon = max(self.epsilon * self.epsilon_decay, self.epsilon_min)
             epsilon_history.append(self.epsilon)
 
+            last_completed_episode = episode
+            save_current_episode(last_completed_episode)
+
             if episode % 10 == 0:
                 avg_reward = np.mean(rewards_per_episode[-10:])
 
@@ -171,31 +191,20 @@ class BreakoutDQN:
 
                 model_filename = f"models/CNN_breakout.pt"
                 torch.save(policy_dqn.state_dict(), model_filename)
+                torch.save(self.optimizer.state_dict(), "models/optimizer_latest.pth")
+                torch.save(policy_dqn.state_dict(), "models/model_latest.pth")
+                self.save_checkpoint(policy_dqn, self.optimizer, episode, "models/checkpoint_latest.pth")
 
-                # Check if we have a new best average reward
                 if avg_reward > best_avg_reward:
                     best_avg_reward = avg_reward
-                    self.save_best_avg_reward(best_avg_reward)
+                    save_best_avg_reward(best_avg_reward)
                     model_filename = f"models/CNN_breakout_avg_{int(best_avg_reward)}.pt"
                     torch.save(policy_dqn.state_dict(), model_filename)
+                    self.save_checkpoint(policy_dqn, self.optimizer, episode, f"models/checkpoint_best.pth")
                     print(f"  New best average reward! Model saved as {model_filename}")
 
         env.close()
         plot_progress(rewards_per_episode, epsilon_history)
-
-    def load_best_avg_reward(self):
-        """Load the best average reward from a file."""
-        filepath = "environment/best_avg_reward.txt"
-        if os.path.exists(filepath):
-            with open(filepath, "r") as file:
-                return float(file.read().strip())
-        return -float("inf")
-
-    def save_best_avg_reward(self, best_avg_reward):
-        """Save the best average reward to a file."""
-        filepath = "environment/best_avg_reward.txt"
-        with open(filepath, "w") as file:
-            file.write(f"{best_avg_reward}")
 
     def optimize(self, mini_batch, policy_dqn, target_dqn):
         states, actions, next_states, rewards, dones = zip(*mini_batch)
@@ -288,12 +297,70 @@ class BreakoutDQN:
 
         env.close()
 
+    def save_checkpoint(self, model, optimizer, episode, filepath):
+        """Save model + optimizer + training state to a checkpoint file."""
+        os.makedirs(os.path.dirname(filepath) or ".", exist_ok=True)
+        ckpt = {
+            "episode": episode,
+            "model_state_dict": model.state_dict(),
+            "optimizer_state_dict": optimizer.state_dict() if optimizer is not None else None,
+            "epsilon": self.epsilon,
+            "best_avg_reward": load_best_avg_reward("environment/best_avg_reward.txt"),
+        }
+        if getattr(self, "use_amp", False) and getattr(self, "scaler", None) is not None:
+            ckpt["scaler_state_dict"] = self.scaler.state_dict()
+        torch.save(ckpt, filepath)
+        # save replay memory next to checkpoint (non-blocking to disk)
+        try:
+            replay_path = filepath.replace(".pth", "_replay.pth")
+            self.memory.save(replay_path)
+            # also keep a latest symlink-style filenames
+            self.memory.save("models/replay_memory_latest.pth")
+        except Exception:
+            # don't crash training because replay save failed
+            pass
+
+    def load_checkpoint(self, model, optimizer=None, filepath=None, replay_filepath=None):
+        """Load checkpoint into model and optionally optimizer. Returns start_episode and best_avg_reward."""
+        if filepath is None or not os.path.exists(filepath):
+            return 0, load_best_avg_reward("environment/best_avg_reward.txt")
+        ckpt = torch.load(filepath, map_location=self.device)
+        model.load_state_dict(ckpt["model_state_dict"])
+        if optimizer is not None and ckpt.get("optimizer_state_dict") is not None:
+            optimizer.load_state_dict(ckpt["optimizer_state_dict"])
+            for state in optimizer.state.values():
+                for k, v in state.items():
+                    if isinstance(v, torch.Tensor):
+                        state[k] = v.to(self.device)
+        self.epsilon = ckpt.get("epsilon", self.epsilon)
+        if getattr(self, "use_amp", False) and getattr(self, "scaler", None) is not None and ckpt.get("scaler_state_dict") is not None:
+            self.scaler.load_state_dict(ckpt["scaler_state_dict"])
+        start_episode = ckpt.get("episode", 0)
+        best_avg = ckpt.get("best_avg_reward", load_best_avg_reward("environment/best_avg_reward.txt"))
+
+        # attempt to load replay memory if provided
+        if replay_filepath and os.path.exists(replay_filepath):
+            try:
+                self.memory = ReplayMemory.load(replay_filepath)
+            except Exception:
+                # fallback: keep current memory
+                pass
+
+        return start_episode, best_avg
+
 
 if __name__ == "__main__":
     breakout_dqn = BreakoutDQN()
+    checkpoint_path = "models/checkpoint_latest.pth"
+    replay_path = "models/replay_memory_latest.pth"
 
-    # Training with reward shaping (controlled by config.REWARD_SHAPING)
-    #breakout_dqn.train(episodes=20, render=False)
+    start_from_checkpoint = True
 
-    # Testing always uses original rewards
-    breakout_dqn.test(10, "models/CNN_breakout_avg_31.pt")
+    if os.path.exists(checkpoint_path) and start_from_checkpoint:
+        print(f"Auto-resume from {checkpoint_path}")
+        breakout_dqn.train(episodes=1000, render=False, resume_checkpoint=checkpoint_path, resume_replay=replay_path)
+    else:
+        breakout_dqn.train(episodes=1000, render=False)
+    
+    # TESTING
+    # breakout_dqn.test(10, "models/CNN_breakout.pt")
