@@ -1,0 +1,195 @@
+import os
+import torch
+import ale_py
+import gymnasium as gym
+import numpy as np
+from tqdm import tqdm
+import glob
+import re
+
+# Register ALE environments
+gym.register_envs(ale_py)
+
+# Import our modules
+from core.agent import DQNAgent
+from environment.preprocessing import make_atari_env
+from utils import config_fast as config
+from utils.logger import Logger
+
+
+def find_latest_checkpoint():
+    """Find the latest checkpoint file."""
+    checkpoints = glob.glob(os.path.join(config.CHECKPOINT_DIR, "dqn_breakout_episode_*.pt"))
+    if not checkpoints:
+        return None, 0
+
+    # Extract episode numbers and find the latest
+    episodes = []
+    for cp in checkpoints:
+        match = re.search(r"episode_(\d+)\.pt", cp)
+        if match:
+            episodes.append((int(match.group(1)), cp))
+
+    if episodes:
+        episodes.sort()
+        latest_episode, latest_path = episodes[-1]
+        return latest_path, latest_episode
+
+    return None, 0
+
+
+def train(resume_from=None):
+    """
+    Main training loop for DQN on Atari Breakout.
+
+    Args:
+        resume_from: Path to checkpoint to resume from, or 'latest' to auto-detect
+    """
+    # Create directories
+    os.makedirs(config.CHECKPOINT_DIR, exist_ok=True)
+
+    # Create environment with reward shaping if enabled
+    print(f"Creating environment: {config.ENV_NAME}")
+
+    # Check if reward shaping is enabled in config
+    enable_shaping = getattr(config, "ENABLE_REWARD_SHAPING", False)
+    shaping_params = getattr(config, "REWARD_SHAPING_PARAMS", None)
+
+    env = make_atari_env(config.ENV_NAME, enable_reward_shaping=enable_shaping, shaping_params=shaping_params)
+    n_actions = env.action_space.n
+    print(f"Number of actions: {n_actions}")
+    print(f"Observation space: {env.observation_space.shape}")
+
+    # Create agent
+    agent = DQNAgent(n_actions, config)
+
+    # Create logger
+    logger = Logger()
+
+    # Resume from checkpoint if specified
+    start_episode = 1
+    total_steps = 0
+
+    if resume_from == "latest":
+        resume_from, start_episode = find_latest_checkpoint()
+
+    if resume_from and os.path.exists(resume_from):
+        print(f"\n{'='*60}")
+        print(f"Resuming training from checkpoint: {resume_from}")
+        agent.load_checkpoint(resume_from)
+        total_steps = agent.steps
+        start_episode += 1  # Start from next episode
+        print(f"Starting from episode {start_episode}, step {total_steps}")
+        print(f"Current epsilon: {agent.epsilon:.4f}")
+        print(f"{'='*60}\n")
+
+        # Try to load previous training stats
+        try:
+            stats_file = os.path.join("logs", "training_stats.npz")
+            if os.path.exists(stats_file):
+                stats = np.load(stats_file)
+                logger.episode_rewards = list(stats["episode_rewards"])
+                logger.episode_lengths = list(stats["episode_lengths"])
+                logger.losses = list(stats["losses"])
+                logger.epsilons = list(stats["epsilons"])
+                # Restore reward window
+                for reward in logger.episode_rewards[-100:]:
+                    logger.reward_window.append(reward)
+                print(f"Loaded previous training statistics ({len(logger.episode_rewards)} episodes)")
+        except Exception as e:
+            print(f"Could not load previous stats: {e}")
+    else:
+        print("\nStarting fresh training...")
+
+    # Training loop
+    for episode in range(start_episode, config.MAX_EPISODES + 1):
+        state, _ = env.reset()
+        episode_reward = 0
+        episode_length = 0
+        episode_losses = []
+
+        for step in range(config.MAX_STEPS_PER_EPISODE):
+            # Select action
+            action = agent.select_action(state, training=True)
+
+            # Take step in environment
+            next_state, reward, terminated, truncated, _ = env.step(action)
+            done = terminated or truncated
+
+            # Clip reward
+            clipped_reward = np.clip(reward, -1, 1)
+
+            # Store transition
+            agent.store_transition(state, action, clipped_reward, next_state, done)
+
+            # Train agent
+            if total_steps % config.TRAIN_FREQ == 0:
+                loss = agent.train_step()
+                if loss is not None:
+                    episode_losses.append(loss)
+
+            # Update target network
+            if total_steps % config.TARGET_UPDATE_FREQ == 0:
+                agent.update_target_network()
+
+            # Update epsilon
+            agent.steps = total_steps
+            agent.update_epsilon()
+
+            state = next_state
+            episode_reward += reward
+            episode_length += 1
+            total_steps += 1
+
+            if done:
+                break
+
+        # Log episode
+        avg_loss = np.mean(episode_losses) if episode_losses else None
+        if episode % config.LOG_FREQ == 0:
+            logger.log_episode(episode, episode_reward, episode_length, agent.epsilon, avg_loss)
+
+        # Save checkpoint
+        if episode % config.SAVE_FREQ == 0:
+            checkpoint_path = os.path.join(config.CHECKPOINT_DIR, f"dqn_breakout_episode_{episode}.pt")
+            agent.save_checkpoint(checkpoint_path)
+            logger.plot_training()
+            logger.save_stats()
+
+    # Final save
+    print("\nTraining completed!")
+    agent.save_checkpoint(os.path.join(config.CHECKPOINT_DIR, "dqn_breakout_final.pt"))
+    logger.plot_training()
+    logger.save_stats()
+
+    env.close()
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Train DQN agent on Breakout")
+    parser.add_argument(
+        "--resume", type=str, default=None, help='Path to checkpoint to resume from, or "latest" to auto-detect'
+    )
+    parser.add_argument("--fresh", action="store_true", help="Start fresh training even if checkpoints exist")
+
+    args = parser.parse_args()
+
+    if args.fresh:
+        print("Starting fresh training (ignoring existing checkpoints)...")
+        train(resume_from=None)
+    elif args.resume:
+        train(resume_from=args.resume)
+    else:
+        # Auto-detect by default
+        latest_checkpoint, _ = find_latest_checkpoint()
+        if latest_checkpoint:
+            print(f"Found existing checkpoint: {latest_checkpoint}")
+            response = input("Resume from latest checkpoint? [Y/n]: ").strip().lower()
+            if response in ["", "y", "yes"]:
+                train(resume_from="latest")
+            else:
+                train(resume_from=None)
+        else:
+            train(resume_from=None)
