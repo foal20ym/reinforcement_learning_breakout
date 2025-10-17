@@ -27,7 +27,7 @@
 # you may not place bash commands before the last SBATCH directive
 
 echo "now processing task id:: ${SLURM_JOB_ID} on ${SLURMD_NODENAME}"
-mkdir "log_${SLURM_JOB_ID}"
+# mkdir "log_${SLURM_JOB_ID}"
 #python3 main.py "log_${SLURM_JOB_ID}" --epochs 20 > output_${SLURM_JOB_ID}.txt
 python3 -u main.py "log_${SLURM_JOB_ID}" --epochs 20 > output_${SLURM_JOB_ID}.txt 2>&1
 
