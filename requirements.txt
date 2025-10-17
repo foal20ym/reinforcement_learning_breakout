@@ -1,4 +1,6 @@
 ale-py
-gym
 numpy
 torch
+torchvision 
+matplotlib
+gymnasium

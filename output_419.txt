@@ -1,0 +1,417 @@
+🚀 Using GPU: NVIDIA L4
+  Total Memory: 23.58 GB
+  Compute Capability: 8.9
+🚀 Using GPU: NVIDIA L4
+  Total Memory: 23.58 GB
+  Compute Capability: 8.9
+Auto-resume from models/checkpoint_latest.pth
+A.L.E: Arcade Learning Environment (version 0.11.2+ecc1138)
+[Powered by Stella]
+🎮 Reward shaping ENABLED
+  Paddle hit bonus: 0.1
+  Center bonus: 0.05
+  Side angle bonus: 0.15
+  Block multiplier: 1.5x
+  Ball loss penalty: -0.8
+Resuming from checkpoint models/checkpoint_latest.pth at episode 1200
+Training episodes 1201..3200 (additional: 2000)
+Episode 1210, Avg Reward: 8.71 (Original: 3.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 164, Blocks: 67, Side bounces: 0, Balls lost: 50
+Episode 1220, Avg Reward: 8.21 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 296, Blocks: 133, Side bounces: 0, Balls lost: 100
+Episode 1230, Avg Reward: 9.42 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 467, Blocks: 204, Side bounces: 0, Balls lost: 150
+Episode 1240, Avg Reward: 10.45 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 608, Blocks: 278, Side bounces: 0, Balls lost: 200
+Episode 1250, Avg Reward: 9.63 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 761, Blocks: 346, Side bounces: 0, Balls lost: 250
+Episode 1260, Avg Reward: 8.55 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 898, Blocks: 414, Side bounces: 0, Balls lost: 300
+Episode 1270, Avg Reward: 6.29 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 1015, Blocks: 469, Side bounces: 0, Balls lost: 350
+Episode 1280, Avg Reward: 10.12 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 1167, Blocks: 540, Side bounces: 0, Balls lost: 400
+Episode 1290, Avg Reward: 10.98 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 1360, Blocks: 614, Side bounces: 0, Balls lost: 450
+Episode 1300, Avg Reward: 11.20 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 1535, Blocks: 696, Side bounces: 0, Balls lost: 500
+Episode 1310, Avg Reward: 9.00 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 1700, Blocks: 765, Side bounces: 0, Balls lost: 550
+Episode 1320, Avg Reward: 10.06 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 1889, Blocks: 839, Side bounces: 0, Balls lost: 600
+Episode 1330, Avg Reward: 9.26 (Original: 16.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 2056, Blocks: 904, Side bounces: 0, Balls lost: 650
+Episode 1340, Avg Reward: 9.51 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 2220, Blocks: 976, Side bounces: 0, Balls lost: 700
+Episode 1350, Avg Reward: 10.46 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 2388, Blocks: 1051, Side bounces: 0, Balls lost: 750
+Episode 1360, Avg Reward: 8.37 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 2536, Blocks: 1117, Side bounces: 0, Balls lost: 800
+Episode 1370, Avg Reward: 9.00 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 2686, Blocks: 1187, Side bounces: 0, Balls lost: 850
+Episode 1380, Avg Reward: 10.13 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 2852, Blocks: 1260, Side bounces: 0, Balls lost: 900
+Episode 1390, Avg Reward: 10.45 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 3018, Blocks: 1335, Side bounces: 0, Balls lost: 950
+Episode 1400, Avg Reward: 9.82 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 3186, Blocks: 1409, Side bounces: 0, Balls lost: 1000
+Episode 1410, Avg Reward: 8.19 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 3334, Blocks: 1474, Side bounces: 0, Balls lost: 1050
+Episode 1420, Avg Reward: 11.59 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 3509, Blocks: 1553, Side bounces: 0, Balls lost: 1100
+Episode 1430, Avg Reward: 6.74 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 3638, Blocks: 1610, Side bounces: 0, Balls lost: 1150
+Episode 1440, Avg Reward: 8.28 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 3776, Blocks: 1676, Side bounces: 0, Balls lost: 1200
+Episode 1450, Avg Reward: 12.53 (Original: 10.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 3950, Blocks: 1758, Side bounces: 0, Balls lost: 1250
+Episode 1460, Avg Reward: 8.03 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 4094, Blocks: 1822, Side bounces: 0, Balls lost: 1300
+Episode 1470, Avg Reward: 9.11 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 4259, Blocks: 1889, Side bounces: 0, Balls lost: 1350
+Episode 1480, Avg Reward: 9.43 (Original: 10.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 4422, Blocks: 1958, Side bounces: 0, Balls lost: 1400
+Episode 1490, Avg Reward: 11.48 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 4603, Blocks: 2033, Side bounces: 0, Balls lost: 1450
+Episode 1500, Avg Reward: 10.00 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 4786, Blocks: 2107, Side bounces: 0, Balls lost: 1500
+Episode 1510, Avg Reward: 11.24 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 4959, Blocks: 2184, Side bounces: 0, Balls lost: 1550
+Episode 1520, Avg Reward: 11.41 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 5131, Blocks: 2259, Side bounces: 0, Balls lost: 1600
+Episode 1530, Avg Reward: 9.53 (Original: 17.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 5272, Blocks: 2327, Side bounces: 0, Balls lost: 1650
+Episode 1540, Avg Reward: 11.57 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 5462, Blocks: 2402, Side bounces: 0, Balls lost: 1700
+Episode 1550, Avg Reward: 9.61 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 5623, Blocks: 2475, Side bounces: 0, Balls lost: 1750
+Episode 1560, Avg Reward: 10.72 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 5789, Blocks: 2549, Side bounces: 0, Balls lost: 1800
+Episode 1570, Avg Reward: 7.32 (Original: 3.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 5944, Blocks: 2608, Side bounces: 0, Balls lost: 1850
+Episode 1580, Avg Reward: 11.25 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 6130, Blocks: 2684, Side bounces: 0, Balls lost: 1900
+Episode 1590, Avg Reward: 8.98 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 6308, Blocks: 2752, Side bounces: 0, Balls lost: 1950
+Episode 1600, Avg Reward: 12.69 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 6488, Blocks: 2832, Side bounces: 0, Balls lost: 2000
+Episode 1610, Avg Reward: 10.48 (Original: 15.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 6660, Blocks: 2907, Side bounces: 0, Balls lost: 2050
+Episode 1620, Avg Reward: 11.72 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 6863, Blocks: 2985, Side bounces: 0, Balls lost: 2100
+Episode 1630, Avg Reward: 10.36 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 7042, Blocks: 3056, Side bounces: 0, Balls lost: 2150
+Episode 1640, Avg Reward: 8.13 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 7187, Blocks: 3121, Side bounces: 0, Balls lost: 2200
+Episode 1650, Avg Reward: 8.95 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 7346, Blocks: 3187, Side bounces: 0, Balls lost: 2250
+Episode 1660, Avg Reward: 8.03 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 7491, Blocks: 3251, Side bounces: 0, Balls lost: 2300
+Episode 1670, Avg Reward: 9.48 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 7655, Blocks: 3323, Side bounces: 0, Balls lost: 2350
+Episode 1680, Avg Reward: 9.91 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 7842, Blocks: 3396, Side bounces: 0, Balls lost: 2400
+Episode 1690, Avg Reward: 9.72 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 8013, Blocks: 3469, Side bounces: 0, Balls lost: 2450
+Episode 1700, Avg Reward: 9.38 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 8168, Blocks: 3541, Side bounces: 0, Balls lost: 2500
+Episode 1710, Avg Reward: 8.12 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 8327, Blocks: 3602, Side bounces: 0, Balls lost: 2550
+Episode 1720, Avg Reward: 9.51 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 8497, Blocks: 3671, Side bounces: 0, Balls lost: 2600
+Episode 1730, Avg Reward: 9.24 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 8651, Blocks: 3742, Side bounces: 0, Balls lost: 2650
+Episode 1740, Avg Reward: 10.57 (Original: 15.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 8820, Blocks: 3815, Side bounces: 0, Balls lost: 2700
+Episode 1750, Avg Reward: 9.84 (Original: 10.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 9006, Blocks: 3888, Side bounces: 0, Balls lost: 2750
+Episode 1760, Avg Reward: 9.46 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 9172, Blocks: 3957, Side bounces: 0, Balls lost: 2800
+Episode 1770, Avg Reward: 8.89 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 9327, Blocks: 4026, Side bounces: 0, Balls lost: 2850
+Episode 1780, Avg Reward: 11.93 (Original: 17.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 9490, Blocks: 4105, Side bounces: 0, Balls lost: 2900
+Episode 1790, Avg Reward: 7.24 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 9641, Blocks: 4164, Side bounces: 0, Balls lost: 2950
+Episode 1800, Avg Reward: 10.72 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 9817, Blocks: 4240, Side bounces: 0, Balls lost: 3000
+Episode 1810, Avg Reward: 11.34 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 9982, Blocks: 4318, Side bounces: 0, Balls lost: 3050
+Episode 1820, Avg Reward: 9.14 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 10132, Blocks: 4389, Side bounces: 0, Balls lost: 3100
+Episode 1830, Avg Reward: 8.87 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 10316, Blocks: 4456, Side bounces: 0, Balls lost: 3150
+Episode 1840, Avg Reward: 10.89 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 10480, Blocks: 4534, Side bounces: 0, Balls lost: 3200
+Episode 1850, Avg Reward: 8.86 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 10629, Blocks: 4603, Side bounces: 0, Balls lost: 3250
+Episode 1860, Avg Reward: 10.08 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 10795, Blocks: 4673, Side bounces: 0, Balls lost: 3300
+Episode 1870, Avg Reward: 10.10 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 10957, Blocks: 4749, Side bounces: 0, Balls lost: 3350
+Episode 1880, Avg Reward: 10.77 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 11158, Blocks: 4824, Side bounces: 0, Balls lost: 3400
+Episode 1890, Avg Reward: 11.21 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 11339, Blocks: 4903, Side bounces: 0, Balls lost: 3450
+Episode 1900, Avg Reward: 13.01 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 11533, Blocks: 4981, Side bounces: 0, Balls lost: 3500
+Episode 1910, Avg Reward: 10.94 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 11721, Blocks: 5055, Side bounces: 0, Balls lost: 3550
+Episode 1920, Avg Reward: 11.42 (Original: 13.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 11893, Blocks: 5130, Side bounces: 0, Balls lost: 3600
+Episode 1930, Avg Reward: 8.78 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 12050, Blocks: 5198, Side bounces: 0, Balls lost: 3650
+Episode 1940, Avg Reward: 10.80 (Original: 13.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 12219, Blocks: 5275, Side bounces: 0, Balls lost: 3700
+Episode 1950, Avg Reward: 10.95 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 12405, Blocks: 5352, Side bounces: 0, Balls lost: 3750
+Episode 1960, Avg Reward: 9.53 (Original: 3.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 12563, Blocks: 5422, Side bounces: 0, Balls lost: 3800
+Episode 1970, Avg Reward: 11.36 (Original: 10.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 12742, Blocks: 5505, Side bounces: 0, Balls lost: 3850
+Episode 1980, Avg Reward: 9.68 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 12910, Blocks: 5578, Side bounces: 0, Balls lost: 3900
+Episode 1990, Avg Reward: 9.95 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 13083, Blocks: 5647, Side bounces: 0, Balls lost: 3950
+Episode 2000, Avg Reward: 9.57 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 13243, Blocks: 5720, Side bounces: 0, Balls lost: 4000
+Episode 2010, Avg Reward: 10.16 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 13424, Blocks: 5795, Side bounces: 0, Balls lost: 4050
+Episode 2020, Avg Reward: 12.79 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 13634, Blocks: 5879, Side bounces: 0, Balls lost: 4100
+Episode 2030, Avg Reward: 9.19 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 13803, Blocks: 5949, Side bounces: 0, Balls lost: 4150
+Episode 2040, Avg Reward: 9.68 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 13973, Blocks: 6019, Side bounces: 0, Balls lost: 4200
+Episode 2050, Avg Reward: 10.44 (Original: 10.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 14145, Blocks: 6091, Side bounces: 0, Balls lost: 4250
+Episode 2060, Avg Reward: 8.39 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 14312, Blocks: 6156, Side bounces: 0, Balls lost: 4300
+Episode 2070, Avg Reward: 9.38 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 14481, Blocks: 6227, Side bounces: 0, Balls lost: 4350
+Episode 2080, Avg Reward: 9.68 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 14655, Blocks: 6297, Side bounces: 0, Balls lost: 4400
+Episode 2090, Avg Reward: 8.00 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 14797, Blocks: 6361, Side bounces: 0, Balls lost: 4450
+Episode 2100, Avg Reward: 8.43 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 14953, Blocks: 6427, Side bounces: 0, Balls lost: 4500
+Episode 2110, Avg Reward: 11.17 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 15158, Blocks: 6504, Side bounces: 0, Balls lost: 4550
+Episode 2120, Avg Reward: 10.45 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 15316, Blocks: 6577, Side bounces: 0, Balls lost: 4600
+Episode 2130, Avg Reward: 12.34 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 15515, Blocks: 6662, Side bounces: 0, Balls lost: 4650
+Episode 2140, Avg Reward: 10.02 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 15688, Blocks: 6734, Side bounces: 0, Balls lost: 4700
+Episode 2150, Avg Reward: 12.19 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 15877, Blocks: 6813, Side bounces: 0, Balls lost: 4750
+Episode 2160, Avg Reward: 9.28 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 16039, Blocks: 6884, Side bounces: 0, Balls lost: 4800
+Episode 2170, Avg Reward: 9.42 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 16202, Blocks: 6953, Side bounces: 0, Balls lost: 4850
+Episode 2180, Avg Reward: 9.09 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 16342, Blocks: 7024, Side bounces: 0, Balls lost: 4900
+Episode 2190, Avg Reward: 9.68 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 16510, Blocks: 7097, Side bounces: 0, Balls lost: 4950
+Episode 2200, Avg Reward: 10.59 (Original: 13.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 16677, Blocks: 7173, Side bounces: 0, Balls lost: 5000
+Episode 2210, Avg Reward: 7.80 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 16820, Blocks: 7236, Side bounces: 0, Balls lost: 5050
+Episode 2220, Avg Reward: 12.86 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 17016, Blocks: 7316, Side bounces: 0, Balls lost: 5100
+Episode 2230, Avg Reward: 8.48 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 17160, Blocks: 7383, Side bounces: 0, Balls lost: 5150
+Episode 2240, Avg Reward: 9.80 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 17327, Blocks: 7454, Side bounces: 0, Balls lost: 5200
+Episode 2250, Avg Reward: 8.63 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 17488, Blocks: 7521, Side bounces: 0, Balls lost: 5250
+Episode 2260, Avg Reward: 7.60 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 17627, Blocks: 7583, Side bounces: 0, Balls lost: 5300
+Episode 2270, Avg Reward: 9.50 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 17792, Blocks: 7655, Side bounces: 0, Balls lost: 5350
+Episode 2280, Avg Reward: 10.88 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 17973, Blocks: 7729, Side bounces: 0, Balls lost: 5400
+Episode 2290, Avg Reward: 8.61 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 18133, Blocks: 7796, Side bounces: 0, Balls lost: 5450
+Episode 2300, Avg Reward: 11.07 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 18298, Blocks: 7875, Side bounces: 0, Balls lost: 5500
+Episode 2310, Avg Reward: 13.36 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 18479, Blocks: 7956, Side bounces: 0, Balls lost: 5550
+Episode 2320, Avg Reward: 8.83 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 18657, Blocks: 8023, Side bounces: 0, Balls lost: 5600
+Episode 2330, Avg Reward: 9.76 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 18832, Blocks: 8096, Side bounces: 0, Balls lost: 5650
+Episode 2340, Avg Reward: 8.27 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 18986, Blocks: 8161, Side bounces: 0, Balls lost: 5700
+Episode 2350, Avg Reward: 10.73 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 19164, Blocks: 8237, Side bounces: 0, Balls lost: 5750
+Episode 2360, Avg Reward: 9.88 (Original: 13.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 19325, Blocks: 8306, Side bounces: 0, Balls lost: 5800
+Episode 2370, Avg Reward: 12.32 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 19505, Blocks: 8378, Side bounces: 0, Balls lost: 5850
+Episode 2380, Avg Reward: 10.18 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 19675, Blocks: 8454, Side bounces: 0, Balls lost: 5900
+Episode 2390, Avg Reward: 10.31 (Original: 10.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 19861, Blocks: 8530, Side bounces: 0, Balls lost: 5950
+Episode 2400, Avg Reward: 11.60 (Original: 3.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 20016, Blocks: 8599, Side bounces: 0, Balls lost: 6000
+Episode 2410, Avg Reward: 7.93 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 20153, Blocks: 8660, Side bounces: 0, Balls lost: 6050
+Episode 2420, Avg Reward: 8.49 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 20314, Blocks: 8726, Side bounces: 0, Balls lost: 6100
+Episode 2430, Avg Reward: 10.07 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 20473, Blocks: 8799, Side bounces: 0, Balls lost: 6150
+Episode 2440, Avg Reward: 9.56 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 20658, Blocks: 8870, Side bounces: 0, Balls lost: 6200
+Episode 2450, Avg Reward: 11.70 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 20841, Blocks: 8952, Side bounces: 0, Balls lost: 6250
+Episode 2460, Avg Reward: 11.08 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 21007, Blocks: 9031, Side bounces: 0, Balls lost: 6300
+Episode 2470, Avg Reward: 10.47 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 21193, Blocks: 9105, Side bounces: 0, Balls lost: 6350
+Episode 2480, Avg Reward: 8.79 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 21340, Blocks: 9168, Side bounces: 0, Balls lost: 6400
+Episode 2490, Avg Reward: 11.85 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 21522, Blocks: 9248, Side bounces: 0, Balls lost: 6450
+Episode 2500, Avg Reward: 7.48 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 21650, Blocks: 9307, Side bounces: 0, Balls lost: 6500
+Episode 2510, Avg Reward: 10.18 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 21836, Blocks: 9382, Side bounces: 0, Balls lost: 6550
+Episode 2520, Avg Reward: 8.82 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 21983, Blocks: 9451, Side bounces: 0, Balls lost: 6600
+Episode 2530, Avg Reward: 10.86 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 22162, Blocks: 9528, Side bounces: 0, Balls lost: 6650
+Episode 2540, Avg Reward: 8.44 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 22333, Blocks: 9593, Side bounces: 0, Balls lost: 6700
+Episode 2550, Avg Reward: 10.00 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 22501, Blocks: 9668, Side bounces: 0, Balls lost: 6750
+Episode 2560, Avg Reward: 14.55 (Original: 18.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 22693, Blocks: 9753, Side bounces: 0, Balls lost: 6800
+Episode 2570, Avg Reward: 9.56 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 22859, Blocks: 9820, Side bounces: 0, Balls lost: 6850
+Episode 2580, Avg Reward: 11.39 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 23054, Blocks: 9899, Side bounces: 0, Balls lost: 6900
+Episode 2590, Avg Reward: 12.37 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 23256, Blocks: 9981, Side bounces: 0, Balls lost: 6950
+Episode 2600, Avg Reward: 10.19 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 23444, Blocks: 10056, Side bounces: 0, Balls lost: 7000
+Episode 2610, Avg Reward: 8.79 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 23603, Blocks: 10124, Side bounces: 0, Balls lost: 7050
+Episode 2620, Avg Reward: 11.70 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 23799, Blocks: 10202, Side bounces: 0, Balls lost: 7100
+Episode 2630, Avg Reward: 10.30 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 23971, Blocks: 10273, Side bounces: 0, Balls lost: 7150
+Episode 2640, Avg Reward: 9.96 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 24127, Blocks: 10343, Side bounces: 0, Balls lost: 7200
+Episode 2650, Avg Reward: 12.82 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 24330, Blocks: 10428, Side bounces: 0, Balls lost: 7250
+Episode 2660, Avg Reward: 9.64 (Original: 17.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 24477, Blocks: 10499, Side bounces: 0, Balls lost: 7300
+Episode 2670, Avg Reward: 8.06 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 24624, Blocks: 10563, Side bounces: 0, Balls lost: 7350
+Episode 2680, Avg Reward: 9.18 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 24780, Blocks: 10628, Side bounces: 0, Balls lost: 7400
+Episode 2690, Avg Reward: 8.99 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 24962, Blocks: 10693, Side bounces: 0, Balls lost: 7450
+Episode 2700, Avg Reward: 12.55 (Original: 10.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 25159, Blocks: 10782, Side bounces: 0, Balls lost: 7500
+Episode 2710, Avg Reward: 10.95 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 25349, Blocks: 10853, Side bounces: 0, Balls lost: 7550
+Episode 2720, Avg Reward: 12.35 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 25530, Blocks: 10936, Side bounces: 0, Balls lost: 7600
+Episode 2730, Avg Reward: 12.64 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 25741, Blocks: 11022, Side bounces: 0, Balls lost: 7650
+Episode 2740, Avg Reward: 8.76 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 25899, Blocks: 11090, Side bounces: 0, Balls lost: 7700
+Episode 2750, Avg Reward: 12.25 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 26070, Blocks: 11165, Side bounces: 0, Balls lost: 7750
+Episode 2760, Avg Reward: 11.58 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 26266, Blocks: 11248, Side bounces: 0, Balls lost: 7800
+Episode 2770, Avg Reward: 10.74 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 26432, Blocks: 11322, Side bounces: 0, Balls lost: 7850
+Episode 2780, Avg Reward: 11.00 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 26622, Blocks: 11402, Side bounces: 0, Balls lost: 7900
+Episode 2790, Avg Reward: 10.13 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 26787, Blocks: 11475, Side bounces: 0, Balls lost: 7950
+Episode 2800, Avg Reward: 10.58 (Original: 15.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 26972, Blocks: 11547, Side bounces: 0, Balls lost: 8000
+Episode 2810, Avg Reward: 15.44 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 27176, Blocks: 11634, Side bounces: 0, Balls lost: 8050
+Episode 2820, Avg Reward: 9.20 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 27347, Blocks: 11701, Side bounces: 0, Balls lost: 8100
+Episode 2830, Avg Reward: 10.54 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 27534, Blocks: 11778, Side bounces: 0, Balls lost: 8150
+Episode 2840, Avg Reward: 7.87 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 27682, Blocks: 11841, Side bounces: 0, Balls lost: 8200
+Episode 2850, Avg Reward: 10.74 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 27839, Blocks: 11910, Side bounces: 0, Balls lost: 8250
+Episode 2860, Avg Reward: 12.55 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 27994, Blocks: 11985, Side bounces: 0, Balls lost: 8300
+Episode 2870, Avg Reward: 10.61 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 28164, Blocks: 12061, Side bounces: 0, Balls lost: 8350
+Episode 2880, Avg Reward: 9.75 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 28329, Blocks: 12129, Side bounces: 0, Balls lost: 8400
+Episode 2890, Avg Reward: 10.51 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 28515, Blocks: 12206, Side bounces: 0, Balls lost: 8450
+Episode 2900, Avg Reward: 9.26 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 28676, Blocks: 12274, Side bounces: 0, Balls lost: 8500
+Episode 2910, Avg Reward: 10.82 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 28832, Blocks: 12352, Side bounces: 0, Balls lost: 8550
+Episode 2920, Avg Reward: 9.01 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 28986, Blocks: 12416, Side bounces: 0, Balls lost: 8600
+Episode 2930, Avg Reward: 8.88 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 29138, Blocks: 12482, Side bounces: 0, Balls lost: 8650
+Episode 2940, Avg Reward: 9.66 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 29303, Blocks: 12555, Side bounces: 0, Balls lost: 8700
+Episode 2950, Avg Reward: 9.01 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 29466, Blocks: 12624, Side bounces: 0, Balls lost: 8750
+Episode 2960, Avg Reward: 9.82 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 29638, Blocks: 12692, Side bounces: 0, Balls lost: 8800
+Episode 2970, Avg Reward: 9.47 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 29819, Blocks: 12763, Side bounces: 0, Balls lost: 8850
+Episode 2980, Avg Reward: 10.65 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 29992, Blocks: 12842, Side bounces: 0, Balls lost: 8900
+Episode 2990, Avg Reward: 9.81 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 30173, Blocks: 12915, Side bounces: 0, Balls lost: 8950
+Episode 3000, Avg Reward: 10.67 (Original: 11.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 30361, Blocks: 12990, Side bounces: 0, Balls lost: 9000
+Episode 3010, Avg Reward: 11.66 (Original: 7.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 30541, Blocks: 13072, Side bounces: 0, Balls lost: 9050
+Episode 3020, Avg Reward: 10.15 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 30710, Blocks: 13145, Side bounces: 0, Balls lost: 9100
+Episode 3030, Avg Reward: 11.38 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 30879, Blocks: 13223, Side bounces: 0, Balls lost: 9150
+Episode 3040, Avg Reward: 9.75 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 31055, Blocks: 13296, Side bounces: 0, Balls lost: 9200
+Episode 3050, Avg Reward: 9.47 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 31204, Blocks: 13366, Side bounces: 0, Balls lost: 9250
+Episode 3060, Avg Reward: 11.97 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 31362, Blocks: 13437, Side bounces: 0, Balls lost: 9300
+Episode 3070, Avg Reward: 9.89 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 31536, Blocks: 13511, Side bounces: 0, Balls lost: 9350
+Episode 3080, Avg Reward: 10.72 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 31718, Blocks: 13584, Side bounces: 0, Balls lost: 9400
+Episode 3090, Avg Reward: 9.04 (Original: 10.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 31869, Blocks: 13654, Side bounces: 0, Balls lost: 9450
+Episode 3100, Avg Reward: 10.03 (Original: 12.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 32031, Blocks: 13724, Side bounces: 0, Balls lost: 9500
+Episode 3110, Avg Reward: 10.49 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 32202, Blocks: 13799, Side bounces: 0, Balls lost: 9550
+Episode 3120, Avg Reward: 8.95 (Original: 9.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 32361, Blocks: 13868, Side bounces: 0, Balls lost: 9600
+Episode 3130, Avg Reward: 8.13 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 32502, Blocks: 13933, Side bounces: 0, Balls lost: 9650
+Episode 3140, Avg Reward: 8.70 (Original: 8.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 32656, Blocks: 13998, Side bounces: 0, Balls lost: 9700
+Episode 3150, Avg Reward: 11.64 (Original: 16.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 32845, Blocks: 14079, Side bounces: 0, Balls lost: 9750
+Episode 3160, Avg Reward: 9.02 (Original: 4.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 32998, Blocks: 14146, Side bounces: 0, Balls lost: 9800
+Episode 3170, Avg Reward: 8.10 (Original: 6.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 33140, Blocks: 14208, Side bounces: 0, Balls lost: 9850
+Episode 3180, Avg Reward: 10.89 (Original: 13.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 33306, Blocks: 14283, Side bounces: 0, Balls lost: 9900
+Episode 3190, Avg Reward: 13.71 (Original: 17.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 33514, Blocks: 14373, Side bounces: 0, Balls lost: 9950
+Episode 3200, Avg Reward: 11.43 (Original: 5.00), Epsilon: 0.010
+  Shaping stats - Paddle hits: 33679, Blocks: 14446, Side bounces: 0, Balls lost: 10000

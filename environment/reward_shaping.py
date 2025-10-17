@@ -225,7 +225,7 @@ class BreakoutRewardShaping(gym.Wrapper):
         left_diff = np.abs(left_curr.astype(float) - left_prev.astype(float))
         right_diff = np.abs(right_curr.astype(float) - right_prev.astype(float))
 
-        left_change = np.sum(left_diff > 30) / left_diff.size
+        left_change = np.sum(left_diff > 30) / left_diff.size if left_diff.size > 0 else 0.0
         right_change = np.sum(right_diff > 30) / right_diff.size
 
         return (left_change > 0.05 or right_change > 0.05) and self.ball_in_play
