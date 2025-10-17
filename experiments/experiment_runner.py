@@ -3,6 +3,13 @@ Experiment runner for testing different reward shaping configurations.
 Enhanced with GPU optimization, checkpoint management, and fair comparison metrics.
 """
 
+# Suppress cosmetic matplotlib warnings
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
+warnings.filterwarnings("ignore", message="Glyph.*missing from font")
+warnings.filterwarnings("ignore", message="No artists with labels found")
+
 import os
 import sys
 import json
@@ -10,6 +17,9 @@ import time
 import argparse
 from datetime import datetime
 import numpy as np
+import matplotlib
+
+matplotlib.use("Agg")  # Use non-interactive backend
 import matplotlib.pyplot as plt
 import torch
 import shutil
@@ -344,12 +354,13 @@ class ExperimentRunner:
             if len(episode_losses) > 0:
                 episode_stats["losses"].append(np.mean(episode_losses))
 
+            # Get EPISODE shaping stats (not accumulated)
             if agent.enable_reward_shaping and hasattr(env, "get_shaping_stats"):
-                stats = env.get_shaping_stats()
-                episode_stats["paddle_hits"].append(stats["paddle_hits"])
-                episode_stats["blocks_broken"].append(stats["blocks_broken"])
-                episode_stats["side_bounces"].append(stats["side_bounces"])
-                episode_stats["balls_lost"].append(stats["balls_lost"])
+                ep_stats = env.get_shaping_stats()  # This now returns per-episode stats
+                episode_stats["paddle_hits"].append(ep_stats["paddle_hits"])
+                episode_stats["blocks_broken"].append(ep_stats["blocks_broken"])
+                episode_stats["side_bounces"].append(ep_stats["side_bounces"])
+                episode_stats["balls_lost"].append(ep_stats["balls_lost"])
 
             # Progress reporting
             if episode % 10 == 0:
@@ -582,6 +593,10 @@ class ExperimentRunner:
                 print(f"\n⚠️  Interrupted by user. Saving progress...")
                 break
             except Exception as e:
+                print(f"❌ Experiment '{config_name}' failed: {e}")
+                import traceback
+
+                traceback.print_exc()
                 print(f"⚠️  Skipping {config_name} due to error: {e}")
                 failed += 1
                 continue
@@ -672,36 +687,63 @@ class ExperimentRunner:
         print("\n" + "=" * 90)
 
         # TOP PERFORMERS
-        print("\n🏆 TOP 3 by Average Original Score:")
-        for i, (name, result) in enumerate(sorted_by_score[:3], 1):
-            score = result["metrics"]["avg_original_score"]
-            improvement = result["metrics"]["score_improvement"]
-            print(f"  {i}. {name}: {score:.2f} (Δ {improvement:+.2f})")
-
-        print("\n⚡ FASTEST LEARNERS (Improvement):")
-        sorted_improvement = sorted(
-            self.results.items(), key=lambda x: x[1]["metrics"]["score_improvement"], reverse=True
-        )
-        for i, (name, result) in enumerate(sorted_improvement[:3], 1):
-            improvement = result["metrics"]["score_improvement"]
-            final = result["metrics"]["final_avg_original"]
-            print(f"  {i}. {name}: {improvement:+.2f} improvement (final: {final:.2f})")
-
-        print("\n🎯 MOST CONSISTENT (Lowest CoV):")
-        sorted_consistency = sorted(
-            [(name, r) for name, r in self.results.items() if r["metrics"]["coefficient_of_variation"] != float("inf")],
-            key=lambda x: x[1]["metrics"]["coefficient_of_variation"],
-        )
-        for i, (name, result) in enumerate(sorted_consistency[:3], 1):
-            cov = result["metrics"]["coefficient_of_variation"]
-            avg = result["metrics"]["avg_original_score"]
-            print(f"  {i}. {name}: CoV={cov:.2f} (avg: {avg:.2f})")
+        self._print_final_comparison(self.results)
 
         # Generate plots
         self.plot_comparison()
 
         # Save summary
         self._save_comparison_summary()
+
+    def _print_final_comparison(self, all_results):
+        """Print final comparison statistics across all experiments."""
+        print("\n" + "=" * 90)
+        print()
+
+        if not all_results:
+            print("No results to compare")
+            return
+
+        # Sort by average original score
+        sorted_by_score = sorted(
+            all_results.items(),
+            key=lambda x: x[1].get("metrics", {}).get("avg_original_score", 0),
+            reverse=True,
+        )
+
+        # Sort by improvement
+        sorted_by_improvement = sorted(
+            all_results.items(),
+            key=lambda x: x[1].get("metrics", {}).get("score_improvement", 0),
+            reverse=True,
+        )
+
+        # Sort by consistency (lowest coefficient of variation)
+        sorted_by_consistency = sorted(
+            all_results.items(),
+            key=lambda x: x[1].get("metrics", {}).get("coefficient_of_variation", float("inf")),
+        )
+
+        print("TOP 3 by Average Original Score:")
+        for i, (name, results) in enumerate(sorted_by_score[:3], 1):
+            score = results["metrics"]["avg_original_score"]
+            improvement = results["metrics"].get("score_improvement", 0)
+            print(f"  {i}. {name}: {score:.2f} (Δ {improvement:+.2f})")
+
+        print("\nFASTEST LEARNERS (Improvement):")
+        for i, (name, results) in enumerate(sorted_by_improvement[:3], 1):
+            improvement = results["metrics"].get("score_improvement", 0)
+            final_score = results["metrics"].get("final_avg_original", 0)
+            print(f"  {i}. {name}: {improvement:+.2f} improvement (final: {final_score:.2f})")
+
+        print("\nMOST CONSISTENT (Lowest CoV):")
+        for i, (name, results) in enumerate(sorted_by_consistency[:3], 1):
+            cov = results["metrics"]["coefficient_of_variation"]
+            avg_score = results["metrics"]["avg_original_score"]
+            print(f"  {i}. {name}: CoV={cov:.2f} (avg: {avg_score:.2f})")
+
+        print()
+        print("=" * 90)
 
     def _save_comparison_summary(self):
         """Save comparison summary to file."""
@@ -750,6 +792,22 @@ class ExperimentRunner:
 
         print(f"\n💾 Comparison summary saved to: {filepath}")
 
+    def _get_config_color(self, config_name):
+        """Get consistent color for each configuration."""
+        color_map = {
+            "baseline": "#1f77b4",
+            "paddle_hit_only": "#ff7f0e",
+            "center_position_only": "#2ca02c",
+            "side_angle_only": "#d62728",
+            "block_multiplier_only": "#9467bd",
+            "ball_loss_penalty_only": "#8c564b",
+            "survival_bonus_only": "#e377c2",
+            "all_combined": "#7f7f7f",
+            "penalties_only": "#bcbd22",
+            "bonuses_only": "#17becf",
+        }
+        return color_map.get(config_name, "#cccccc")
+
     def plot_comparison(self):
         """Generate comparison plots using FAIR metrics."""
         if not self.results:
@@ -769,13 +827,11 @@ class ExperimentRunner:
         # Plot 1: Average ORIGINAL scores (PRIMARY METRIC)
         ax1 = fig.add_subplot(gs[0, 0])
         avg_scores = [self.results[name]["metrics"]["avg_original_score"] for name in names]
-        colors = [
-            "gold" if name == "all_combined" else "lightblue" if name == "baseline" else "lightgreen" for name in names
-        ]
+        colors = [self._get_config_color(name) for name in names]
 
         bars = ax1.barh(names, avg_scores, color=colors, alpha=0.8, edgecolor="black")
         ax1.set_xlabel("Average Original Score", fontsize=11, fontweight="bold")
-        ax1.set_title("🏆 Average Game Score (PRIMARY METRIC)", fontsize=12, fontweight="bold")
+        ax1.set_title("Average Game Score (PRIMARY METRIC)", fontsize=12, fontweight="bold")
         ax1.grid(axis="x", alpha=0.3)
 
         for i, (bar, val) in enumerate(zip(bars, avg_scores)):
@@ -789,12 +845,16 @@ class ExperimentRunner:
             window = max(10, len(scores) // 20)
             if len(scores) >= window:
                 moving_avg = np.convolve(scores, np.ones(window) / window, mode="valid")
-                ax2.plot(moving_avg, label=name, alpha=0.7, linewidth=2)
+                ax2.plot(moving_avg, label=name, alpha=0.7, linewidth=2, color=self._get_config_color(name))
 
         ax2.set_xlabel("Episode", fontsize=11, fontweight="bold")
         ax2.set_ylabel("Original Score (Moving Avg)", fontsize=11, fontweight="bold")
-        ax2.set_title("📈 Learning Curves (True Game Score)", fontsize=12, fontweight="bold")
-        ax2.legend(loc="best", fontsize=8)
+        ax2.set_title("Learning Curves (True Game Score)", fontsize=12, fontweight="bold")
+
+        # FIX: Only add legend if there are labeled artists
+        handles, labels = ax2.get_legend_handles_labels()
+        if handles:
+            ax2.legend(loc="best", fontsize=8)
         ax2.grid(alpha=0.3)
 
         # Plot 3: Final performance (last 10 episodes)
@@ -802,7 +862,7 @@ class ExperimentRunner:
         final_avgs = [self.results[name]["metrics"]["final_avg_original"] for name in names]
         bars3 = ax3.barh(names, final_avgs, color="coral", alpha=0.7, edgecolor="black")
         ax3.set_xlabel("Final Average (Last 10 eps)", fontsize=11, fontweight="bold")
-        ax3.set_title("🎯 Final Performance", fontsize=12, fontweight="bold")
+        ax3.set_title("Final Performance", fontsize=12, fontweight="bold")
         ax3.grid(axis="x", alpha=0.3)
 
         for i, (bar, val) in enumerate(zip(bars3, final_avgs)):
@@ -815,7 +875,7 @@ class ExperimentRunner:
         bars4 = ax4.barh(names, improvements, color=colors4, alpha=0.7, edgecolor="black")
         ax4.axvline(x=0, color="black", linestyle="--", linewidth=1)
         ax4.set_xlabel("Score Improvement (Final - Initial)", fontsize=11, fontweight="bold")
-        ax4.set_title("⚡ Learning Speed", fontsize=12, fontweight="bold")
+        ax4.set_title("Learning Speed", fontsize=12, fontweight="bold")
         ax4.grid(axis="x", alpha=0.3)
 
         for i, (bar, val) in enumerate(zip(bars4, improvements)):
@@ -827,7 +887,7 @@ class ExperimentRunner:
         std_scores = [self.results[name]["metrics"]["std_original_score"] for name in names]
         bars5 = ax5.barh(names, std_scores, color="mediumpurple", alpha=0.7, edgecolor="black")
         ax5.set_xlabel("Standard Deviation (Lower = More Consistent)", fontsize=11, fontweight="bold")
-        ax5.set_title("🎯 Consistency", fontsize=12, fontweight="bold")
+        ax5.set_title("Consistency", fontsize=12, fontweight="bold")
         ax5.grid(axis="x", alpha=0.3)
 
         for i, (bar, val) in enumerate(zip(bars5, std_scores)):
@@ -838,7 +898,7 @@ class ExperimentRunner:
         success_rates = [self.results[name]["metrics"]["success_rate"] for name in names]
         bars6 = ax6.barh(names, success_rates, color="skyblue", alpha=0.8, edgecolor="black")
         ax6.set_xlabel("Success Rate (%)", fontsize=11, fontweight="bold")
-        ax6.set_title("✅ Success Rate (Score > 0)", fontsize=12, fontweight="bold")
+        ax6.set_title("Success Rate (Score > 0)", fontsize=12, fontweight="bold")
         ax6.set_xlim([0, 100])
         ax6.grid(axis="x", alpha=0.3)
 
@@ -867,7 +927,7 @@ class ExperimentRunner:
         bars7b = ax7.barh(x + width / 2, ep_10_vals, width, label="To 10 pts", alpha=0.7, color="lightcoral")
 
         ax7.set_xlabel("Episodes", fontsize=11, fontweight="bold")
-        ax7.set_title("⏱️  Learning Speed (Episodes to Reach Score)", fontsize=12, fontweight="bold")
+        ax7.set_title("Learning Speed (Episodes to Reach Score)", fontsize=12, fontweight="bold")
         ax7.set_yticks(x)
         ax7.set_yticklabels(names, fontsize=9)
         ax7.legend(fontsize=9)
@@ -878,7 +938,7 @@ class ExperimentRunner:
         top_10_avgs = [self.results[name]["metrics"]["top_10_percent_avg"] for name in names]
         bars8 = ax8.barh(names, top_10_avgs, color="gold", alpha=0.8, edgecolor="black")
         ax8.set_xlabel("Average of Top 10% Episodes", fontsize=11, fontweight="bold")
-        ax8.set_title("🌟 Peak Performance", fontsize=12, fontweight="bold")
+        ax8.set_title("Peak Performance", fontsize=12, fontweight="bold")
         ax8.grid(axis="x", alpha=0.3)
 
         for i, (bar, val) in enumerate(zip(bars8, top_10_avgs)):
@@ -889,7 +949,7 @@ class ExperimentRunner:
         avg_lengths = [self.results[name]["metrics"]["avg_episode_length"] for name in names]
         bars9 = ax9.barh(names, avg_lengths, color="lightsteelblue", alpha=0.8, edgecolor="black")
         ax9.set_xlabel("Average Episode Length (steps)", fontsize=11, fontweight="bold")
-        ax9.set_title("⏱️  Survival Duration", fontsize=12, fontweight="bold")
+        ax9.set_title("Survival Duration", fontsize=12, fontweight="bold")
         ax9.grid(axis="x", alpha=0.3)
 
         for i, (bar, val) in enumerate(zip(bars9, avg_lengths)):

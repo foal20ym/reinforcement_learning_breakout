@@ -221,9 +221,9 @@ class BreakoutDQN:
         states, actions, next_states, rewards, dones = zip(*mini_batch)
 
         states = torch.cat(states).to(self.device)
-        actions = torch.tensor(actions).unsqueeze(1).to(self.device)
+        actions = torch.tensor(actions, dtype=torch.long).unsqueeze(1).to(self.device)  # FIX: explicit dtype
         next_states = torch.cat(next_states).to(self.device)
-        rewards = torch.tensor(rewards).to(self.device)
+        rewards = torch.tensor(rewards, dtype=torch.float32).to(self.device)  # FIX: explicit dtype
         dones = torch.tensor(dones, dtype=torch.float32).to(self.device)
 
         current_q_values = policy_dqn(states).gather(1, actions)
