@@ -803,7 +803,6 @@ class ExperimentRunner:
             "ball_loss_penalty_only": "#8c564b",
             "survival_bonus_only": "#e377c2",
             "all_combined": "#7f7f7f",
-            "penalties_only": "#bcbd22",
             "bonuses_only": "#17becf",
         }
         return color_map.get(config_name, "#cccccc")

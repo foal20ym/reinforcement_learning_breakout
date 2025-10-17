@@ -87,16 +87,6 @@ EXPERIMENT_CONFIGS = {
         "ball_loss_penalty": -0.8,
         "survival_bonus": 0.001,
     },
-    "penalties_only": {
-        "name": "penalties_only",
-        "description": "Only penalties (no positive shaping)",
-        "paddle_hit_bonus": 0.0,
-        "center_position_bonus": 0.0,
-        "side_angle_bonus": 0.0,
-        "block_bonus_multiplier": 1.0,
-        "ball_loss_penalty": -0.8,
-        "survival_bonus": 0.0,
-    },
     "bonuses_only": {
         "name": "bonuses_only",
         "description": "Only positive bonuses (no penalties)",
@@ -107,6 +97,7 @@ EXPERIMENT_CONFIGS = {
         "ball_loss_penalty": 0.0,
         "survival_bonus": 0.001,
     },
+    # REMOVED: penalties_only (redundant with ball_loss_penalty_only)
 }
 
 # Episode configurations
