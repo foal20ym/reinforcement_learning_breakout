@@ -1,45 +1,46 @@
-"""
-Experiment runner for testing different reward shaping configurations.
-Enhanced with GPU optimization, checkpoint management, and fair comparison metrics.
-"""
+import argparse
+import json
+import os
+import sys
+import time
+from datetime import datetime
+
+import matplotlib
+import numpy as np
+
+matplotlib.use("Agg")  # Use non-interactive backend
+import random
+import shutil
 
 # Suppress cosmetic matplotlib warnings
 import warnings
+
+import gymnasium as gym
+import matplotlib.pyplot as plt
+import torch
+from breakout_dqn import BreakoutDQN
+from core.CNN import CNN
+from environment.reward_shaping import BreakoutRewardShaping
+from helpers.FramePreprocess import preprocess_frame
+from helpers.FrameStack import FrameStack
+
+from experiments.experiment_config import (
+    CHECKPOINT_FREQUENCY,
+    EXPERIMENT_CONFIGS,
+    FULL_TEST_EPISODES,
+    GPU_OPTIMIZED_EPISODES,
+    KEEP_BEST_N_CHECKPOINTS,
+    MEDIUM_TEST_EPISODES,
+    QUICK_TEST_EPISODES,
+)
 
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
 warnings.filterwarnings("ignore", message="Glyph.*missing from font")
 warnings.filterwarnings("ignore", message="No artists with labels found")
 
-import os
-import sys
-import json
-import time
-import argparse
-from datetime import datetime
-import numpy as np
-import matplotlib
-
-matplotlib.use("Agg")  # Use non-interactive backend
-import matplotlib.pyplot as plt
-import torch
-import shutil
-import random
-import gymnasium as gym
-import pickle
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from breakout_dqn import BreakoutDQN
-from experiments.experiment_config import (
-    EXPERIMENT_CONFIGS,
-    QUICK_TEST_EPISODES,
-    MEDIUM_TEST_EPISODES,
-    FULL_TEST_EPISODES,
-    GPU_OPTIMIZED_EPISODES,
-    CHECKPOINT_FREQUENCY,
-    KEEP_BEST_N_CHECKPOINTS,
-)
 
 
 class ExperimentRunner:
@@ -53,26 +54,34 @@ class ExperimentRunner:
             os.makedirs(self.checkpoint_dir, exist_ok=True)
         except OSError as e:
             print(f"❌ Error creating directories: {e}")
-            print(f"💡 Tip: Check disk space with 'df -h'")
+            print("💡 Tip: Check disk space with 'df -h'")
             raise
 
         self.results = {}
 
         # GPU setup
-        self.device = torch.device("cuda" if use_gpu and torch.cuda.is_available() else "cpu")
+        self.device = torch.device(
+            "cuda" if use_gpu and torch.cuda.is_available() else "cpu"
+        )
         self.use_gpu = use_gpu and torch.cuda.is_available()
 
         if self.use_gpu:
             print(f"🚀 GPU detected: {torch.cuda.get_device_name(0)}")
-            print(f"   Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
+            print(
+                f"   Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB"
+            )
             print(f"   CUDA Version: {torch.version.cuda}")
         else:
             print("⚠️  Running on CPU - experiments will be slower")
 
-    def run_experiment(self, config_name, episodes=QUICK_TEST_EPISODES, render=False, resume_from=None):
+    def run_experiment(
+        self, config_name, episodes=QUICK_TEST_EPISODES, render=False, resume_from=None
+    ):
         """Run a single experiment with the given configuration."""
         if config_name not in EXPERIMENT_CONFIGS:
-            raise ValueError(f"Unknown config: {config_name}. Available: {list(EXPERIMENT_CONFIGS.keys())}")
+            raise ValueError(
+                f"Unknown config: {config_name}. Available: {list(EXPERIMENT_CONFIGS.keys())}"
+            )
 
         config = EXPERIMENT_CONFIGS[config_name]
         exp_checkpoint_dir = os.path.join(self.checkpoint_dir, config_name)
@@ -83,15 +92,17 @@ class ExperimentRunner:
             print(f"❌ Cannot create checkpoint directory: {e}")
             raise
 
-        print(f"\n{'='*80}")
+        print(f"\n{'=' * 80}")
         print(f"🧪 Running Experiment: {config['name']}")
         print(f"📝 Description: {config['description']}")
         print(f"📊 Episodes: {episodes}")
         print(f"💾 Checkpoints: {exp_checkpoint_dir}")
         print(f"🖥️  Device: {self.device}")
         if self.use_gpu:
-            print(f"⚡ GPU Memory Available: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
-        print(f"{'='*80}\n")
+            print(
+                f"⚡ GPU Memory Available: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB"
+            )
+        print(f"{'=' * 80}\n")
 
         # Create DQN agent
         agent = BreakoutDQN()
@@ -130,7 +141,13 @@ class ExperimentRunner:
         # Run training
         try:
             rewards, epsilon_history, stats, checkpoints = self._run_training(
-                agent, episodes, render, exp_checkpoint_dir, config_name, start_episode, resume_from
+                agent,
+                episodes,
+                render,
+                exp_checkpoint_dir,
+                config_name,
+                start_episode,
+                resume_from,
             )
 
             # Calculate metrics
@@ -155,37 +172,47 @@ class ExperimentRunner:
             # Save results
             self._save_experiment_results(config_name)
 
-            # Print summary with FAIR metrics
-            print(f"\n{'='*80}")
-            print(f"✅ Experiment '{config_name}' completed in {duration/3600:.2f} hours")
-            print(f"\n📊 FAIR COMPARISON METRICS (Original Game Score):")
+            # Print summary
+            print(f"\n{'=' * 80}")
+            print(
+                f"✅ Experiment '{config_name}' completed in {duration / 3600:.2f} hours"
+            )
+            print("\n📊 COMPARISON METRICS (Original Game Score):")
             print(f"   Average Score: {metrics['avg_original_score']:.2f}")
             print(f"   Max Score: {metrics['max_original_score']:.2f}")
             print(f"   Final Average (last 10): {metrics['final_avg_original']:.2f}")
             print(f"   Improvement: {metrics['score_improvement']:.2f}")
-            print(f"\n📈 LEARNING EFFICIENCY:")
-            print(f"   Episodes to reach 5 score: {metrics.get('episodes_to_5', 'N/A')}")
-            print(f"   Episodes to reach 10 score: {metrics.get('episodes_to_10', 'N/A')}")
+            print("\n📈 LEARNING EFFICIENCY:")
+            print(
+                f"   Episodes to reach 5 score: {metrics.get('episodes_to_5', 'N/A')}"
+            )
+            print(
+                f"   Episodes to reach 10 score: {metrics.get('episodes_to_10', 'N/A')}"
+            )
             print(f"   Success rate (score > 0): {metrics['success_rate']:.1f}%")
-            print(f"\n🎯 CONSISTENCY:")
+            print("\n🎯 CONSISTENCY:")
             print(f"   Score std deviation: {metrics['std_original_score']:.2f}")
             print(f"   Median score: {metrics['median_original_score']:.2f}")
             print(f"   Top 10% average: {metrics['top_10_percent_avg']:.2f}")
-            print(f"\n⏱️  SURVIVAL:")
-            print(f"   Average episode length: {metrics['avg_episode_length']:.0f} steps")
+            print("\n⏱️  SURVIVAL:")
+            print(
+                f"   Average episode length: {metrics['avg_episode_length']:.0f} steps"
+            )
             print(f"   Max episode length: {metrics['max_episode_length']:.0f} steps")
             print(f"\n💾 Best checkpoint: {checkpoints.get('best', 'None')}")
-            print(f"{'='*80}\n")
+            print(f"{'=' * 80}\n")
 
             # GPU memory summary
             if self.use_gpu:
-                print(f"🖥️  GPU Memory Used: {torch.cuda.max_memory_allocated() / 1e9:.2f} GB")
+                print(
+                    f"🖥️  GPU Memory Used: {torch.cuda.max_memory_allocated() / 1e9:.2f} GB"
+                )
                 torch.cuda.empty_cache()
 
             return self.results[config_name]
 
         except KeyboardInterrupt:
-            print(f"\n⚠️  Experiment interrupted! Saving progress...")
+            print("\n⚠️  Experiment interrupted! Saving progress...")
             if config_name in self.results:
                 self._save_experiment_results(config_name)
             raise
@@ -196,18 +223,16 @@ class ExperimentRunner:
             traceback.print_exc()
             raise
 
-    def _run_training(self, agent, episodes, render, checkpoint_dir, exp_name, start_episode=0, resume_checkpoint=None):
-        """Enhanced training loop with better metric tracking and error handling."""
-        from core.ReplayMemory import ReplayMemory
-        from helpers.FramePreprocess import preprocess_frame
-        from helpers.FrameStack import FrameStack
-        from core.CNN import CNN
-        from environment.reward_shaping import BreakoutRewardShaping
-        import torch
-        import gymnasium as gym
-        import numpy as np
-        import random
-
+    def _run_training(
+        self,
+        agent,
+        episodes,
+        render,
+        checkpoint_dir,
+        exp_name,
+        start_episode=0,
+        resume_checkpoint=None,
+    ):
         # Set random seeds for reproducibility
         torch.manual_seed(42)
         np.random.seed(42)
@@ -219,7 +244,9 @@ class ExperimentRunner:
             torch.cuda.empty_cache()
 
         # Create environment
-        base_env = gym.make("ALE/Breakout-v5", render_mode="rgb_array" if render else None)
+        base_env = gym.make(
+            "ALE/Breakout-v5", render_mode="rgb_array" if render else None
+        )
 
         if agent.enable_reward_shaping:
             env = BreakoutRewardShaping(
@@ -239,7 +266,9 @@ class ExperimentRunner:
         # Load from checkpoint if resuming
         if resume_checkpoint:
             try:
-                checkpoint = torch.load(resume_checkpoint, map_location=agent.device, weights_only=False)
+                checkpoint = torch.load(
+                    resume_checkpoint, map_location=agent.device, weights_only=False
+                )
                 policy_dqn.load_state_dict(checkpoint["policy_state_dict"])
                 target_dqn.load_state_dict(checkpoint["target_state_dict"])
                 agent.epsilon = checkpoint["epsilon"]
@@ -251,7 +280,9 @@ class ExperimentRunner:
         else:
             target_dqn.load_state_dict(policy_dqn.state_dict())
 
-        agent.optimizer = torch.optim.Adam(policy_dqn.parameters(), lr=agent.learning_rate)
+        agent.optimizer = torch.optim.Adam(
+            policy_dqn.parameters(), lr=agent.learning_rate
+        )
 
         rewards_per_episode = []
         epsilon_history = []
@@ -261,7 +292,7 @@ class ExperimentRunner:
         best_avg_original_score = -float("inf")
         saved_checkpoints = []
 
-        # Enhanced statistics tracking
+        # Statistics tracking
         episode_stats = {
             "lengths": [],
             "original_scores": [],
@@ -278,7 +309,6 @@ class ExperimentRunner:
         for episode in range(start_episode + 1, episodes + 1):
             obs, info = env.reset()
             lives = info.get("lives", 5)
-            initial_lives = lives
             obs, _, terminated, truncated, info = env.step(1)
             obs = preprocess_frame(obs)
             frame_stack = FrameStack(4)
@@ -324,7 +354,9 @@ class ExperimentRunner:
                     next_state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
 
                 # Store transition
-                agent.memory.append((state, action, next_state, reward, terminated or truncated))
+                agent.memory.append(
+                    (state, action, next_state, reward, terminated or truncated)
+                )
                 state = next_state
                 total_shaped_reward += reward
                 episode_steps += 1
@@ -354,9 +386,9 @@ class ExperimentRunner:
             if len(episode_losses) > 0:
                 episode_stats["losses"].append(np.mean(episode_losses))
 
-            # Get EPISODE shaping stats (not accumulated)
+            # Get EPISODE shaping stats
             if agent.enable_reward_shaping and hasattr(env, "get_shaping_stats"):
-                ep_stats = env.get_shaping_stats()  # This now returns per-episode stats
+                ep_stats = env.get_shaping_stats()
                 episode_stats["paddle_hits"].append(ep_stats["paddle_hits"])
                 episode_stats["blocks_broken"].append(ep_stats["blocks_broken"])
                 episode_stats["side_bounces"].append(ep_stats["side_bounces"])
@@ -375,7 +407,9 @@ class ExperimentRunner:
                 )
 
                 if self.use_gpu and episode % 50 == 0:
-                    print(f"   GPU Memory: {torch.cuda.memory_allocated() / 1e9:.2f} GB")
+                    print(
+                        f"   GPU Memory: {torch.cuda.memory_allocated() / 1e9:.2f} GB"
+                    )
 
             # Checkpoint saving (ONLY network weights, not replay memory)
             if episode % CHECKPOINT_FREQUENCY == 0 or episode == episodes:
@@ -386,7 +420,8 @@ class ExperimentRunner:
                 )
 
                 checkpoint_path = os.path.join(
-                    checkpoint_dir, f"checkpoint_ep{episode:05d}_score{avg_original_score:.1f}.pt"
+                    checkpoint_dir,
+                    f"checkpoint_ep{episode:05d}_score{avg_original_score:.1f}.pt",
                 )
 
                 # Save ONLY essential data to avoid disk space issues
@@ -415,32 +450,51 @@ class ExperimentRunner:
                     # Track best checkpoint
                     if avg_original_score > best_avg_original_score:
                         best_avg_original_score = avg_original_score
-                        best_checkpoint_path = os.path.join(checkpoint_dir, "best_checkpoint.pt")
+                        best_checkpoint_path = os.path.join(
+                            checkpoint_dir, "best_checkpoint.pt"
+                        )
                         shutil.copy(checkpoint_path, best_checkpoint_path)
-                        print(f"🏆 New best checkpoint! Original score: {avg_original_score:.2f}")
+                        print(
+                            f"🏆 New best checkpoint! Original score: {avg_original_score:.2f}"
+                        )
 
                     # Cleanup old checkpoints
                     if len(saved_checkpoints) > KEEP_BEST_N_CHECKPOINTS + 1:
-                        saved_checkpoints.sort(key=lambda x: x["avg_original_score"], reverse=True)
-                        for old_ckpt in saved_checkpoints[KEEP_BEST_N_CHECKPOINTS + 1 :]:
-                            if os.path.exists(old_ckpt["path"]) and "best_checkpoint" not in old_ckpt["path"]:
+                        saved_checkpoints.sort(
+                            key=lambda x: x["avg_original_score"], reverse=True
+                        )
+                        for old_ckpt in saved_checkpoints[
+                            KEEP_BEST_N_CHECKPOINTS + 1 :
+                        ]:
+                            if (
+                                os.path.exists(old_ckpt["path"])
+                                and "best_checkpoint" not in old_ckpt["path"]
+                            ):
                                 try:
                                     os.remove(old_ckpt["path"])
-                                    print(f"🗑️  Removed old checkpoint: {os.path.basename(old_ckpt['path'])}")
+                                    print(
+                                        f"🗑️  Removed old checkpoint: {os.path.basename(old_ckpt['path'])}"
+                                    )
                                 except OSError:
                                     pass  # Ignore if can't delete
-                        saved_checkpoints = saved_checkpoints[: KEEP_BEST_N_CHECKPOINTS + 1]
+                        saved_checkpoints = saved_checkpoints[
+                            : KEEP_BEST_N_CHECKPOINTS + 1
+                        ]
 
                 except OSError as e:
                     print(f"⚠️  Failed to save checkpoint: {e}")
-                    print(f"💡 Tip: Check disk space with 'df -h'")
+                    print("💡 Tip: Check disk space with 'df -h'")
 
         env.close()
 
         # Checkpoint summary
         checkpoint_summary = {
             "total": len(saved_checkpoints),
-            "best": os.path.join(checkpoint_dir, "best_checkpoint.pt") if saved_checkpoints else None,
+            "best": (
+                os.path.join(checkpoint_dir, "best_checkpoint.pt")
+                if saved_checkpoints
+                else None
+            ),
             "final": saved_checkpoints[-1]["path"] if saved_checkpoints else None,
             "all": saved_checkpoints,
         }
@@ -448,11 +502,9 @@ class ExperimentRunner:
         return rewards_per_episode, epsilon_history, episode_stats, checkpoint_summary
 
     def _calculate_metrics(self, shaped_rewards, stats):
-        """Calculate comprehensive and FAIR performance metrics."""
         shaped_array = np.array(shaped_rewards)
         original_scores = np.array(stats["original_scores"])  # TRUE game scores
 
-        # FAIR COMPARISON METRICS (based on original game score)
         metrics = {
             # === PRIMARY METRICS (Original Game Score) ===
             "avg_original_score": float(np.mean(original_scores)),
@@ -462,10 +514,14 @@ class ExperimentRunner:
             "median_original_score": float(np.median(original_scores)),
             # Learning progression
             "final_avg_original": (
-                float(np.mean(original_scores[-10:])) if len(original_scores) >= 10 else float(np.mean(original_scores))
+                float(np.mean(original_scores[-10:]))
+                if len(original_scores) >= 10
+                else float(np.mean(original_scores))
             ),
             "initial_avg_original": (
-                float(np.mean(original_scores[:10])) if len(original_scores) >= 10 else float(np.mean(original_scores))
+                float(np.mean(original_scores[:10]))
+                if len(original_scores) >= 10
+                else float(np.mean(original_scores))
             ),
             "score_improvement": (
                 float(np.mean(original_scores[-10:]) - np.mean(original_scores[:10]))
@@ -474,18 +530,34 @@ class ExperimentRunner:
             ),
             # Top performance
             "top_10_percent_avg": float(
-                np.mean(sorted(original_scores, reverse=True)[: max(1, len(original_scores) // 10)])
+                np.mean(
+                    sorted(original_scores, reverse=True)[
+                        : max(1, len(original_scores) // 10)
+                    ]
+                )
             ),
-            "best_20_avg": float(np.mean(sorted(original_scores, reverse=True)[: min(20, len(original_scores))])),
+            "best_20_avg": float(
+                np.mean(
+                    sorted(original_scores, reverse=True)[
+                        : min(20, len(original_scores))
+                    ]
+                )
+            ),
             # === LEARNING EFFICIENCY ===
-            "success_rate": float(100 * np.sum(original_scores > 0) / len(original_scores)),
-            "double_digit_rate": float(100 * np.sum(original_scores >= 10) / len(original_scores)),
+            "success_rate": float(
+                100 * np.sum(original_scores > 0) / len(original_scores)
+            ),
+            "double_digit_rate": float(
+                100 * np.sum(original_scores >= 10) / len(original_scores)
+            ),
             # === SHAPED REWARD METRICS (for reference) ===
             "avg_shaped_reward": float(np.mean(shaped_array)),
             "max_shaped_reward": float(np.max(shaped_array)),
             # === CONSISTENCY METRICS ===
             "coefficient_of_variation": float(
-                np.std(original_scores) / np.mean(original_scores) if np.mean(original_scores) > 0 else float("inf")
+                np.std(original_scores) / np.mean(original_scores)
+                if np.mean(original_scores) > 0
+                else float("inf")
             ),
         }
 
@@ -509,13 +581,17 @@ class ExperimentRunner:
 
             # Survival improvement
             if len(lengths) >= 10:
-                metrics["length_improvement"] = float(np.mean(lengths[-10:]) - np.mean(lengths[:10]))
+                metrics["length_improvement"] = float(
+                    np.mean(lengths[-10:]) - np.mean(lengths[:10])
+                )
 
         # Loss metrics
         if "losses" in stats and stats["losses"]:
             metrics["avg_loss"] = float(np.mean(stats["losses"]))
             metrics["final_avg_loss"] = (
-                float(np.mean(stats["losses"][-10:])) if len(stats["losses"]) >= 10 else float(np.mean(stats["losses"]))
+                float(np.mean(stats["losses"][-10:]))
+                if len(stats["losses"]) >= 10
+                else float(np.mean(stats["losses"]))
             )
 
         # Lives remaining (better survival)
@@ -566,20 +642,20 @@ class ExperimentRunner:
 
     def run_all_experiments(self, episodes=QUICK_TEST_EPISODES, render=False):
         """Run all configured experiments sequentially."""
-        print(f"\n{'='*80}")
+        print(f"\n{'=' * 80}")
         print(f"🚀 Running ALL experiments ({len(EXPERIMENT_CONFIGS)} total)")
         print(f"📊 Episodes per experiment: {episodes}")
         print(f"🖥️  Device: {self.device}")
-        print(f"{'='*80}\n")
+        print(f"{'=' * 80}\n")
 
         total_start = time.time()
         successful = 0
         failed = 0
 
         for i, config_name in enumerate(EXPERIMENT_CONFIGS.keys(), 1):
-            print(f"\n{'='*80}")
+            print(f"\n{'=' * 80}")
             print(f"Progress: Experiment {i}/{len(EXPERIMENT_CONFIGS)}")
-            print(f"{'='*80}")
+            print(f"{'=' * 80}")
 
             try:
                 self.run_experiment(config_name, episodes, render)
@@ -590,7 +666,7 @@ class ExperimentRunner:
                     torch.cuda.empty_cache()
 
             except KeyboardInterrupt:
-                print(f"\n⚠️  Interrupted by user. Saving progress...")
+                print("\n⚠️  Interrupted by user. Saving progress...")
                 break
             except Exception as e:
                 print(f"❌ Experiment '{config_name}' failed: {e}")
@@ -603,41 +679,37 @@ class ExperimentRunner:
 
         total_duration = time.time() - total_start
 
-        print(f"\n{'='*80}")
-        print(f"🏁 All experiments completed!")
+        print(f"\n{'=' * 80}")
+        print("🏁 All experiments completed!")
         print(f"✅ Successful: {successful}/{len(EXPERIMENT_CONFIGS)}")
         print(f"❌ Failed: {failed}/{len(EXPERIMENT_CONFIGS)}")
-        print(f"⏱️  Total time: {total_duration/3600:.2f} hours")
-        print(f"{'='*80}\n")
+        print(f"⏱️  Total time: {total_duration / 3600:.2f} hours")
+        print(f"{'=' * 80}\n")
 
         # Generate comparison report
         if self.results:
             self.generate_comparison_report()
 
-    def run_parallel_experiments(self, episodes=QUICK_TEST_EPISODES, max_parallel=2):
-        """Run multiple experiments in parallel (requires multiple GPUs or CPU cores)."""
-        # This would require multiprocessing/threading implementation
-        # For now, we'll run sequentially
-        print("⚠️  Parallel execution not yet implemented. Running sequentially...")
-        self.run_all_experiments(episodes)
-
     def generate_comparison_report(self):
-        """Generate comparison report using FAIR metrics."""
         if not self.results:
             print("⚠️  No results to compare")
             return
 
-        print(f"\n{'='*80}")
+        print(f"\n{'=' * 80}")
         print("📊 EXPERIMENT COMPARISON REPORT (Fair Metrics)")
-        print(f"{'='*80}\n")
+        print(f"{'=' * 80}\n")
 
         # PRIMARY COMPARISON: Original Game Score
         print("🎮 PRIMARY METRIC: Original Game Score (Blocks Broken)")
-        print(f"{'Experiment':<25} {'Avg Score':<12} {'Max Score':<12} {'Final Avg':<12} {'Success %':<12}")
+        print(
+            f"{'Experiment':<25} {'Avg Score':<12} {'Max Score':<12} {'Final Avg':<12} {'Success %':<12}"
+        )
         print("-" * 90)
 
         sorted_by_score = sorted(
-            self.results.items(), key=lambda x: x[1]["metrics"]["avg_original_score"], reverse=True
+            self.results.items(),
+            key=lambda x: x[1]["metrics"]["avg_original_score"],
+            reverse=True,
         )
 
         for name, result in sorted_by_score:
@@ -650,8 +722,10 @@ class ExperimentRunner:
             )
 
         # LEARNING EFFICIENCY
-        print(f"\n📈 LEARNING EFFICIENCY")
-        print(f"{'Experiment':<25} {'To 5 pts':<12} {'To 10 pts':<12} {'Score Δ':<12} {'10+ Rate':<12}")
+        print("\n📈 LEARNING EFFICIENCY")
+        print(
+            f"{'Experiment':<25} {'To 5 pts':<12} {'To 10 pts':<12} {'Score Δ':<12} {'10+ Rate':<12}"
+        )
         print("-" * 90)
 
         for name, result in sorted_by_score:
@@ -668,8 +742,10 @@ class ExperimentRunner:
             )
 
         # CONSISTENCY
-        print(f"\n🎯 CONSISTENCY & RELIABILITY")
-        print(f"{'Experiment':<25} {'Std Dev':<12} {'CoV':<12} {'Median':<12} {'Top 10%':<12}")
+        print("\n🎯 CONSISTENCY & RELIABILITY")
+        print(
+            f"{'Experiment':<25} {'Std Dev':<12} {'CoV':<12} {'Median':<12} {'Top 10%':<12}"
+        )
         print("-" * 90)
 
         for name, result in sorted_by_score:
@@ -696,7 +772,6 @@ class ExperimentRunner:
         self._save_comparison_summary()
 
     def _print_final_comparison(self, all_results):
-        """Print final comparison statistics across all experiments."""
         print("\n" + "=" * 90)
         print()
 
@@ -721,7 +796,9 @@ class ExperimentRunner:
         # Sort by consistency (lowest coefficient of variation)
         sorted_by_consistency = sorted(
             all_results.items(),
-            key=lambda x: x[1].get("metrics", {}).get("coefficient_of_variation", float("inf")),
+            key=lambda x: x[1]
+            .get("metrics", {})
+            .get("coefficient_of_variation", float("inf")),
         )
 
         print("TOP 3 by Average Original Score:")
@@ -734,7 +811,9 @@ class ExperimentRunner:
         for i, (name, results) in enumerate(sorted_by_improvement[:3], 1):
             improvement = results["metrics"].get("score_improvement", 0)
             final_score = results["metrics"].get("final_avg_original", 0)
-            print(f"  {i}. {name}: {improvement:+.2f} improvement (final: {final_score:.2f})")
+            print(
+                f"  {i}. {name}: {improvement:+.2f} improvement (final: {final_score:.2f})"
+            )
 
         print("\nMOST CONSISTENT (Lowest CoV):")
         for i, (name, results) in enumerate(sorted_by_consistency[:3], 1):
@@ -746,7 +825,6 @@ class ExperimentRunner:
         print("=" * 90)
 
     def _save_comparison_summary(self):
-        """Save comparison summary to file."""
         summary = {
             "timestamp": datetime.now().isoformat(),
             "device": str(self.device),
@@ -754,22 +832,34 @@ class ExperimentRunner:
             "num_experiments": len(self.results),
             "rankings": {
                 "by_avg_original_score": sorted(
-                    [(name, result["metrics"]["avg_original_score"]) for name, result in self.results.items()],
+                    [
+                        (name, result["metrics"]["avg_original_score"])
+                        for name, result in self.results.items()
+                    ],
                     key=lambda x: x[1],
                     reverse=True,
                 ),
                 "by_score_improvement": sorted(
-                    [(name, result["metrics"]["score_improvement"]) for name, result in self.results.items()],
+                    [
+                        (name, result["metrics"]["score_improvement"])
+                        for name, result in self.results.items()
+                    ],
                     key=lambda x: x[1],
                     reverse=True,
                 ),
                 "by_max_original_score": sorted(
-                    [(name, result["metrics"]["max_original_score"]) for name, result in self.results.items()],
+                    [
+                        (name, result["metrics"]["max_original_score"])
+                        for name, result in self.results.items()
+                    ],
                     key=lambda x: x[1],
                     reverse=True,
                 ),
                 "by_success_rate": sorted(
-                    [(name, result["metrics"]["success_rate"]) for name, result in self.results.items()],
+                    [
+                        (name, result["metrics"]["success_rate"])
+                        for name, result in self.results.items()
+                    ],
                     key=lambda x: x[1],
                     reverse=True,
                 ),
@@ -783,7 +873,9 @@ class ExperimentRunner:
                     reverse=False,  # Lower is better
                 ),
             },
-            "experiments": {name: result["metrics"] for name, result in self.results.items()},
+            "experiments": {
+                name: result["metrics"] for name, result in self.results.items()
+            },
         }
 
         filepath = os.path.join(self.output_dir, "comparison_summary.json")
@@ -808,7 +900,6 @@ class ExperimentRunner:
         return color_map.get(config_name, "#cccccc")
 
     def plot_comparison(self):
-        """Generate comparison plots using FAIR metrics."""
         if not self.results:
             return
 
@@ -816,21 +907,31 @@ class ExperimentRunner:
         gs = fig.add_gridspec(3, 3, hspace=0.3, wspace=0.3)
 
         fig.suptitle(
-            "Reward Shaping Experiments - Fair Comparison (Original Game Score)", fontsize=18, fontweight="bold"
+            "Reward Shaping Experiments - Fair Comparison (Original Game Score)",
+            fontsize=18,
+            fontweight="bold",
         )
 
         # Get sorted names by original score
-        sorted_results = sorted(self.results.items(), key=lambda x: x[1]["metrics"]["avg_original_score"], reverse=True)
+        sorted_results = sorted(
+            self.results.items(),
+            key=lambda x: x[1]["metrics"]["avg_original_score"],
+            reverse=True,
+        )
         names = [name for name, _ in sorted_results]
 
         # Plot 1: Average ORIGINAL scores (PRIMARY METRIC)
         ax1 = fig.add_subplot(gs[0, 0])
-        avg_scores = [self.results[name]["metrics"]["avg_original_score"] for name in names]
+        avg_scores = [
+            self.results[name]["metrics"]["avg_original_score"] for name in names
+        ]
         colors = [self._get_config_color(name) for name in names]
 
         bars = ax1.barh(names, avg_scores, color=colors, alpha=0.8, edgecolor="black")
         ax1.set_xlabel("Average Original Score", fontsize=11, fontweight="bold")
-        ax1.set_title("Average Game Score (PRIMARY METRIC)", fontsize=12, fontweight="bold")
+        ax1.set_title(
+            "Average Game Score (PRIMARY METRIC)", fontsize=12, fontweight="bold"
+        )
         ax1.grid(axis="x", alpha=0.3)
 
         for i, (bar, val) in enumerate(zip(bars, avg_scores)):
@@ -844,13 +945,21 @@ class ExperimentRunner:
             window = max(10, len(scores) // 20)
             if len(scores) >= window:
                 moving_avg = np.convolve(scores, np.ones(window) / window, mode="valid")
-                ax2.plot(moving_avg, label=name, alpha=0.7, linewidth=2, color=self._get_config_color(name))
+                ax2.plot(
+                    moving_avg,
+                    label=name,
+                    alpha=0.7,
+                    linewidth=2,
+                    color=self._get_config_color(name),
+                )
 
         ax2.set_xlabel("Episode", fontsize=11, fontweight="bold")
         ax2.set_ylabel("Original Score (Moving Avg)", fontsize=11, fontweight="bold")
-        ax2.set_title("Learning Curves (True Game Score)", fontsize=12, fontweight="bold")
+        ax2.set_title(
+            "Learning Curves (True Game Score)", fontsize=12, fontweight="bold"
+        )
 
-        # FIX: Only add legend if there are labeled artists
+        # Only add legend if there are labeled artists
         handles, labels = ax2.get_legend_handles_labels()
         if handles:
             ax2.legend(loc="best", fontsize=8)
@@ -858,7 +967,9 @@ class ExperimentRunner:
 
         # Plot 3: Final performance (last 10 episodes)
         ax3 = fig.add_subplot(gs[0, 2])
-        final_avgs = [self.results[name]["metrics"]["final_avg_original"] for name in names]
+        final_avgs = [
+            self.results[name]["metrics"]["final_avg_original"] for name in names
+        ]
         bars3 = ax3.barh(names, final_avgs, color="coral", alpha=0.7, edgecolor="black")
         ax3.set_xlabel("Final Average (Last 10 eps)", fontsize=11, fontweight="bold")
         ax3.set_title("Final Performance", fontsize=12, fontweight="bold")
@@ -869,11 +980,19 @@ class ExperimentRunner:
 
         # Plot 4: Improvement (learning delta)
         ax4 = fig.add_subplot(gs[1, 0])
-        improvements = [self.results[name]["metrics"]["score_improvement"] for name in names]
-        colors4 = ["red" if x < 0 else "green" if x > 0 else "gray" for x in improvements]
-        bars4 = ax4.barh(names, improvements, color=colors4, alpha=0.7, edgecolor="black")
+        improvements = [
+            self.results[name]["metrics"]["score_improvement"] for name in names
+        ]
+        colors4 = [
+            "red" if x < 0 else "green" if x > 0 else "gray" for x in improvements
+        ]
+        bars4 = ax4.barh(
+            names, improvements, color=colors4, alpha=0.7, edgecolor="black"
+        )
         ax4.axvline(x=0, color="black", linestyle="--", linewidth=1)
-        ax4.set_xlabel("Score Improvement (Final - Initial)", fontsize=11, fontweight="bold")
+        ax4.set_xlabel(
+            "Score Improvement (Final - Initial)", fontsize=11, fontweight="bold"
+        )
         ax4.set_title("Learning Speed", fontsize=12, fontweight="bold")
         ax4.grid(axis="x", alpha=0.3)
 
@@ -883,9 +1002,17 @@ class ExperimentRunner:
 
         # Plot 5: Consistency (std deviation)
         ax5 = fig.add_subplot(gs[1, 1])
-        std_scores = [self.results[name]["metrics"]["std_original_score"] for name in names]
-        bars5 = ax5.barh(names, std_scores, color="mediumpurple", alpha=0.7, edgecolor="black")
-        ax5.set_xlabel("Standard Deviation (Lower = More Consistent)", fontsize=11, fontweight="bold")
+        std_scores = [
+            self.results[name]["metrics"]["std_original_score"] for name in names
+        ]
+        bars5 = ax5.barh(
+            names, std_scores, color="mediumpurple", alpha=0.7, edgecolor="black"
+        )
+        ax5.set_xlabel(
+            "Standard Deviation (Lower = More Consistent)",
+            fontsize=11,
+            fontweight="bold",
+        )
         ax5.set_title("Consistency", fontsize=12, fontweight="bold")
         ax5.grid(axis="x", alpha=0.3)
 
@@ -894,8 +1021,12 @@ class ExperimentRunner:
 
         # Plot 6: Success rate (score > 0)
         ax6 = fig.add_subplot(gs[1, 2])
-        success_rates = [self.results[name]["metrics"]["success_rate"] for name in names]
-        bars6 = ax6.barh(names, success_rates, color="skyblue", alpha=0.8, edgecolor="black")
+        success_rates = [
+            self.results[name]["metrics"]["success_rate"] for name in names
+        ]
+        bars6 = ax6.barh(
+            names, success_rates, color="skyblue", alpha=0.8, edgecolor="black"
+        )
         ax6.set_xlabel("Success Rate (%)", fontsize=11, fontweight="bold")
         ax6.set_title("Success Rate (Score > 0)", fontsize=12, fontweight="bold")
         ax6.set_xlim([0, 100])
@@ -919,14 +1050,35 @@ class ExperimentRunner:
         # Plot as grouped bars
         x = np.arange(len(names))
         width = 0.35
-        ep_5_vals = [milestone_data[n]["5pts"] if milestone_data[n]["5pts"] else 0 for n in names]
-        ep_10_vals = [milestone_data[n]["10pts"] if milestone_data[n]["10pts"] else 0 for n in names]
+        ep_5_vals = [
+            milestone_data[n]["5pts"] if milestone_data[n]["5pts"] else 0 for n in names
+        ]
+        ep_10_vals = [
+            milestone_data[n]["10pts"] if milestone_data[n]["10pts"] else 0
+            for n in names
+        ]
 
-        bars7a = ax7.barh(x - width / 2, ep_5_vals, width, label="To 5 pts", alpha=0.7, color="lightgreen")
-        bars7b = ax7.barh(x + width / 2, ep_10_vals, width, label="To 10 pts", alpha=0.7, color="lightcoral")
+        ax7.barh(
+            x - width / 2,
+            ep_5_vals,
+            width,
+            label="To 5 pts",
+            alpha=0.7,
+            color="lightgreen",
+        )
+        ax7.barh(
+            x + width / 2,
+            ep_10_vals,
+            width,
+            label="To 10 pts",
+            alpha=0.7,
+            color="lightcoral",
+        )
 
         ax7.set_xlabel("Episodes", fontsize=11, fontweight="bold")
-        ax7.set_title("Learning Speed (Episodes to Reach Score)", fontsize=12, fontweight="bold")
+        ax7.set_title(
+            "Learning Speed (Episodes to Reach Score)", fontsize=12, fontweight="bold"
+        )
         ax7.set_yticks(x)
         ax7.set_yticklabels(names, fontsize=9)
         ax7.legend(fontsize=9)
@@ -934,7 +1086,9 @@ class ExperimentRunner:
 
         # Plot 8: Top 10% performance
         ax8 = fig.add_subplot(gs[2, 1])
-        top_10_avgs = [self.results[name]["metrics"]["top_10_percent_avg"] for name in names]
+        top_10_avgs = [
+            self.results[name]["metrics"]["top_10_percent_avg"] for name in names
+        ]
         bars8 = ax8.barh(names, top_10_avgs, color="gold", alpha=0.8, edgecolor="black")
         ax8.set_xlabel("Average of Top 10% Episodes", fontsize=11, fontweight="bold")
         ax8.set_title("Peak Performance", fontsize=12, fontweight="bold")
@@ -945,8 +1099,12 @@ class ExperimentRunner:
 
         # Plot 9: Episode length (survival)
         ax9 = fig.add_subplot(gs[2, 2])
-        avg_lengths = [self.results[name]["metrics"]["avg_episode_length"] for name in names]
-        bars9 = ax9.barh(names, avg_lengths, color="lightsteelblue", alpha=0.8, edgecolor="black")
+        avg_lengths = [
+            self.results[name]["metrics"]["avg_episode_length"] for name in names
+        ]
+        bars9 = ax9.barh(
+            names, avg_lengths, color="lightsteelblue", alpha=0.8, edgecolor="black"
+        )
         ax9.set_xlabel("Average Episode Length (steps)", fontsize=11, fontweight="bold")
         ax9.set_title("Survival Duration", fontsize=12, fontweight="bold")
         ax9.grid(axis="x", alpha=0.3)
@@ -963,9 +1121,6 @@ class ExperimentRunner:
 
 
 def main():
-    """Main entry point with enhanced CLI."""
-    import argparse
-
     parser = argparse.ArgumentParser(
         description="Run reward shaping experiments with GPU support",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -985,18 +1140,36 @@ Examples:
         """,
     )
 
-    parser.add_argument("--config", type=str, default="all", help='Specific config to run or "all" for all experiments')
+    parser.add_argument(
+        "--config",
+        type=str,
+        default="all",
+        help='Specific config to run or "all" for all experiments',
+    )
     parser.add_argument(
         "--episodes",
         type=int,
         default=QUICK_TEST_EPISODES,
         help=f"Number of episodes (default: {QUICK_TEST_EPISODES}, GPU recommended: {GPU_OPTIMIZED_EPISODES})",
     )
-    parser.add_argument("--render", action="store_true", help="Render during training (slows down significantly)")
-    parser.add_argument("--list", action="store_true", help="List available configurations")
-    parser.add_argument("--gpu", action="store_true", default=True, help="Use GPU if available (default: True)")
+    parser.add_argument(
+        "--render",
+        action="store_true",
+        help="Render during training (slows down significantly)",
+    )
+    parser.add_argument(
+        "--list", action="store_true", help="List available configurations"
+    )
+    parser.add_argument(
+        "--gpu",
+        action="store_true",
+        default=True,
+        help="Use GPU if available (default: True)",
+    )
     parser.add_argument("--cpu", action="store_true", help="Force CPU usage")
-    parser.add_argument("--resume", type=str, default=None, help="Resume from checkpoint file")
+    parser.add_argument(
+        "--resume", type=str, default=None, help="Resume from checkpoint file"
+    )
 
     args = parser.parse_args()
 
@@ -1005,7 +1178,7 @@ Examples:
         print("\n📋 Available Experiment Configurations:\n")
         for name, config in EXPERIMENT_CONFIGS.items():
             print(f"  • {name:<25} - {config['description']}")
-        print(f"\n💡 Recommended episodes:")
+        print("\n💡 Recommended episodes:")
         print(f"  • Quick test: {QUICK_TEST_EPISODES}")
         print(f"  • Medium test: {MEDIUM_TEST_EPISODES}")
         print(f"  • Full test: {FULL_TEST_EPISODES}")
@@ -1027,7 +1200,12 @@ Examples:
             print(f"Available: {', '.join(EXPERIMENT_CONFIGS.keys())}")
             return
 
-        runner.run_experiment(args.config, episodes=args.episodes, render=args.render, resume_from=args.resume)
+        runner.run_experiment(
+            args.config,
+            episodes=args.episodes,
+            render=args.render,
+            resume_from=args.resume,
+        )
 
 
 if __name__ == "__main__":

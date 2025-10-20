@@ -7,8 +7,8 @@ class FrameStack:
         self.k = k
         self.frames = deque([], maxlen=k)
 
+    # Should be called at the beginning of an episode
     def reset(self):
-        """Call this at the beginning of an episode"""
         self.frames.clear()
 
     def append(self, obs):
@@ -17,4 +17,3 @@ class FrameStack:
     def get_stack(self):
         assert len(self.frames) == self.k
         return torch.cat(list(self.frames), dim=0)
-    
