@@ -1,7 +1,6 @@
 import gymnasium as gym
 import numpy as np
 from collections import deque
-import torch
 
 
 class BreakoutRewardShaping(gym.Wrapper):
@@ -197,7 +196,9 @@ class BreakoutRewardShaping(gym.Wrapper):
                 x_vel_curr = ball_x - self.ball_x_history[-2]
 
                 # Velocity changed direction (bounce)
-                velocity_changed = (x_vel_prev < 0 and x_vel_curr > 0) or (x_vel_prev > 0 and x_vel_curr < 0)
+                velocity_changed = (x_vel_prev < 0 and x_vel_curr > 0) or (
+                    x_vel_prev > 0 and x_vel_curr < 0
+                )
 
                 # Check if ball is near walls
                 LEFT_WALL = 8
@@ -212,7 +213,9 @@ class BreakoutRewardShaping(gym.Wrapper):
 
             # 5. CENTER POSITION BONUS
             if self.ball_in_play and self.step_count > 30:
-                center_bonus = self._calculate_center_position_bonus(paddle_x, ball_x, ball_y)
+                center_bonus = self._calculate_center_position_bonus(
+                    paddle_x, ball_x, ball_y
+                )
                 if center_bonus > 0:
                     shaped_reward += center_bonus
                     self.episode_stats["center_bonuses"] += 1
@@ -274,7 +277,13 @@ class RewardShapingScheduler:
     This helps transition from shaped to true rewards.
     """
 
-    def __init__(self, initial_scale=1.0, final_scale=0.0, decay_steps=500000, decay_type="linear"):
+    def __init__(
+        self,
+        initial_scale=1.0,
+        final_scale=0.0,
+        decay_steps=500000,
+        decay_type="linear",
+    ):
         """
         Args:
             initial_scale: Starting scale (1.0 = full shaping)
@@ -299,9 +308,13 @@ class RewardShapingScheduler:
         progress = self.current_step / self.decay_steps
 
         if self.decay_type == "linear":
-            scale = self.initial_scale - progress * (self.initial_scale - self.final_scale)
+            scale = self.initial_scale - progress * (
+                self.initial_scale - self.final_scale
+            )
         elif self.decay_type == "exponential":
-            scale = self.final_scale + (self.initial_scale - self.final_scale) * np.exp(-5 * progress)
+            scale = self.final_scale + (self.initial_scale - self.final_scale) * np.exp(
+                -5 * progress
+            )
         else:
             scale = self.initial_scale
 
@@ -327,6 +340,8 @@ class RewardShapingScheduler:
 
         # Scale bonuses
         wrapper.paddle_hit_bonus = self._original_values["paddle_hit_bonus"] * scale
-        wrapper.center_position_bonus = self._original_values["center_position_bonus"] * scale
+        wrapper.center_position_bonus = (
+            self._original_values["center_position_bonus"] * scale
+        )
         wrapper.side_angle_bonus = self._original_values["side_angle_bonus"] * scale
         wrapper.ball_loss_penalty = self._original_values["ball_loss_penalty"] * scale
