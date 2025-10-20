@@ -12,6 +12,7 @@ import numpy as np
 import random
 import os
 from utils import config
+import ale_py
 
 
 class BreakoutDQN:
