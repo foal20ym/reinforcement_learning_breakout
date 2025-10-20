@@ -97,7 +97,6 @@ EXPERIMENT_CONFIGS = {
         "ball_loss_penalty": 0.0,
         "survival_bonus": 0.001,
     },
-    # REMOVED: penalties_only (redundant with ball_loss_penalty_only)
 }
 
 # Episode configurations
