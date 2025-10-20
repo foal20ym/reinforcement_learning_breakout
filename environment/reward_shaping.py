@@ -1,7 +1,6 @@
 import gymnasium as gym
 import numpy as np
 from collections import deque
-import torch
 
 
 class BreakoutRewardShaping(gym.Wrapper):
@@ -27,16 +26,6 @@ class BreakoutRewardShaping(gym.Wrapper):
         survival_bonus=0.001,
         enable_shaping=True,
     ):
-        """
-        Args:
-            env: The environment to wrap
-            paddle_hit_bonus: Reward for hitting ball with paddle
-            center_position_bonus: Reward for center positioning
-            side_angle_bonus: Reward for side wall bounces
-            block_bonus_multiplier: Multiplier for block breaking
-            ball_loss_penalty: Penalty when ball is lost
-            enable_shaping: Toggle to enable/disable shaping
-        """
         super().__init__(env)
         self.paddle_hit_bonus = paddle_hit_bonus
         self.center_position_bonus = center_position_bonus
@@ -50,12 +39,27 @@ class BreakoutRewardShaping(gym.Wrapper):
         self.prev_lives = None
         self.prev_score = 0
         self.ball_in_play = False
-        self.frame_buffer = deque(maxlen=2)
         self.step_count = 0
 
-        # Statistics tracking
+        # RAM-based position tracking (use Python int to avoid overflow)
+        self.last_paddle_x = None
+        self.last_ball_x = None
+        self.last_ball_y = None
+
+        # Track recent positions for better detection
+        self.ball_y_history = deque(maxlen=3)  # Track last 3 Y positions
+        self.ball_x_history = deque(maxlen=3)  # Track last 3 X positions
+
+        # Statistics tracking - PER EPISODE
+        self.episode_stats = self._create_empty_stats()
+
+        # TOTAL statistics (across all episodes)
         self.total_shaped_reward = 0.0
-        self.shaping_stats = {
+        self.total_stats = self._create_empty_stats()
+
+    def _create_empty_stats(self):
+        """Create a fresh statistics dictionary."""
+        return {
             "paddle_hits": 0,
             "center_bonuses": 0,
             "side_bounces": 0,
@@ -71,9 +75,17 @@ class BreakoutRewardShaping(gym.Wrapper):
         self.prev_lives = self.env.unwrapped.ale.lives()
         self.prev_score = 0
         self.ball_in_play = False
-        self.frame_buffer.clear()
-        self.frame_buffer.append(obs)
         self.step_count = 0
+
+        # Reset position tracking
+        self.last_paddle_x = None
+        self.last_ball_x = None
+        self.last_ball_y = None
+        self.ball_y_history.clear()
+        self.ball_x_history.clear()
+
+        # Reset EPISODE statistics (not total)
+        self.episode_stats = self._create_empty_stats()
 
         return obs, info
 
@@ -82,10 +94,22 @@ class BreakoutRewardShaping(gym.Wrapper):
         self.step_count += 1
 
         if not self.enable_shaping:
+            info["original_reward"] = reward
             return obs, reward, terminated, truncated, info
 
-        # Track frame for analysis
-        self.frame_buffer.append(obs)
+        # Read current game state from RAM (convert to Python int)
+        try:
+            paddle_x = int(self.env.unwrapped.ale.getRAM()[72])
+            ball_x = int(self.env.unwrapped.ale.getRAM()[99])
+            ball_y = int(self.env.unwrapped.ale.getRAM()[101])
+
+            # Store in info
+            info["paddle_x"] = paddle_x
+            info["ball_x"] = ball_x
+            info["ball_y"] = ball_y
+
+        except Exception:
+            paddle_x = ball_x = ball_y = None
 
         # Get current game state
         current_lives = self.env.unwrapped.ale.lives()
@@ -93,46 +117,117 @@ class BreakoutRewardShaping(gym.Wrapper):
         # Initialize shaped reward
         shaped_reward = reward
         original_reward = reward
+        info["original_reward"] = original_reward
 
+        # Add survival bonus if ball is in play
         if self.ball_in_play and not terminated:
             shaped_reward += self.survival_bonus
-            info["survival_bonus"] = True
 
         # 1. BLOCK CLEARING BONUS
         if reward > 0:
             block_bonus = reward * (self.block_bonus_multiplier - 1.0)
             shaped_reward += block_bonus
-            self.shaping_stats["blocks_broken"] += 1
+            self.episode_stats["blocks_broken"] += int(reward)
+            self.total_stats["blocks_broken"] += int(reward)
             info["block_broken"] = True
 
         # 2. BALL LOSS PENALTY
         if self.prev_lives is not None and current_lives < self.prev_lives:
             shaped_reward += self.ball_loss_penalty
             self.ball_in_play = False
-            self.shaping_stats["balls_lost"] += 1
+            self.episode_stats["balls_lost"] += 1
+            self.total_stats["balls_lost"] += 1
             info["ball_lost"] = True
 
-        # 3. PADDLE HIT DETECTION
-        if self._detect_paddle_hit():
-            shaped_reward += self.paddle_hit_bonus
-            self.shaping_stats["paddle_hits"] += 1
-            info["paddle_hit"] = True
+            # Clear history on life loss
+            self.ball_y_history.clear()
+            self.ball_x_history.clear()
+            self.last_paddle_x = None
+            self.last_ball_x = None
+            self.last_ball_y = None
 
-        # 4. CENTER POSITION BONUS
-        if self.ball_in_play and self.step_count > 30:
-            center_bonus = self._calculate_center_bonus(action)
-            if center_bonus > 0:
-                shaped_reward += center_bonus
-                self.shaping_stats["center_bonuses"] += 1
-                info["center_bonus"] = True
+        # RAM-based detection (only if we have valid positions)
+        if paddle_x is not None and ball_x is not None and ball_y is not None:
 
-        # 5. SIDE ANGLE BONUS
-        if self._detect_side_bounce():
-            shaped_reward += self.side_angle_bonus
-            self.shaping_stats["side_bounces"] += 1
-            info["side_bounce"] = True
+            # Add to history
+            self.ball_y_history.append(ball_y)
+            self.ball_x_history.append(ball_x)
 
-        # Update tracking
+            # 3. PADDLE HIT DETECTION (Improved)
+            if len(self.ball_y_history) >= 2 and self.ball_in_play:
+                prev_y = self.ball_y_history[-2]
+                curr_y = ball_y
+
+                # Ball is bouncing at paddle height
+                # Paddle is roughly at Y=189, ball bounces around Y=185-195
+                PADDLE_Y_MIN = 180
+                PADDLE_Y_MAX = 195
+
+                # Check if ball just bounced at paddle level
+                if prev_y < PADDLE_Y_MAX and curr_y >= PADDLE_Y_MIN:
+                    # Ball was above paddle and is now at/below paddle level
+                    # Check if it's near paddle X position
+                    if abs(ball_x - paddle_x) < 25:  # Within paddle width + margin
+                        shaped_reward += self.paddle_hit_bonus
+                        self.episode_stats["paddle_hits"] += 1
+                        self.total_stats["paddle_hits"] += 1
+                        info["paddle_hit"] = True
+
+                # Alternative detection: Ball was going down and is now going up near paddle
+                elif len(self.ball_y_history) >= 3:
+                    y_vel_prev = self.ball_y_history[-2] - self.ball_y_history[-3]
+                    y_vel_curr = ball_y - self.ball_y_history[-2]
+
+                    # Ball changed from moving down to moving up
+                    if y_vel_prev > 0 and y_vel_curr < 0:
+                        # Check if at paddle height
+                        if PADDLE_Y_MIN <= curr_y <= PADDLE_Y_MAX:
+                            # Check if near paddle X
+                            if abs(ball_x - paddle_x) < 25:
+                                shaped_reward += self.paddle_hit_bonus
+                                self.episode_stats["paddle_hits"] += 1
+                                self.total_stats["paddle_hits"] += 1
+                                info["paddle_hit"] = True
+
+            # 4. SIDE BOUNCE DETECTION (Improved)
+            if len(self.ball_x_history) >= 3 and self.ball_in_play:
+                # Calculate X velocity
+                x_vel_prev = self.ball_x_history[-2] - self.ball_x_history[-3]
+                x_vel_curr = ball_x - self.ball_x_history[-2]
+
+                # Velocity changed direction (bounce)
+                velocity_changed = (x_vel_prev < 0 and x_vel_curr > 0) or (
+                    x_vel_prev > 0 and x_vel_curr < 0
+                )
+
+                # Check if ball is near walls
+                LEFT_WALL = 8
+                RIGHT_WALL = 152
+                near_wall = ball_x <= LEFT_WALL or ball_x >= RIGHT_WALL
+
+                if velocity_changed and near_wall and abs(x_vel_prev) > 0:
+                    shaped_reward += self.side_angle_bonus
+                    self.episode_stats["side_bounces"] += 1
+                    self.total_stats["side_bounces"] += 1
+                    info["side_bounce"] = True
+
+            # 5. CENTER POSITION BONUS
+            if self.ball_in_play and self.step_count > 30:
+                center_bonus = self._calculate_center_position_bonus(
+                    paddle_x, ball_x, ball_y
+                )
+                if center_bonus > 0:
+                    shaped_reward += center_bonus
+                    self.episode_stats["center_bonuses"] += 1
+                    self.total_stats["center_bonuses"] += 1
+                    info["center_bonus"] = True
+
+            # Update tracking for next step
+            self.last_paddle_x = paddle_x
+            self.last_ball_x = ball_x
+            self.last_ball_y = ball_y
+
+        # Update other tracking
         self.prev_lives = current_lives
         self.total_shaped_reward += shaped_reward - original_reward
 
@@ -141,99 +236,36 @@ class BreakoutRewardShaping(gym.Wrapper):
             self.ball_in_play = True
 
         # Add shaping info to info dict
-        info["original_reward"] = original_reward
         info["shaped_reward"] = shaped_reward
         info["shaping_bonus"] = shaped_reward - original_reward
 
         return obs, shaped_reward, terminated, truncated, info
 
-    def _detect_paddle_hit(self):
-        """Detect paddle hits by analyzing frame differences."""
-        if len(self.frame_buffer) < 2:
-            return False
-
-        prev_frame = self.frame_buffer[0]
-        curr_frame = self.frame_buffer[1]
-
-        # Handle different frame formats
-        if isinstance(prev_frame, torch.Tensor):
-            prev_frame = prev_frame.numpy()
-        if isinstance(curr_frame, torch.Tensor):
-            curr_frame = curr_frame.numpy()
-
-        # If frame stacking, take latest frame
-        if len(prev_frame.shape) == 3 and prev_frame.shape[0] > 1:
-            prev_frame = prev_frame[-1]
-            curr_frame = curr_frame[-1]
-        elif len(prev_frame.shape) == 4:  # Batch dimension
-            prev_frame = prev_frame[0, -1]
-            curr_frame = curr_frame[0, -1]
-
-        # Focus on paddle region (bottom 20%)
-        h = prev_frame.shape[-2] if len(prev_frame.shape) >= 2 else 84
-        paddle_start = int(h * 0.8)
-
-        prev_paddle = prev_frame[..., paddle_start:, :]
-        curr_paddle = curr_frame[..., paddle_start:, :]
-
-        # Calculate difference
-        diff = np.abs(curr_paddle.astype(float) - prev_paddle.astype(float))
-        change_ratio = np.sum(diff > 30) / diff.size
-
-        return change_ratio > 0.02 and self.ball_in_play
-
-    def _calculate_center_bonus(self, action):
-        """Calculate bonus for center positioning."""
-        # Reward staying still when positioned well
-        if action == 0 and self.step_count % 10 == 0:
-            return self.center_position_bonus * 0.5
-        return 0.0
-
-    def _detect_side_bounce(self):
-        """Detect side wall bounces."""
-        if len(self.frame_buffer) < 2:
-            return False
-
-        prev_frame = self.frame_buffer[0]
-        curr_frame = self.frame_buffer[1]
-
-        # Handle different formats
-        if isinstance(prev_frame, torch.Tensor):
-            prev_frame = prev_frame.numpy()
-        if isinstance(curr_frame, torch.Tensor):
-            curr_frame = curr_frame.numpy()
-
-        # If frame stacking, take latest
-        if len(prev_frame.shape) == 3 and prev_frame.shape[0] > 1:
-            prev_frame = prev_frame[-1]
-            curr_frame = curr_frame[-1]
-        elif len(prev_frame.shape) == 4:
-            prev_frame = prev_frame[0, -1]
-            curr_frame = curr_frame[0, -1]
-
-        # Get width
-        w = prev_frame.shape[-1] if len(prev_frame.shape) >= 2 else 84
-
-        # Check side regions (10% from each edge)
-        edge_width = int(w * 0.1)
-        left_prev = prev_frame[..., :, :edge_width]
-        left_curr = curr_frame[..., :, :edge_width]
-        right_prev = prev_frame[..., :, -edge_width:]
-        right_curr = curr_frame[..., :, -edge_width:]
-
-        # Calculate changes
-        left_diff = np.abs(left_curr.astype(float) - left_prev.astype(float))
-        right_diff = np.abs(right_curr.astype(float) - right_prev.astype(float))
-
-        left_change = np.sum(left_diff > 30) / left_diff.size if left_diff.size > 0 else 0.0
-        right_change = np.sum(right_diff > 30) / right_diff.size
-
-        return (left_change > 0.05 or right_change > 0.05) and self.ball_in_play
+    def _calculate_center_position_bonus(self, paddle_x, ball_x, ball_y):
+        """Reward keeping paddle centered under the ball."""
+        try:
+            # Only reward when ball is above paddle
+            if ball_y < 180:
+                distance = abs(paddle_x - ball_x)
+                # Reward inverse of distance (closer = better)
+                if distance < 50:
+                    normalized_distance = float(distance) / 50.0
+                    return self.center_position_bonus * (1.0 - normalized_distance)
+            return 0.0
+        except Exception:
+            return 0.0
 
     def get_shaping_stats(self):
-        """Return statistics about reward shaping."""
+        """Return statistics about reward shaping for current episode."""
         return {
-            **self.shaping_stats,
+            **self.episode_stats,
+            "total_shaped_reward": self.total_shaped_reward,
+        }
+
+    def get_total_stats(self):
+        """Return total statistics across all episodes."""
+        return {
+            **self.total_stats,
             "total_shaped_reward": self.total_shaped_reward,
         }
 
@@ -245,7 +277,13 @@ class RewardShapingScheduler:
     This helps transition from shaped to true rewards.
     """
 
-    def __init__(self, initial_scale=1.0, final_scale=0.0, decay_steps=500000, decay_type="linear"):
+    def __init__(
+        self,
+        initial_scale=1.0,
+        final_scale=0.0,
+        decay_steps=500000,
+        decay_type="linear",
+    ):
         """
         Args:
             initial_scale: Starting scale (1.0 = full shaping)
@@ -270,9 +308,13 @@ class RewardShapingScheduler:
         progress = self.current_step / self.decay_steps
 
         if self.decay_type == "linear":
-            scale = self.initial_scale - progress * (self.initial_scale - self.final_scale)
+            scale = self.initial_scale - progress * (
+                self.initial_scale - self.final_scale
+            )
         elif self.decay_type == "exponential":
-            scale = self.final_scale + (self.initial_scale - self.final_scale) * np.exp(-5 * progress)
+            scale = self.final_scale + (self.initial_scale - self.final_scale) * np.exp(
+                -5 * progress
+            )
         else:
             scale = self.initial_scale
 
@@ -298,6 +340,8 @@ class RewardShapingScheduler:
 
         # Scale bonuses
         wrapper.paddle_hit_bonus = self._original_values["paddle_hit_bonus"] * scale
-        wrapper.center_position_bonus = self._original_values["center_position_bonus"] * scale
+        wrapper.center_position_bonus = (
+            self._original_values["center_position_bonus"] * scale
+        )
         wrapper.side_angle_bonus = self._original_values["side_angle_bonus"] * scale
         wrapper.ball_loss_penalty = self._original_values["ball_loss_penalty"] * scale

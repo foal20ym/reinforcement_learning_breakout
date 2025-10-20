@@ -4,16 +4,22 @@ from helpers.FramePreprocess import preprocess_frame
 from helpers.FrameStack import FrameStack
 from core.NeuralNetwork import NeuralNetwork
 from core.CNN import CNN
-from environment.reward_shaping import BreakoutRewardShaping, RewardShapingScheduler
+from environment.reward_shaping import BreakoutRewardShaping
 from torch import nn
 import torch
 import gymnasium as gym
-import ale_py
 import numpy as np
 import random
 import os
 from utils import config
-from helpers.FileIO import save_current_episode, save_best_avg_reward, load_best_avg_reward, load_current_episode
+import ale_pyd
+
+from helpers.FileIO import (
+    save_current_episode,
+    save_best_avg_reward,
+    load_best_avg_reward,
+)
+
 
 class BreakoutDQN:
 
@@ -42,25 +48,41 @@ class BreakoutDQN:
 
     def train(self, episodes, render=False, resume_checkpoint=None, resume_replay=None):
         # Create base environment
-        base_env = gym.make("ALE/Breakout-v5", render_mode="rgb_array" if render else None)
+        base_env = gym.make(
+            "ALE/Breakout-v5", render_mode="rgb_array" if render else None
+        )
 
         # Wrap with reward shaping if enabled
         if self.enable_reward_shaping:
             env = BreakoutRewardShaping(
                 base_env,
                 paddle_hit_bonus=self.reward_shaping_params["paddle_hit_bonus"],
-                center_position_bonus=self.reward_shaping_params["center_position_bonus"],
+                center_position_bonus=self.reward_shaping_params[
+                    "center_position_bonus"
+                ],
                 side_angle_bonus=self.reward_shaping_params["side_angle_bonus"],
-                block_bonus_multiplier=self.reward_shaping_params["block_bonus_multiplier"],
+                block_bonus_multiplier=self.reward_shaping_params[
+                    "block_bonus_multiplier"
+                ],
                 ball_loss_penalty=self.reward_shaping_params["ball_loss_penalty"],
                 enable_shaping=True,
             )
             print("🎮 Reward shaping ENABLED")
-            print(f"  Paddle hit bonus: {self.reward_shaping_params['paddle_hit_bonus']}")
-            print(f"  Center bonus: {self.reward_shaping_params['center_position_bonus']}")
-            print(f"  Side angle bonus: {self.reward_shaping_params['side_angle_bonus']}")
-            print(f"  Block multiplier: {self.reward_shaping_params['block_bonus_multiplier']}x")
-            print(f"  Ball loss penalty: {self.reward_shaping_params['ball_loss_penalty']}")
+            print(
+                f"  Paddle hit bonus: {self.reward_shaping_params['paddle_hit_bonus']}"
+            )
+            print(
+                f"  Center bonus: {self.reward_shaping_params['center_position_bonus']}"
+            )
+            print(
+                f"  Side angle bonus: {self.reward_shaping_params['side_angle_bonus']}"
+            )
+            print(
+                f"  Block multiplier: {self.reward_shaping_params['block_bonus_multiplier']}x"
+            )
+            print(
+                f"  Ball loss penalty: {self.reward_shaping_params['ball_loss_penalty']}"
+            )
         else:
             env = base_env
             print("🎮 Reward shaping DISABLED (using original rewards)")
@@ -71,32 +93,45 @@ class BreakoutDQN:
         policy_dqn = (
             CNN(num_actions).to(self.device)
             if self.use_cnn
-            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(
+                self.device
+            )
         )
         target_dqn = (
             CNN(num_actions).to(self.device)
             if self.use_cnn
-            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(
+                self.device
+            )
         )
         target_dqn.load_state_dict(policy_dqn.state_dict())
-        self.optimizer = torch.optim.Adam(policy_dqn.parameters(), lr=self.learning_rate)
+        self.optimizer = torch.optim.Adam(
+            policy_dqn.parameters(), lr=self.learning_rate
+        )
 
         last_episode_done = 0
         best_avg_reward = load_best_avg_reward("environment/best_avg_reward.txt")
         if resume_checkpoint and os.path.exists(resume_checkpoint):
             s_ep, best_avg = self.load_checkpoint(
-                policy_dqn, self.optimizer, resume_checkpoint, replay_filepath=resume_replay
+                policy_dqn,
+                self.optimizer,
+                resume_checkpoint,
+                replay_filepath=resume_replay,
             )
             last_episode_done = s_ep or 0
             target_dqn.load_state_dict(policy_dqn.state_dict())
             best_avg_reward = best_avg
-            print(f"Resuming from checkpoint {resume_checkpoint} at episode {last_episode_done}")
+            print(
+                f"Resuming from checkpoint {resume_checkpoint} at episode {last_episode_done}"
+            )
         else:
             print("Starting fresh training run")
 
         start_episode = last_episode_done + 1
         end_episode = last_episode_done + int(episodes)
-        print(f"Training episodes {start_episode}..{end_episode} (additional: {episodes})")
+        print(
+            f"Training episodes {start_episode}..{end_episode} (additional: {episodes})"
+        )
 
         rewards_per_episode = []
         epsilon_history = []
@@ -149,13 +184,18 @@ class BreakoutDQN:
                         frame_stack.append(next_obs)
                     next_state = frame_stack.get_stack().unsqueeze(0).float() / 255.0
 
-                self.memory.append((state, action, next_state, reward, terminated or truncated))
+                self.memory.append(
+                    (state, action, next_state, reward, terminated or truncated)
+                )
                 state = next_state
                 total_reward += reward
                 episode_steps += 1
                 step_count += 1
 
-                if len(self.memory) > self.mini_batch_size and step_count % config.UPDATE_EVERY == 0:
+                if (
+                    len(self.memory) > self.mini_batch_size
+                    and step_count % config.UPDATE_EVERY == 0
+                ):
                     mini_batch = self.memory.sample(self.mini_batch_size)
                     self.optimize(mini_batch, policy_dqn, target_dqn)
 
@@ -187,18 +227,24 @@ class BreakoutDQN:
                         f"Balls lost: {stats['balls_lost']}"
                     )
                 else:
-                    print(f"Episode {episode}, Avg Reward: {avg_reward:.2f}, Epsilon: {self.epsilon:.3f}")
+                    print(
+                        f"Episode {episode}, Avg Reward: {avg_reward:.2f}, Epsilon: {self.epsilon:.3f}"
+                    )
 
-                model_filename = f"models/CNN_breakout.pt"
+                model_filename = "models/CNN_breakout.pt"
                 torch.save(policy_dqn.state_dict(), model_filename)
                 torch.save(self.optimizer.state_dict(), "models/optimizer_latest.pth")
                 torch.save(policy_dqn.state_dict(), "models/model_latest.pth")
-                self.save_checkpoint(policy_dqn, self.optimizer, episode, "models/checkpoint_latest.pth")
+                self.save_checkpoint(
+                    policy_dqn, self.optimizer, episode, "models/checkpoint_latest.pth"
+                )
 
                 if avg_reward > best_avg_reward:
                     best_avg_reward = avg_reward
                     save_best_avg_reward(best_avg_reward)
-                    model_filename = f"models/CNN_breakout_avg_{int(best_avg_reward)}.pt"
+                    model_filename = (
+                        f"models/CNN_breakout_avg_{int(best_avg_reward)}.pt"
+                    )
                     torch.save(policy_dqn.state_dict(), model_filename)
                     print(f"  New best average reward! Model saved as {model_filename}")
 
@@ -209,21 +255,25 @@ class BreakoutDQN:
         states, actions, next_states, rewards, dones = zip(*mini_batch)
 
         states = torch.cat(states).to(self.device)
-        actions = torch.tensor(actions).unsqueeze(1).to(self.device)
+        actions = torch.tensor(actions, dtype=torch.long).unsqueeze(1).to(self.device)
         next_states = torch.cat(next_states).to(self.device)
-        rewards = torch.tensor(rewards).to(self.device)
+        rewards = torch.tensor(rewards, dtype=torch.float32).to(self.device)
         dones = torch.tensor(dones, dtype=torch.float32).to(self.device)
 
         current_q_values = policy_dqn(states).gather(1, actions)
         with torch.no_grad():
             next_q_values = target_dqn(next_states).max(1)[0]
-            target_q_values = rewards + self.discount_factor * next_q_values * (1 - dones)
+            target_q_values = rewards + self.discount_factor * next_q_values * (
+                1 - dones
+            )
 
         loss = self.loss_fn(current_q_values.squeeze(), target_q_values)
         self.optimizer.zero_grad()
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(policy_dqn.parameters(), max_norm=config.GRADIENT_CLIP)
+        torch.nn.utils.clip_grad_norm_(policy_dqn.parameters(), max_norm=10.0)
         self.optimizer.step()
+
+        return loss.item()  # Return loss value for tracking
 
     def test(self, episodes, model_filepath):
         """
@@ -241,7 +291,9 @@ class BreakoutDQN:
         policy_dqn = (
             CNN(num_actions).to(self.device)
             if self.use_cnn
-            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(self.device)
+            else NeuralNetwork(state_dim, self.num_hidden_nodes, num_actions).to(
+                self.device
+            )
         )
         policy_dqn.load_state_dict(torch.load(model_filepath, map_location=self.device))
         policy_dqn.to(self.device)
@@ -302,11 +354,16 @@ class BreakoutDQN:
         ckpt = {
             "episode": episode,
             "model_state_dict": model.state_dict(),
-            "optimizer_state_dict": optimizer.state_dict() if optimizer is not None else None,
+            "optimizer_state_dict": (
+                optimizer.state_dict() if optimizer is not None else None
+            ),
             "epsilon": self.epsilon,
             "best_avg_reward": load_best_avg_reward("environment/best_avg_reward.txt"),
         }
-        if getattr(self, "use_amp", False) and getattr(self, "scaler", None) is not None:
+        if (
+            getattr(self, "use_amp", False)
+            and getattr(self, "scaler", None) is not None
+        ):
             ckpt["scaler_state_dict"] = self.scaler.state_dict()
         torch.save(ckpt, filepath)
         # save replay memory next to checkpoint (non-blocking to disk)
@@ -319,7 +376,9 @@ class BreakoutDQN:
             # don't crash training because replay save failed
             pass
 
-    def load_checkpoint(self, model, optimizer=None, filepath=None, replay_filepath=None):
+    def load_checkpoint(
+        self, model, optimizer=None, filepath=None, replay_filepath=None
+    ):
         """Load checkpoint into model and optionally optimizer. Returns start_episode and best_avg_reward."""
         if filepath is None or not os.path.exists(filepath):
             return 0, load_best_avg_reward("environment/best_avg_reward.txt")
@@ -332,10 +391,16 @@ class BreakoutDQN:
                     if isinstance(v, torch.Tensor):
                         state[k] = v.to(self.device)
         self.epsilon = ckpt.get("epsilon", self.epsilon)
-        if getattr(self, "use_amp", False) and getattr(self, "scaler", None) is not None and ckpt.get("scaler_state_dict") is not None:
+        if (
+            getattr(self, "use_amp", False)
+            and getattr(self, "scaler", None) is not None
+            and ckpt.get("scaler_state_dict") is not None
+        ):
             self.scaler.load_state_dict(ckpt["scaler_state_dict"])
         start_episode = ckpt.get("episode", 0)
-        best_avg = ckpt.get("best_avg_reward", load_best_avg_reward("environment/best_avg_reward.txt"))
+        best_avg = ckpt.get(
+            "best_avg_reward", load_best_avg_reward("environment/best_avg_reward.txt")
+        )
 
         # attempt to load replay memory if provided
         if replay_filepath and os.path.exists(replay_filepath):
@@ -357,9 +422,14 @@ if __name__ == "__main__":
 
     if os.path.exists(checkpoint_path) and start_from_checkpoint:
         print(f"Auto-resume from {checkpoint_path}")
-        breakout_dqn.train(episodes=1000, render=False, resume_checkpoint=checkpoint_path, resume_replay=replay_path)
+        breakout_dqn.train(
+            episodes=1000,
+            render=False,
+            resume_checkpoint=checkpoint_path,
+            resume_replay=replay_path,
+        )
     else:
         breakout_dqn.train(episodes=1000, render=False)
-    
+
     # TESTING
     # breakout_dqn.test(10, "models/CNN_breakout.pt")
