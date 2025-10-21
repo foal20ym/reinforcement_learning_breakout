@@ -1,0 +1,107 @@
+{
+  "results": [
+    {
+      "trial": 1,
+      "params": {
+        "learning_rate": 5.630531968914637e-05,
+        "epsilon_decay": 0.993,
+        "mini_batch_size": 64
+      },
+      "score": 2.6,
+      "timestamp": "2025-10-20T13:54:53.875125"
+    },
+    {
+      "trial": 2,
+      "params": {
+        "learning_rate": 0.0004199224246279099,
+        "epsilon_decay": 0.995,
+        "mini_batch_size": 128
+      },
+      "score": 1.4,
+      "timestamp": "2025-10-20T14:04:01.551726"
+    },
+    {
+      "trial": 3,
+      "params": {
+        "learning_rate": 0.0002754695096865437,
+        "epsilon_decay": 0.997,
+        "mini_batch_size": 64
+      },
+      "score": 0.9,
+      "timestamp": "2025-10-20T14:09:37.023680"
+    },
+    {
+      "trial": 4,
+      "params": {
+        "learning_rate": 9.452321380945085e-05,
+        "epsilon_decay": 0.99,
+        "mini_batch_size": 64
+      },
+      "score": 2.8,
+      "timestamp": "2025-10-20T14:16:31.992050"
+    },
+    {
+      "trial": 5,
+      "params": {
+        "learning_rate": 0.00016876416287215696,
+        "epsilon_decay": 0.993,
+        "mini_batch_size": 64
+      },
+      "score": 0.9,
+      "timestamp": "2025-10-20T14:22:53.114543"
+    },
+    {
+      "trial": 6,
+      "params": {
+        "learning_rate": 0.0002723399764865801,
+        "epsilon_decay": 0.995,
+        "mini_batch_size": 128
+      },
+      "score": 1.0,
+      "timestamp": "2025-10-20T14:31:05.074793"
+    },
+    {
+      "trial": 7,
+      "params": {
+        "learning_rate": 0.00013618018720567304,
+        "epsilon_decay": 0.998,
+        "mini_batch_size": 128
+      },
+      "score": 1.8,
+      "timestamp": "2025-10-20T14:40:12.496188"
+    },
+    {
+      "trial": 8,
+      "params": {
+        "learning_rate": 0.0001480861706092323,
+        "epsilon_decay": 0.998,
+        "mini_batch_size": 128
+      },
+      "score": 1.4,
+      "timestamp": "2025-10-20T14:50:23.003049"
+    },
+    {
+      "trial": 9,
+      "params": {
+        "learning_rate": 0.00025032903546069035,
+        "epsilon_decay": 0.997,
+        "mini_batch_size": 128
+      },
+      "score": 2.1,
+      "timestamp": "2025-10-20T14:59:36.202117"
+    },
+    {
+      "trial": 10,
+      "params": {
+        "learning_rate": 0.0003940028576856747,
+        "epsilon_decay": 0.993,
+        "mini_batch_size": 128
+      },
+      "score": 0.7,
+      "timestamp": "2025-10-20T15:07:13.273058"
+    }
+  ],
+  "num_trials": 10,
+  "device": "cpu",
+  "timestamp": "2025-10-20T15:07:13.273335"
+}

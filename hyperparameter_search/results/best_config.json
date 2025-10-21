@@ -1,0 +1,10 @@
+{
+  "trial": 4,
+  "params": {
+    "learning_rate": 9.452321380945085e-05,
+    "epsilon_decay": 0.99,
+    "mini_batch_size": 64
+  },
+  "score": 2.8,
+  "timestamp": "2025-10-20T14:16:31.992050"
+}

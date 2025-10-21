@@ -4,14 +4,13 @@ ACTIONS = [0, 1, 2, 3]  # 0: noop, 1: left engine, 2: main engine, 3: right engi
 # Generic RL / Q-Learning style parameters
 DISCOUNT_FACTOR = 0.99  # Gamma
 
-
 # Epsilon-greedy schedule
 EPSILON = 1.0
 EPSILON_MIN = 0.01
-EPSILON_DECAY = 0.995  # Applied per episode (epsilon *= EPS_DECAY until floor)
+EPSILON_DECAY = 0.99  # Applied per episode (epsilon *= EPS_DECAY until floor)
 
 # Optimizer / learning
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 9.452321380945085e-05
 
 # DQN-specific parameters
 REPLAY_MEMORY_SIZE = 100_000
