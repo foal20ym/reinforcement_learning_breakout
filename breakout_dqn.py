@@ -295,7 +295,25 @@ class BreakoutDQN:
                 self.device
             )
         )
-        policy_dqn.load_state_dict(torch.load(model_filepath, map_location=self.device))
+        obj = torch.load(model_filepath, map_location=self.device)
+        if isinstance(obj, dict):
+            if "model_state_dict" in obj:
+                state_dict = obj["model_state_dict"]
+                print(f"Loaded model_state_dict from checkpoint: {model_filepath}")
+            elif "policy_state_dict" in obj:
+                state_dict = obj["policy_state_dict"]
+                print(f"Loaded policy_state_dict from checkpoint: {model_filepath}")
+            elif "state_dict" in obj:
+                state_dict = obj["state_dict"]
+                print(f"Loaded state_dict from checkpoint: {model_filepath}")
+            else:
+                # If it looks like a plain state_dict, use it directly
+                state_dict = obj
+                print(f"Loaded raw state_dict: {model_filepath}")
+        else:
+            raise RuntimeError(f"Unsupported model file format: {model_filepath}")
+
+        policy_dqn.load_state_dict(state_dict)
         policy_dqn.to(self.device)
         policy_dqn.eval()
 
