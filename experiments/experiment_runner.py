@@ -4,6 +4,7 @@ import os
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
 
 import matplotlib
 import numpy as np
@@ -18,6 +19,11 @@ import warnings
 import gymnasium as gym
 import matplotlib.pyplot as plt
 import torch
+
+# Add parent directory to path before importing project modules
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 from breakout_dqn import BreakoutDQN
 from core.CNN import CNN
 from environment.reward_shaping import BreakoutRewardShaping
@@ -37,10 +43,6 @@ from experiments.experiment_config import (
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
 warnings.filterwarnings("ignore", message="Glyph.*missing from font")
 warnings.filterwarnings("ignore", message="No artists with labels found")
-
-
-# Add parent directory to path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class ExperimentRunner:
@@ -903,16 +905,17 @@ class ExperimentRunner:
         if not self.results:
             return
 
-        fig = plt.figure(figsize=(20, 14))
-        gs = fig.add_gridspec(3, 3, hspace=0.3, wspace=0.3)
+        fig = plt.figure(figsize=(20, 12))
+        gs = fig.add_gridspec(2, 3, hspace=0.35, wspace=0.35)
 
         fig.suptitle(
-            "Reward Shaping Experiments Comparison (Original Game Score)",
-            fontsize=18,
+            "Reward Shaping Experiments - Performance Comparison",
+            fontsize=20,
             fontweight="bold",
+            y=0.98,
         )
 
-        # Get sorted names by original score
+        # Get sorted results
         sorted_results = sorted(
             self.results.items(),
             key=lambda x: x[1]["metrics"]["avg_original_score"],
@@ -920,201 +923,251 @@ class ExperimentRunner:
         )
         names = [name for name, _ in sorted_results]
 
-        # Plot 1: Average ORIGINAL scores (PRIMARY METRIC)
-        ax1 = fig.add_subplot(gs[0, 0])
+        # ============================================================
+        # PLOT 1: Learning Curves
+        # ============================================================
+        ax_learning = fig.add_subplot(gs[:, :2])
+
+        # Group experiments by performance tier for styling
+        top_performers = set(names[:3])
+        mid_performers = set(names[3:6]) if len(names) > 3 else set()
+
+        has_enough_data = False
+
+        # Plot with different styles for clarity
+        for name in names:
+            result = self.results[name]
+            scores = result["stats"]["original_scores"]
+
+            # Adaptive smoothing based on data size
+            if len(scores) >= 50:
+                window = max(20, len(scores) // 50)
+                moving_avg = np.convolve(scores, np.ones(window) / window, mode="valid")
+                x_data = range(len(moving_avg))
+                marker = None
+                markersize = 0
+                has_enough_data = True
+            elif len(scores) >= 10:
+                window = min(5, len(scores) // 2)
+                moving_avg = np.convolve(scores, np.ones(window) / window, mode="valid")
+                x_data = range(len(moving_avg))
+                marker = "o"
+                markersize = 6
+            else:
+                moving_avg = scores
+                x_data = range(len(scores))
+                marker = "o"
+                markersize = 8
+
+            if len(moving_avg) == 0:
+                continue
+
+            # Style based on performance tier
+            if name in top_performers:
+                linewidth = 3.5 if has_enough_data else 2.5
+                alpha = 0.95
+                linestyle = "-"
+                zorder = 10
+            elif name in mid_performers:
+                linewidth = 2.5 if has_enough_data else 2.0
+                alpha = 0.75
+                linestyle = "--"
+                zorder = 5
+            else:
+                # Low performers
+                linewidth = 1.8 if has_enough_data else 1.5
+                alpha = 0.55
+                linestyle = ":"
+                zorder = 1
+
+            # Special handling for baseline - always prominent
+            if name == "baseline":
+                linewidth = 4.0 if has_enough_data else 3.0
+                linestyle = "-"
+                alpha = 1.0
+                zorder = 15
+
+            # Plot the line
+            ax_learning.plot(
+                x_data,
+                moving_avg,
+                label=name.replace("_", " ").title(),
+                alpha=alpha,
+                linewidth=linewidth,
+                linestyle=linestyle,
+                color=self._get_config_color(name),
+                marker=marker,
+                markersize=markersize,
+                markevery=max(1, len(x_data) // 10) if marker else None,
+                zorder=zorder,
+            )
+
+        ax_learning.set_xlabel("Episode", fontsize=14, fontweight="bold")
+        ax_learning.set_ylabel(
+            "Original Game Score (Moving Avg)", fontsize=14, fontweight="bold"
+        )
+
+        ax_learning.set_title(
+            "Learning Progress Over Time",
+            fontsize=16,
+            fontweight="bold",
+            pad=25,
+        )
+
+        ax_learning.legend(
+            loc="upper left",
+            bbox_to_anchor=(0.01, 0.99),  # Position inside but at top-left corner
+            fontsize=8,
+            framealpha=0.95,
+            edgecolor="black",
+            title="Configuration (by performance)",
+            title_fontsize=9,
+            ncol=2 if len(names) > 6 else 1,
+            columnspacing=0.8,
+            labelspacing=0.6,
+            borderpad=0.5,
+            handlelength=1.5,
+            handleheight=0.7,
+        )
+
+        ax_learning.grid(alpha=0.3, linestyle="--", linewidth=0.5)
+        ax_learning.set_ylim(bottom=0)
+
+        # ============================================================
+        # PLOT 2: Final Performance Ranking
+        # ============================================================
+        ax_ranking = fig.add_subplot(gs[0, 2])
+
         avg_scores = [
             self.results[name]["metrics"]["avg_original_score"] for name in names
         ]
         colors = [self._get_config_color(name) for name in names]
 
-        bars = ax1.barh(names, avg_scores, color=colors, alpha=0.8, edgecolor="black")
-        ax1.set_xlabel("Average Original Score", fontsize=11, fontweight="bold")
-        ax1.set_title(
-            "Average Game Score (PRIMARY METRIC)", fontsize=12, fontweight="bold"
-        )
-        ax1.grid(axis="x", alpha=0.3)
-
-        for i, (bar, val) in enumerate(zip(bars, avg_scores)):
-            ax1.text(val, i, f" {val:.1f}", va="center", fontsize=9, fontweight="bold")
-
-        # Plot 2: Learning curves (ORIGINAL scores)
-        ax2 = fig.add_subplot(gs[0, 1])
-        for name in names:
-            result = self.results[name]
-            scores = result["stats"]["original_scores"]
-            window = max(10, len(scores) // 20)
-            if len(scores) >= window:
-                moving_avg = np.convolve(scores, np.ones(window) / window, mode="valid")
-                ax2.plot(
-                    moving_avg,
-                    label=name,
-                    alpha=0.7,
-                    linewidth=2,
-                    color=self._get_config_color(name),
-                )
-
-        ax2.set_xlabel("Episode", fontsize=11, fontweight="bold")
-        ax2.set_ylabel("Original Score (Moving Avg)", fontsize=11, fontweight="bold")
-        ax2.set_title(
-            "Learning Curves (True Game Score)", fontsize=12, fontweight="bold"
+        ax_ranking.barh(
+            range(len(names)),
+            avg_scores,
+            color=colors,
+            alpha=0.8,
+            edgecolor="black",
+            linewidth=1.5,
         )
 
-        # Only add legend if there are labeled artists
-        handles, labels = ax2.get_legend_handles_labels()
-        if handles:
-            ax2.legend(loc="best", fontsize=8)
-        ax2.grid(alpha=0.3)
+        ax_ranking.set_yticks(range(len(names)))
+        ax_ranking.set_yticklabels(
+            [n.replace("_", " ").title() for n in names], fontsize=8
+        )
+        ax_ranking.set_xlabel("Average Score", fontsize=12, fontweight="bold")
+        ax_ranking.set_title(
+            "Overall Performance", fontsize=14, fontweight="bold", pad=15
+        )
+        ax_ranking.grid(axis="x", alpha=0.3, linestyle="--")
 
-        # Plot 3: Final performance (last 10 episodes)
-        ax3 = fig.add_subplot(gs[0, 2])
-        final_avgs = [
-            self.results[name]["metrics"]["final_avg_original"] for name in names
-        ]
-        bars3 = ax3.barh(names, final_avgs, color="coral", alpha=0.7, edgecolor="black")
-        ax3.set_xlabel("Final Average (Last 10 eps)", fontsize=11, fontweight="bold")
-        ax3.set_title("Final Performance", fontsize=12, fontweight="bold")
-        ax3.grid(axis="x", alpha=0.3)
+        # Add value labels
+        max_score = max(avg_scores)
+        for i, val in enumerate(avg_scores):
+            # Position label to the right of bar
+            label_x = val + (max_score * 0.03)
+            ax_ranking.text(
+                label_x,
+                i,
+                f"{val:.1f}",
+                va="center",
+                fontsize=8,
+                fontweight="bold",
+            )
 
-        for i, (bar, val) in enumerate(zip(bars3, final_avgs)):
-            ax3.text(val, i, f" {val:.1f}", va="center", fontsize=9)
+        ax_ranking.set_xlim(right=max_score * 1.2)
 
-        # Plot 4: Improvement (learning delta)
-        ax4 = fig.add_subplot(gs[1, 0])
+        # ============================================================
+        # PLOT 3: Learning Efficiency
+        # ============================================================
+        ax_efficiency = fig.add_subplot(gs[1, 2])
+
         improvements = [
             self.results[name]["metrics"]["score_improvement"] for name in names
         ]
-        colors4 = [
-            "red" if x < 0 else "green" if x > 0 else "gray" for x in improvements
-        ]
-        bars4 = ax4.barh(
-            names, improvements, color=colors4, alpha=0.7, edgecolor="black"
-        )
-        ax4.axvline(x=0, color="black", linestyle="--", linewidth=1)
-        ax4.set_xlabel(
-            "Score Improvement (Final - Initial)", fontsize=11, fontweight="bold"
-        )
-        ax4.set_title("Learning Speed", fontsize=12, fontweight="bold")
-        ax4.grid(axis="x", alpha=0.3)
 
-        for i, (bar, val) in enumerate(zip(bars4, improvements)):
-            if abs(val) > 0.1:
-                ax4.text(val, i, f" {val:+.1f}", va="center", fontsize=9)
-
-        # Plot 5: Consistency (std deviation)
-        ax5 = fig.add_subplot(gs[1, 1])
-        std_scores = [
-            self.results[name]["metrics"]["std_original_score"] for name in names
-        ]
-        bars5 = ax5.barh(
-            names, std_scores, color="mediumpurple", alpha=0.7, edgecolor="black"
-        )
-        ax5.set_xlabel(
-            "Standard Deviation (Lower = More Consistent)",
-            fontsize=11,
-            fontweight="bold",
-        )
-        ax5.set_title("Consistency", fontsize=12, fontweight="bold")
-        ax5.grid(axis="x", alpha=0.3)
-
-        for i, (bar, val) in enumerate(zip(bars5, std_scores)):
-            ax5.text(val, i, f" {val:.1f}", va="center", fontsize=9)
-
-        # Plot 6: Success rate (score > 0)
-        ax6 = fig.add_subplot(gs[1, 2])
-        success_rates = [
-            self.results[name]["metrics"]["success_rate"] for name in names
-        ]
-        bars6 = ax6.barh(
-            names, success_rates, color="skyblue", alpha=0.8, edgecolor="black"
-        )
-        ax6.set_xlabel("Success Rate (%)", fontsize=11, fontweight="bold")
-        ax6.set_title("Success Rate (Score > 0)", fontsize=12, fontweight="bold")
-        ax6.set_xlim([0, 100])
-        ax6.grid(axis="x", alpha=0.3)
-
-        for i, (bar, val) in enumerate(zip(bars6, success_rates)):
-            ax6.text(val, i, f" {val:.0f}%", va="center", fontsize=9)
-
-        # Plot 7: Episodes to milestones
-        ax7 = fig.add_subplot(gs[2, 0])
-        milestone_data = {}
-        for name in names:
-            metrics = self.results[name]["metrics"]
-            ep_5 = metrics.get("episodes_to_5", None)
-            ep_10 = metrics.get("episodes_to_10", None)
-            milestone_data[name] = {
-                "5pts": ep_5 if isinstance(ep_5, int) else None,
-                "10pts": ep_10 if isinstance(ep_10, int) else None,
-            }
-
-        # Plot as grouped bars
-        x = np.arange(len(names))
-        width = 0.35
-        ep_5_vals = [
-            milestone_data[n]["5pts"] if milestone_data[n]["5pts"] else 0 for n in names
-        ]
-        ep_10_vals = [
-            milestone_data[n]["10pts"] if milestone_data[n]["10pts"] else 0
-            for n in names
+        # Color by improvement direction
+        colors_eff = [
+            (
+                "#2ecc71"
+                if x > 2
+                else "#27ae60" if x > 0 else "#e74c3c" if x < -2 else "#95a5a6"
+            )
+            for x in improvements
         ]
 
-        ax7.barh(
-            x - width / 2,
-            ep_5_vals,
-            width,
-            label="To 5 pts",
-            alpha=0.7,
-            color="lightgreen",
-        )
-        ax7.barh(
-            x + width / 2,
-            ep_10_vals,
-            width,
-            label="To 10 pts",
-            alpha=0.7,
-            color="lightcoral",
+        ax_efficiency.barh(
+            range(len(names)),
+            improvements,
+            color=colors_eff,
+            alpha=0.8,
+            edgecolor="black",
+            linewidth=1.5,
         )
 
-        ax7.set_xlabel("Episodes", fontsize=11, fontweight="bold")
-        ax7.set_title(
-            "Learning Speed (Episodes to Reach Score)", fontsize=12, fontweight="bold"
+        ax_efficiency.axvline(x=0, color="black", linestyle="--", linewidth=2)
+        ax_efficiency.set_yticks(range(len(names)))
+        ax_efficiency.set_yticklabels(
+            [n.replace("_", " ").title() for n in names], fontsize=8
         )
-        ax7.set_yticks(x)
-        ax7.set_yticklabels(names, fontsize=9)
-        ax7.legend(fontsize=9)
-        ax7.grid(axis="x", alpha=0.3)
-
-        # Plot 8: Top 10% performance
-        ax8 = fig.add_subplot(gs[2, 1])
-        top_10_avgs = [
-            self.results[name]["metrics"]["top_10_percent_avg"] for name in names
-        ]
-        bars8 = ax8.barh(names, top_10_avgs, color="gold", alpha=0.8, edgecolor="black")
-        ax8.set_xlabel("Average of Top 10% Episodes", fontsize=11, fontweight="bold")
-        ax8.set_title("Peak Performance", fontsize=12, fontweight="bold")
-        ax8.grid(axis="x", alpha=0.3)
-
-        for i, (bar, val) in enumerate(zip(bars8, top_10_avgs)):
-            ax8.text(val, i, f" {val:.1f}", va="center", fontsize=9)
-
-        # Plot 9: Episode length (survival)
-        ax9 = fig.add_subplot(gs[2, 2])
-        avg_lengths = [
-            self.results[name]["metrics"]["avg_episode_length"] for name in names
-        ]
-        bars9 = ax9.barh(
-            names, avg_lengths, color="lightsteelblue", alpha=0.8, edgecolor="black"
+        ax_efficiency.set_xlabel("Score Improvement", fontsize=12, fontweight="bold")
+        ax_efficiency.set_title(
+            "Learning Efficiency (Δ)", fontsize=14, fontweight="bold", pad=15
         )
-        ax9.set_xlabel("Average Episode Length (steps)", fontsize=11, fontweight="bold")
-        ax9.set_title("Survival Duration", fontsize=12, fontweight="bold")
-        ax9.grid(axis="x", alpha=0.3)
+        ax_efficiency.grid(axis="x", alpha=0.3, linestyle="--")
 
-        for i, (bar, val) in enumerate(zip(bars9, avg_lengths)):
-            ax9.text(val, i, f" {val:.0f}", va="center", fontsize=9)
+        # Add value labels with smart positioning
+        if improvements:  # Safety check
+            max_abs_val = max(abs(min(improvements)), abs(max(improvements)))
+            for i, val in enumerate(improvements):
+                if abs(val) > 0.3:  # Only show if significant
+                    # Position based on value direction
+                    offset = max(max_abs_val * 0.08, 0.1)  # At least 0.1 offset
+                    if val > 0:
+                        x_pos = val + offset
+                        ha = "left"
+                    else:
+                        x_pos = val - offset
+                        ha = "right"
 
-        # Save plot
+                    ax_efficiency.text(
+                        x_pos,
+                        i,
+                        f"{val:+.1f}",
+                        va="center",
+                        ha=ha,
+                        fontsize=8,
+                        fontweight="bold",
+                    )
+
+            # Adjust x-axis limits for label visibility
+            x_margin = max(max_abs_val * 0.25, 0.5)  # At least 0.5 margin
+            ax_efficiency.set_xlim(
+                left=min(improvements) - x_margin, right=max(improvements) + x_margin
+            )
+
+        # Add summary text box at bottom
+        summary_text = (
+            f"Total Experiments: {len(self.results)} | "
+            f"Best Config: {names[0].replace('_', ' ').title()} ({avg_scores[0]:.1f}) | "
+            f"Device: {self.device}"
+        )
+
+        fig.text(
+            0.5,
+            0.015,
+            summary_text,
+            fontsize=10,
+            ha="center",
+            va="bottom",
+            bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5, pad=0.6),
+        )
+
+        plt.tight_layout(rect=[0, 0.04, 1, 0.97])
+
         plot_path = os.path.join(self.output_dir, "experiment_comparison.png")
-        plt.savefig(plot_path, dpi=200, bbox_inches="tight")
+        plt.savefig(plot_path, dpi=300, bbox_inches="tight", pad_inches=0.2)
         print(f"\n📈 Comparison plots saved to: {plot_path}")
 
         plt.close()
