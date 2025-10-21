@@ -1,0 +1,11 @@
+run_name,file,avg_original_score,max_original_score,final_avg_original,score_improvement,top_10_percent_avg,avg_shaped_reward,avg_episode_length,max_episode_length,length_improvement
+comparison_summary,comparison_summary.json,,,,,,,,,
+ball_loss_penalty_only,ball_loss_penalty_only_results.json,5.374,25.0,15.6,14.299999999999999,15.24,1.374,308.722,790.0,400.70000000000005
+block_multiplier_only,block_multiplier_only_results.json,5.414,21.0,11.2,10.5,13.94,8.121,317.946,833.0,378.6
+bonuses_only,bonuses_only_results.json,6.182,32.0,12.6,11.4,17.36,17.928859999999997,335.672,837.0,378.70000000000005
+center_position_only,center_position_only_results.json,8.044,36.0,18.6,18.0,22.24,17.277189999999994,386.916,977.0,533.0999999999999
+paddle_hit_only,paddle_hit_only_results.json,4.704,17.0,8.8,6.800000000000001,11.0,5.4525999999999994,293.848,688.0,222.9
+baseline,baseline_results.json,4.724,24.0,11.0,9.4,11.3,4.724,294.694,706.0,317.5
+survival_bonus_only,survival_bonus_only_results.json,4.794,17.0,7.4,5.800000000000001,11.68,5.071019999999998,292.66,642.0,216.6
+all_combined,all_combined_results.json,9.046,61.0,16.5,15.8,24.96,21.749487999999985,418.056,1134.0,487.09999999999997
+side_angle_only,side_angle_only_results.json,5.06,24.0,11.9,9.4,13.38,5.560700000000001,302.466,762.0,283.2
