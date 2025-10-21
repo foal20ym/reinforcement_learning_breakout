@@ -54,8 +54,8 @@ class RandomHyperparameterSearch:
 
         Args:
             param_ranges: Dict of parameter ranges to search
-            n_trials: Number of random configs to test (5-10 recommended)
-            test_episodes: Episodes per test (20-30 for speed, 50+ for accuracy)
+            n_trials: Number of random configs to test
+            test_episodes: Episodes per test
         """
         print(f"\n{'=' * 70}")
         print("🎲 RANDOM HYPERPARAMETER SEARCH")
@@ -112,15 +112,6 @@ class RandomHyperparameterSearch:
         return params
 
     def _test_config(self, params, episodes):
-        """
-        Run a fast training test with given parameters.
-
-        Optimizations:
-        - Short episodes (20-30)
-        - GPU acceleration
-        - No checkpointing
-        - Simplified tracking
-        """
         try:
             # Setup agent with custom params
             agent = BreakoutDQN()

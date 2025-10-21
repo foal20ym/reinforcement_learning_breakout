@@ -13,7 +13,6 @@ matplotlib.use("Agg")  # Use non-interactive backend
 import random
 import shutil
 
-# Suppress cosmetic matplotlib warnings
 import warnings
 
 import gymnasium as gym
@@ -40,6 +39,7 @@ from experiments.experiment_config import (
     QUICK_TEST_EPISODES,
 )
 
+# Suppress cosmetic matplotlib warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
 warnings.filterwarnings("ignore", message="Glyph.*missing from font")
 warnings.filterwarnings("ignore", message="No artists with labels found")
@@ -79,7 +79,6 @@ class ExperimentRunner:
     def run_experiment(
         self, config_name, episodes=QUICK_TEST_EPISODES, render=False, resume_from=None
     ):
-        """Run a single experiment with the given configuration."""
         if config_name not in EXPERIMENT_CONFIGS:
             raise ValueError(
                 f"Unknown config: {config_name}. Available: {list(EXPERIMENT_CONFIGS.keys())}"
@@ -106,10 +105,8 @@ class ExperimentRunner:
             )
         print(f"{'=' * 80}\n")
 
-        # Create DQN agent
         agent = BreakoutDQN()
 
-        # Override reward shaping parameters
         agent.enable_reward_shaping = True
         agent.reward_shaping_params = {
             "paddle_hit_bonus": config["paddle_hit_bonus"],
@@ -288,7 +285,7 @@ class ExperimentRunner:
 
         rewards_per_episode = []
         epsilon_history = []
-        step_count = start_episode * 1000  # Approximate
+        step_count = start_episode * 1000
 
         # Checkpoint tracking
         best_avg_original_score = -float("inf")
@@ -426,7 +423,6 @@ class ExperimentRunner:
                     f"checkpoint_ep{episode:05d}_score{avg_original_score:.1f}.pt",
                 )
 
-                # Save ONLY essential data to avoid disk space issues
                 checkpoint = {
                     "episode": episode,
                     "policy_state_dict": policy_dqn.state_dict(),
@@ -435,7 +431,6 @@ class ExperimentRunner:
                     "epsilon": agent.epsilon,
                     "avg_original_score": avg_original_score,
                     "step_count": step_count,
-                    # Don't save: rewards, memory (too large)
                 }
 
                 try:
@@ -478,7 +473,7 @@ class ExperimentRunner:
                                         f"🗑️  Removed old checkpoint: {os.path.basename(old_ckpt['path'])}"
                                     )
                                 except OSError:
-                                    pass  # Ignore if can't delete
+                                    pass
                         saved_checkpoints = saved_checkpoints[
                             : KEEP_BEST_N_CHECKPOINTS + 1
                         ]
