@@ -1,0 +1,2 @@
+now processing task id:: 404 on worker2.slurm.hj.se
+slurmstepd-worker2.slurm.hj.se: error: *** JOB 404 ON worker2.slurm.hj.se CANCELLED AT 2025-10-17T08:40:08 ***

@@ -1,0 +1,179 @@
+🚀 GPU detected: NVIDIA L4
+   Memory: 23.58 GB
+   CUDA Version: 12.8
+
+================================================================================
+🚀 Running ALL experiments (9 total)
+📊 Episodes per experiment: 500
+🖥️  Device: cuda
+================================================================================
+
+
+================================================================================
+Progress: Experiment 1/9
+================================================================================
+
+================================================================================
+🧪 Running Experiment: baseline
+📝 Description: No reward shaping - original environment rewards only
+📊 Episodes: 500
+💾 Checkpoints: experiments/results/checkpoints/baseline
+🖥️  Device: cuda
+⚡ GPU Memory Available: 23.58 GB
+================================================================================
+
+A.L.E: Arcade Learning Environment (version 0.11.2+ecc1138)
+[Powered by Stella]
+Episode 10/500 | Original Score: 1.50 | Shaped: 1.50 | Epsilon: 0.904
+Episode 20/500 | Original Score: 1.60 | Shaped: 1.60 | Epsilon: 0.818
+Episode 30/500 | Original Score: 1.10 | Shaped: 1.10 | Epsilon: 0.740
+Episode 40/500 | Original Score: 1.20 | Shaped: 1.20 | Epsilon: 0.669
+Episode 50/500 | Original Score: 0.90 | Shaped: 0.90 | Epsilon: 0.605
+   GPU Memory: 0.08 GB
+Episode 60/500 | Original Score: 1.60 | Shaped: 1.60 | Epsilon: 0.547
+Episode 70/500 | Original Score: 1.50 | Shaped: 1.50 | Epsilon: 0.495
+Episode 80/500 | Original Score: 2.70 | Shaped: 2.70 | Epsilon: 0.448
+Episode 90/500 | Original Score: 1.50 | Shaped: 1.50 | Epsilon: 0.405
+Episode 100/500 | Original Score: 3.70 | Shaped: 3.70 | Epsilon: 0.366
+   GPU Memory: 0.08 GB
+Episode 110/500 | Original Score: 2.90 | Shaped: 2.90 | Epsilon: 0.331
+Episode 120/500 | Original Score: 1.70 | Shaped: 1.70 | Epsilon: 0.299
+Episode 130/500 | Original Score: 3.60 | Shaped: 3.60 | Epsilon: 0.271
+Episode 140/500 | Original Score: 4.50 | Shaped: 4.50 | Epsilon: 0.245
+Episode 150/500 | Original Score: 5.30 | Shaped: 5.30 | Epsilon: 0.221
+   GPU Memory: 0.08 GB
+Episode 160/500 | Original Score: 6.10 | Shaped: 6.10 | Epsilon: 0.200
+Episode 170/500 | Original Score: 5.60 | Shaped: 5.60 | Epsilon: 0.181
+Episode 180/500 | Original Score: 5.20 | Shaped: 5.20 | Epsilon: 0.164
+Episode 190/500 | Original Score: 3.20 | Shaped: 3.20 | Epsilon: 0.148
+Episode 200/500 | Original Score: 2.60 | Shaped: 2.60 | Epsilon: 0.134
+   GPU Memory: 0.08 GB
+Episode 210/500 | Original Score: 4.00 | Shaped: 4.00 | Epsilon: 0.121
+Episode 220/500 | Original Score: 2.90 | Shaped: 2.90 | Epsilon: 0.110
+Episode 230/500 | Original Score: 3.20 | Shaped: 3.20 | Epsilon: 0.099
+Episode 240/500 | Original Score: 3.70 | Shaped: 3.70 | Epsilon: 0.090
+Episode 250/500 | Original Score: 3.80 | Shaped: 3.80 | Epsilon: 0.081
+   GPU Memory: 0.08 GB
+Episode 260/500 | Original Score: 4.00 | Shaped: 4.00 | Epsilon: 0.073
+Episode 270/500 | Original Score: 3.00 | Shaped: 3.00 | Epsilon: 0.066
+Episode 280/500 | Original Score: 4.60 | Shaped: 4.60 | Epsilon: 0.060
+Episode 290/500 | Original Score: 3.70 | Shaped: 3.70 | Epsilon: 0.054
+Episode 300/500 | Original Score: 4.00 | Shaped: 4.00 | Epsilon: 0.049
+   GPU Memory: 0.08 GB
+Episode 310/500 | Original Score: 5.00 | Shaped: 5.00 | Epsilon: 0.044
+Episode 320/500 | Original Score: 3.20 | Shaped: 3.20 | Epsilon: 0.040
+Episode 330/500 | Original Score: 3.60 | Shaped: 3.60 | Epsilon: 0.036
+Episode 340/500 | Original Score: 3.70 | Shaped: 3.70 | Epsilon: 0.033
+Episode 350/500 | Original Score: 4.40 | Shaped: 4.40 | Epsilon: 0.030
+   GPU Memory: 0.08 GB
+Episode 360/500 | Original Score: 4.00 | Shaped: 4.00 | Epsilon: 0.027
+Episode 370/500 | Original Score: 3.40 | Shaped: 3.40 | Epsilon: 0.024
+Episode 380/500 | Original Score: 4.10 | Shaped: 4.10 | Epsilon: 0.022
+Episode 390/500 | Original Score: 3.80 | Shaped: 3.80 | Epsilon: 0.020
+Episode 400/500 | Original Score: 5.10 | Shaped: 5.10 | Epsilon: 0.018
+   GPU Memory: 0.08 GB
+Episode 410/500 | Original Score: 5.10 | Shaped: 5.10 | Epsilon: 0.016
+Episode 420/500 | Original Score: 4.90 | Shaped: 4.90 | Epsilon: 0.015
+Episode 430/500 | Original Score: 4.10 | Shaped: 4.10 | Epsilon: 0.013
+Episode 440/500 | Original Score: 3.70 | Shaped: 3.70 | Epsilon: 0.012
+Episode 450/500 | Original Score: 4.80 | Shaped: 4.80 | Epsilon: 0.011
+   GPU Memory: 0.08 GB
+Episode 460/500 | Original Score: 5.90 | Shaped: 5.90 | Epsilon: 0.010
+Episode 470/500 | Original Score: 4.10 | Shaped: 4.10 | Epsilon: 0.010
+Episode 480/500 | Original Score: 4.00 | Shaped: 4.00 | Epsilon: 0.010
+Episode 490/500 | Original Score: 5.70 | Shaped: 5.70 | Epsilon: 0.010
+Episode 500/500 | Original Score: 5.00 | Shaped: 5.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/baseline/checkpoint_ep00500_score4.7.pt
+🏆 New best checkpoint! Original score: 4.73
+💾 Results saved to: experiments/results/baseline_results.json
+
+================================================================================
+✅ Experiment 'baseline' completed in 0.31 hours
+
+📊 COMPARISON METRICS (Original Game Score):
+   Average Score: 3.65
+   Max Score: 20.00
+   Final Average (last 10): 5.00
+   Improvement: 3.50
+
+📈 LEARNING EFFICIENCY:
+   Episodes to reach 5 score: 60
+   Episodes to reach 10 score: 139
+   Success rate (score > 0): 94.0%
+
+🎯 CONSISTENCY:
+   Score std deviation: 2.31
+   Median score: 3.00
+   Top 10% average: 8.60
+
+⏱️  SURVIVAL:
+   Average episode length: 254 steps
+   Max episode length: 719 steps
+
+💾 Best checkpoint: experiments/results/checkpoints/baseline/best_checkpoint.pt
+================================================================================
+
+🖥️  GPU Memory Used: 0.13 GB
+
+================================================================================
+Progress: Experiment 2/9
+================================================================================
+
+================================================================================
+🧪 Running Experiment: paddle_hit_only
+📝 Description: Only paddle hit bonus
+📊 Episodes: 500
+💾 Checkpoints: experiments/results/checkpoints/paddle_hit_only
+🖥️  Device: cuda
+⚡ GPU Memory Available: 23.58 GB
+================================================================================
+
+Episode 10/500 | Original Score: 1.30 | Shaped: 1.61 | Epsilon: 0.904
+Episode 20/500 | Original Score: 1.60 | Shaped: 1.79 | Epsilon: 0.818
+Episode 30/500 | Original Score: 1.70 | Shaped: 2.17 | Epsilon: 0.740
+Episode 40/500 | Original Score: 1.30 | Shaped: 1.51 | Epsilon: 0.669
+Episode 50/500 | Original Score: 1.70 | Shaped: 1.93 | Epsilon: 0.605
+   GPU Memory: 0.08 GB
+Episode 60/500 | Original Score: 0.70 | Shaped: 1.12 | Epsilon: 0.547
+Episode 70/500 | Original Score: 1.50 | Shaped: 1.80 | Epsilon: 0.495
+Episode 80/500 | Original Score: 2.10 | Shaped: 2.46 | Epsilon: 0.448
+Episode 90/500 | Original Score: 1.30 | Shaped: 1.84 | Epsilon: 0.405
+Episode 100/500 | Original Score: 1.20 | Shaped: 1.77 | Epsilon: 0.366
+   GPU Memory: 0.08 GB
+Episode 110/500 | Original Score: 1.30 | Shaped: 1.89 | Epsilon: 0.331
+Episode 120/500 | Original Score: 2.40 | Shaped: 2.91 | Epsilon: 0.299
+Episode 130/500 | Original Score: 3.30 | Shaped: 3.64 | Epsilon: 0.271
+Episode 140/500 | Original Score: 4.20 | Shaped: 4.58 | Epsilon: 0.245
+Episode 150/500 | Original Score: 6.00 | Shaped: 6.06 | Epsilon: 0.221
+   GPU Memory: 0.08 GB
+Episode 160/500 | Original Score: 5.00 | Shaped: 5.07 | Epsilon: 0.200
+Episode 170/500 | Original Score: 5.00 | Shaped: 5.21 | Epsilon: 0.181
+Episode 180/500 | Original Score: 7.00 | Shaped: 7.79 | Epsilon: 0.164
+Episode 190/500 | Original Score: 7.00 | Shaped: 7.92 | Epsilon: 0.148
+Episode 200/500 | Original Score: 5.90 | Shaped: 7.01 | Epsilon: 0.134
+   GPU Memory: 0.08 GB
+Episode 210/500 | Original Score: 6.30 | Shaped: 7.55 | Epsilon: 0.121
+Episode 220/500 | Original Score: 5.00 | Shaped: 5.86 | Epsilon: 0.110
+Episode 230/500 | Original Score: 4.40 | Shaped: 5.29 | Epsilon: 0.099
+Episode 240/500 | Original Score: 5.80 | Shaped: 6.67 | Epsilon: 0.090
+Episode 250/500 | Original Score: 4.60 | Shaped: 5.27 | Epsilon: 0.081
+   GPU Memory: 0.08 GB
+Episode 260/500 | Original Score: 6.60 | Shaped: 7.23 | Epsilon: 0.073
+Episode 270/500 | Original Score: 5.60 | Shaped: 6.20 | Epsilon: 0.066
+Episode 280/500 | Original Score: 5.50 | Shaped: 5.87 | Epsilon: 0.060
+Episode 290/500 | Original Score: 4.60 | Shaped: 5.26 | Epsilon: 0.054
+Episode 300/500 | Original Score: 8.30 | Shaped: 9.03 | Epsilon: 0.049
+   GPU Memory: 0.08 GB
+Episode 310/500 | Original Score: 8.10 | Shaped: 9.11 | Epsilon: 0.044
+Episode 320/500 | Original Score: 6.20 | Shaped: 7.08 | Epsilon: 0.040
+Episode 330/500 | Original Score: 8.00 | Shaped: 8.84 | Epsilon: 0.036
+Episode 340/500 | Original Score: 8.40 | Shaped: 9.48 | Epsilon: 0.033
+Episode 350/500 | Original Score: 8.40 | Shaped: 9.51 | Epsilon: 0.030
+   GPU Memory: 0.08 GB
+Episode 360/500 | Original Score: 8.10 | Shaped: 9.13 | Epsilon: 0.027
+Episode 370/500 | Original Score: 6.70 | Shaped: 7.72 | Epsilon: 0.024
+Episode 380/500 | Original Score: 9.20 | Shaped: 9.88 | Epsilon: 0.022
+Episode 390/500 | Original Score: 9.30 | Shaped: 10.40 | Epsilon: 0.020
+Episode 400/500 | Original Score: 11.20 | Shaped: 12.26 | Epsilon: 0.018
+   GPU Memory: 0.08 GB

@@ -1,0 +1,1686 @@
+🚀 GPU detected: NVIDIA L4
+   Memory: 23.58 GB
+   CUDA Version: 12.8
+
+================================================================================
+🚀 Running ALL experiments (10 total)
+📊 Episodes per experiment: 5000
+🖥️  Device: cuda
+================================================================================
+
+
+================================================================================
+Progress: Experiment 1/10
+================================================================================
+
+================================================================================
+🧪 Running Experiment: baseline
+📝 Description: No reward shaping - original environment rewards only
+📊 Episodes: 5000
+💾 Checkpoints: experiments/results/checkpoints/baseline
+🖥️  Device: cuda
+⚡ GPU Memory Available: 23.58 GB
+================================================================================
+
+A.L.E: Arcade Learning Environment (version 0.11.2+ecc1138)
+[Powered by Stella]
+Episode 10/5000 | Original Score: 1.40 | Shaped: 1.40 | Epsilon: 0.951
+Episode 20/5000 | Original Score: 1.80 | Shaped: 1.80 | Epsilon: 0.905
+Episode 30/5000 | Original Score: 1.60 | Shaped: 1.60 | Epsilon: 0.860
+Episode 40/5000 | Original Score: 1.70 | Shaped: 1.70 | Epsilon: 0.818
+Episode 50/5000 | Original Score: 1.60 | Shaped: 1.60 | Epsilon: 0.778
+   GPU Memory: 0.08 GB
+Episode 60/5000 | Original Score: 1.60 | Shaped: 1.60 | Epsilon: 0.740
+Episode 70/5000 | Original Score: 0.90 | Shaped: 0.90 | Epsilon: 0.704
+Episode 80/5000 | Original Score: 0.90 | Shaped: 0.90 | Epsilon: 0.670
+Episode 90/5000 | Original Score: 1.90 | Shaped: 1.90 | Epsilon: 0.637
+Episode 100/5000 | Original Score: 2.70 | Shaped: 2.70 | Epsilon: 0.606
+   GPU Memory: 0.08 GB
+Episode 110/5000 | Original Score: 1.00 | Shaped: 1.00 | Epsilon: 0.576
+Episode 120/5000 | Original Score: 1.80 | Shaped: 1.80 | Epsilon: 0.548
+Episode 130/5000 | Original Score: 2.10 | Shaped: 2.10 | Epsilon: 0.521
+Episode 140/5000 | Original Score: 3.30 | Shaped: 3.30 | Epsilon: 0.496
+Episode 150/5000 | Original Score: 3.60 | Shaped: 3.60 | Epsilon: 0.471
+   GPU Memory: 0.08 GB
+Episode 160/5000 | Original Score: 3.70 | Shaped: 3.70 | Epsilon: 0.448
+Episode 170/5000 | Original Score: 3.20 | Shaped: 3.20 | Epsilon: 0.427
+Episode 180/5000 | Original Score: 4.10 | Shaped: 4.10 | Epsilon: 0.406
+Episode 190/5000 | Original Score: 4.70 | Shaped: 4.70 | Epsilon: 0.386
+Episode 200/5000 | Original Score: 3.60 | Shaped: 3.60 | Epsilon: 0.367
+   GPU Memory: 0.08 GB
+Episode 210/5000 | Original Score: 2.10 | Shaped: 2.10 | Epsilon: 0.349
+Episode 220/5000 | Original Score: 3.70 | Shaped: 3.70 | Epsilon: 0.332
+Episode 230/5000 | Original Score: 3.90 | Shaped: 3.90 | Epsilon: 0.316
+Episode 240/5000 | Original Score: 3.50 | Shaped: 3.50 | Epsilon: 0.300
+Episode 250/5000 | Original Score: 4.90 | Shaped: 4.90 | Epsilon: 0.286
+   GPU Memory: 0.08 GB
+Episode 260/5000 | Original Score: 4.40 | Shaped: 4.40 | Epsilon: 0.272
+Episode 270/5000 | Original Score: 3.50 | Shaped: 3.50 | Epsilon: 0.258
+Episode 280/5000 | Original Score: 4.50 | Shaped: 4.50 | Epsilon: 0.246
+Episode 290/5000 | Original Score: 5.60 | Shaped: 5.60 | Epsilon: 0.234
+Episode 300/5000 | Original Score: 4.90 | Shaped: 4.90 | Epsilon: 0.222
+   GPU Memory: 0.08 GB
+Episode 310/5000 | Original Score: 4.10 | Shaped: 4.10 | Epsilon: 0.211
+Episode 320/5000 | Original Score: 3.20 | Shaped: 3.20 | Epsilon: 0.201
+Episode 330/5000 | Original Score: 3.80 | Shaped: 3.80 | Epsilon: 0.191
+Episode 340/5000 | Original Score: 3.60 | Shaped: 3.60 | Epsilon: 0.182
+Episode 350/5000 | Original Score: 5.00 | Shaped: 5.00 | Epsilon: 0.173
+   GPU Memory: 0.08 GB
+Episode 360/5000 | Original Score: 5.80 | Shaped: 5.80 | Epsilon: 0.165
+Episode 370/5000 | Original Score: 4.70 | Shaped: 4.70 | Epsilon: 0.157
+Episode 380/5000 | Original Score: 4.20 | Shaped: 4.20 | Epsilon: 0.149
+Episode 390/5000 | Original Score: 5.30 | Shaped: 5.30 | Epsilon: 0.142
+Episode 400/5000 | Original Score: 5.10 | Shaped: 5.10 | Epsilon: 0.135
+   GPU Memory: 0.08 GB
+Episode 410/5000 | Original Score: 5.80 | Shaped: 5.80 | Epsilon: 0.128
+Episode 420/5000 | Original Score: 7.80 | Shaped: 7.80 | Epsilon: 0.122
+Episode 430/5000 | Original Score: 7.10 | Shaped: 7.10 | Epsilon: 0.116
+Episode 440/5000 | Original Score: 5.50 | Shaped: 5.50 | Epsilon: 0.110
+Episode 450/5000 | Original Score: 6.70 | Shaped: 6.70 | Epsilon: 0.105
+   GPU Memory: 0.08 GB
+Episode 460/5000 | Original Score: 4.40 | Shaped: 4.40 | Epsilon: 0.100
+Episode 470/5000 | Original Score: 5.80 | Shaped: 5.80 | Epsilon: 0.095
+Episode 480/5000 | Original Score: 6.80 | Shaped: 6.80 | Epsilon: 0.090
+Episode 490/5000 | Original Score: 8.50 | Shaped: 8.50 | Epsilon: 0.086
+Episode 500/5000 | Original Score: 9.00 | Shaped: 9.00 | Epsilon: 0.082
+   GPU Memory: 0.08 GB
+Episode 510/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.078
+Episode 520/5000 | Original Score: 7.10 | Shaped: 7.10 | Epsilon: 0.074
+Episode 530/5000 | Original Score: 8.50 | Shaped: 8.50 | Epsilon: 0.070
+Episode 540/5000 | Original Score: 6.80 | Shaped: 6.80 | Epsilon: 0.067
+Episode 550/5000 | Original Score: 8.30 | Shaped: 8.30 | Epsilon: 0.063
+   GPU Memory: 0.08 GB
+Episode 560/5000 | Original Score: 8.40 | Shaped: 8.40 | Epsilon: 0.060
+Episode 570/5000 | Original Score: 8.00 | Shaped: 8.00 | Epsilon: 0.057
+Episode 580/5000 | Original Score: 9.20 | Shaped: 9.20 | Epsilon: 0.055
+Episode 590/5000 | Original Score: 9.10 | Shaped: 9.10 | Epsilon: 0.052
+Episode 600/5000 | Original Score: 6.90 | Shaped: 6.90 | Epsilon: 0.049
+   GPU Memory: 0.08 GB
+Episode 610/5000 | Original Score: 9.10 | Shaped: 9.10 | Epsilon: 0.047
+Episode 620/5000 | Original Score: 9.30 | Shaped: 9.30 | Epsilon: 0.045
+Episode 630/5000 | Original Score: 10.50 | Shaped: 10.50 | Epsilon: 0.043
+Episode 640/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.040
+Episode 650/5000 | Original Score: 10.20 | Shaped: 10.20 | Epsilon: 0.038
+   GPU Memory: 0.08 GB
+Episode 660/5000 | Original Score: 10.10 | Shaped: 10.10 | Epsilon: 0.037
+Episode 670/5000 | Original Score: 10.40 | Shaped: 10.40 | Epsilon: 0.035
+Episode 680/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.033
+Episode 690/5000 | Original Score: 10.30 | Shaped: 10.30 | Epsilon: 0.031
+Episode 700/5000 | Original Score: 10.00 | Shaped: 10.00 | Epsilon: 0.030
+   GPU Memory: 0.08 GB
+Episode 710/5000 | Original Score: 10.00 | Shaped: 10.00 | Epsilon: 0.028
+Episode 720/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.027
+Episode 730/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.026
+Episode 740/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.024
+Episode 750/5000 | Original Score: 9.70 | Shaped: 9.70 | Epsilon: 0.023
+   GPU Memory: 0.08 GB
+Episode 760/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.022
+Episode 770/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.021
+Episode 780/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.020
+Episode 790/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.019
+Episode 800/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.018
+   GPU Memory: 0.08 GB
+Episode 810/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.017
+Episode 820/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.016
+Episode 830/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.016
+Episode 840/5000 | Original Score: 9.90 | Shaped: 9.90 | Epsilon: 0.015
+Episode 850/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.014
+   GPU Memory: 0.08 GB
+Episode 860/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.013
+Episode 870/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.013
+Episode 880/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.012
+Episode 890/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.012
+Episode 900/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.011
+   GPU Memory: 0.08 GB
+Episode 910/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 920/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 930/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 940/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 950/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 960/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 970/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 980/5000 | Original Score: 15.80 | Shaped: 15.80 | Epsilon: 0.010
+Episode 990/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 1000/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/baseline/checkpoint_ep01000_score14.0.pt
+🏆 New best checkpoint! Original score: 14.02
+Episode 1010/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 1020/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 1030/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 1040/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 1050/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1060/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 1070/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 1080/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 1090/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+Episode 1100/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1110/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 1120/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 1130/5000 | Original Score: 17.20 | Shaped: 17.20 | Epsilon: 0.010
+Episode 1140/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 1150/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1160/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 1170/5000 | Original Score: 14.90 | Shaped: 14.90 | Epsilon: 0.010
+Episode 1180/5000 | Original Score: 16.00 | Shaped: 16.00 | Epsilon: 0.010
+Episode 1190/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 1200/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1210/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 1220/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 1230/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 1240/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 1250/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1260/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 1270/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 1280/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 1290/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 1300/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1310/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.010
+Episode 1320/5000 | Original Score: 17.50 | Shaped: 17.50 | Epsilon: 0.010
+Episode 1330/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 1340/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 1350/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1360/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 1370/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+Episode 1380/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 1390/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 1400/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1410/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+Episode 1420/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 1430/5000 | Original Score: 15.60 | Shaped: 15.60 | Epsilon: 0.010
+Episode 1440/5000 | Original Score: 18.80 | Shaped: 18.80 | Epsilon: 0.010
+Episode 1450/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1460/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 1470/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+Episode 1480/5000 | Original Score: 16.90 | Shaped: 16.90 | Epsilon: 0.010
+Episode 1490/5000 | Original Score: 16.80 | Shaped: 16.80 | Epsilon: 0.010
+Episode 1500/5000 | Original Score: 11.40 | Shaped: 11.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1510/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 1520/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 1530/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 1540/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.010
+Episode 1550/5000 | Original Score: 17.40 | Shaped: 17.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1560/5000 | Original Score: 11.70 | Shaped: 11.70 | Epsilon: 0.010
+Episode 1570/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+Episode 1580/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 1590/5000 | Original Score: 16.30 | Shaped: 16.30 | Epsilon: 0.010
+Episode 1600/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1610/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+Episode 1620/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+Episode 1630/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 1640/5000 | Original Score: 20.50 | Shaped: 20.50 | Epsilon: 0.010
+Episode 1650/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1660/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 1670/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+Episode 1680/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+Episode 1690/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 1700/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1710/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+Episode 1720/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 1730/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 1740/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+Episode 1750/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1760/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 1770/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+Episode 1780/5000 | Original Score: 10.30 | Shaped: 10.30 | Epsilon: 0.010
+Episode 1790/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+Episode 1800/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1810/5000 | Original Score: 10.60 | Shaped: 10.60 | Epsilon: 0.010
+Episode 1820/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 1830/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.010
+Episode 1840/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 1850/5000 | Original Score: 15.80 | Shaped: 15.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1860/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 1870/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 1880/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 1890/5000 | Original Score: 17.20 | Shaped: 17.20 | Epsilon: 0.010
+Episode 1900/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1910/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 1920/5000 | Original Score: 16.00 | Shaped: 16.00 | Epsilon: 0.010
+Episode 1930/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 1940/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 1950/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1960/5000 | Original Score: 16.20 | Shaped: 16.20 | Epsilon: 0.010
+Episode 1970/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 1980/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 1990/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+Episode 2000/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/baseline/checkpoint_ep02000_score14.1.pt
+🏆 New best checkpoint! Original score: 14.10
+Episode 2010/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 2020/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 2030/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 2040/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 2050/5000 | Original Score: 14.60 | Shaped: 14.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2060/5000 | Original Score: 17.10 | Shaped: 17.10 | Epsilon: 0.010
+Episode 2070/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+Episode 2080/5000 | Original Score: 18.30 | Shaped: 18.30 | Epsilon: 0.010
+Episode 2090/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+Episode 2100/5000 | Original Score: 15.60 | Shaped: 15.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2110/5000 | Original Score: 16.30 | Shaped: 16.30 | Epsilon: 0.010
+Episode 2120/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+Episode 2130/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+Episode 2140/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+Episode 2150/5000 | Original Score: 18.20 | Shaped: 18.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2160/5000 | Original Score: 17.40 | Shaped: 17.40 | Epsilon: 0.010
+Episode 2170/5000 | Original Score: 17.30 | Shaped: 17.30 | Epsilon: 0.010
+Episode 2180/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 2190/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.010
+Episode 2200/5000 | Original Score: 16.40 | Shaped: 16.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2210/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 2220/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.010
+Episode 2230/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+Episode 2240/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 2250/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2260/5000 | Original Score: 14.90 | Shaped: 14.90 | Epsilon: 0.010
+Episode 2270/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 2280/5000 | Original Score: 18.80 | Shaped: 18.80 | Epsilon: 0.010
+Episode 2290/5000 | Original Score: 15.80 | Shaped: 15.80 | Epsilon: 0.010
+Episode 2300/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2310/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 2320/5000 | Original Score: 14.60 | Shaped: 14.60 | Epsilon: 0.010
+Episode 2330/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 2340/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 2350/5000 | Original Score: 16.60 | Shaped: 16.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2360/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+Episode 2370/5000 | Original Score: 14.90 | Shaped: 14.90 | Epsilon: 0.010
+Episode 2380/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 2390/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 2400/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2410/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+Episode 2420/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 2430/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 2440/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+Episode 2450/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2460/5000 | Original Score: 16.40 | Shaped: 16.40 | Epsilon: 0.010
+Episode 2470/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 2480/5000 | Original Score: 17.30 | Shaped: 17.30 | Epsilon: 0.010
+Episode 2490/5000 | Original Score: 15.50 | Shaped: 15.50 | Epsilon: 0.010
+Episode 2500/5000 | Original Score: 17.80 | Shaped: 17.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2510/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.010
+Episode 2520/5000 | Original Score: 18.20 | Shaped: 18.20 | Epsilon: 0.010
+Episode 2530/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+Episode 2540/5000 | Original Score: 17.00 | Shaped: 17.00 | Epsilon: 0.010
+Episode 2550/5000 | Original Score: 17.80 | Shaped: 17.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2560/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 2570/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+Episode 2580/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 2590/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+Episode 2600/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2610/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 2620/5000 | Original Score: 17.60 | Shaped: 17.60 | Epsilon: 0.010
+Episode 2630/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 2640/5000 | Original Score: 17.80 | Shaped: 17.80 | Epsilon: 0.010
+Episode 2650/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2660/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 2670/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 2680/5000 | Original Score: 16.30 | Shaped: 16.30 | Epsilon: 0.010
+Episode 2690/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 2700/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2710/5000 | Original Score: 17.00 | Shaped: 17.00 | Epsilon: 0.010
+Episode 2720/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 2730/5000 | Original Score: 19.20 | Shaped: 19.20 | Epsilon: 0.010
+Episode 2740/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 2750/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2760/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+Episode 2770/5000 | Original Score: 17.50 | Shaped: 17.50 | Epsilon: 0.010
+Episode 2780/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 2790/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 2800/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2810/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 2820/5000 | Original Score: 17.70 | Shaped: 17.70 | Epsilon: 0.010
+Episode 2830/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 2840/5000 | Original Score: 17.90 | Shaped: 17.90 | Epsilon: 0.010
+Episode 2850/5000 | Original Score: 17.10 | Shaped: 17.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2860/5000 | Original Score: 21.90 | Shaped: 21.90 | Epsilon: 0.010
+Episode 2870/5000 | Original Score: 17.40 | Shaped: 17.40 | Epsilon: 0.010
+Episode 2880/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 2890/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 2900/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2910/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+Episode 2920/5000 | Original Score: 16.70 | Shaped: 16.70 | Epsilon: 0.010
+Episode 2930/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+Episode 2940/5000 | Original Score: 19.50 | Shaped: 19.50 | Epsilon: 0.010
+Episode 2950/5000 | Original Score: 14.90 | Shaped: 14.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2960/5000 | Original Score: 19.00 | Shaped: 19.00 | Epsilon: 0.010
+Episode 2970/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 2980/5000 | Original Score: 18.80 | Shaped: 18.80 | Epsilon: 0.010
+Episode 2990/5000 | Original Score: 18.40 | Shaped: 18.40 | Epsilon: 0.010
+Episode 3000/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/baseline/checkpoint_ep03000_score16.6.pt
+🏆 New best checkpoint! Original score: 16.59
+🗑️  Removed old checkpoint: checkpoint_ep01000_score14.0.pt
+Episode 3010/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 3020/5000 | Original Score: 17.60 | Shaped: 17.60 | Epsilon: 0.010
+Episode 3030/5000 | Original Score: 16.20 | Shaped: 16.20 | Epsilon: 0.010
+Episode 3040/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 3050/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3060/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 3070/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 3080/5000 | Original Score: 16.60 | Shaped: 16.60 | Epsilon: 0.010
+Episode 3090/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 3100/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3110/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 3120/5000 | Original Score: 16.60 | Shaped: 16.60 | Epsilon: 0.010
+Episode 3130/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 3140/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+Episode 3150/5000 | Original Score: 16.60 | Shaped: 16.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3160/5000 | Original Score: 16.40 | Shaped: 16.40 | Epsilon: 0.010
+Episode 3170/5000 | Original Score: 20.80 | Shaped: 20.80 | Epsilon: 0.010
+Episode 3180/5000 | Original Score: 19.10 | Shaped: 19.10 | Epsilon: 0.010
+Episode 3190/5000 | Original Score: 17.50 | Shaped: 17.50 | Epsilon: 0.010
+Episode 3200/5000 | Original Score: 15.80 | Shaped: 15.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3210/5000 | Original Score: 17.80 | Shaped: 17.80 | Epsilon: 0.010
+Episode 3220/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.010
+Episode 3230/5000 | Original Score: 17.30 | Shaped: 17.30 | Epsilon: 0.010
+Episode 3240/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 3250/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3260/5000 | Original Score: 20.30 | Shaped: 20.30 | Epsilon: 0.010
+Episode 3270/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 3280/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 3290/5000 | Original Score: 16.80 | Shaped: 16.80 | Epsilon: 0.010
+Episode 3300/5000 | Original Score: 18.90 | Shaped: 18.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3310/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 3320/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+Episode 3330/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 3340/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 3350/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3360/5000 | Original Score: 20.30 | Shaped: 20.30 | Epsilon: 0.010
+Episode 3370/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 3380/5000 | Original Score: 20.50 | Shaped: 20.50 | Epsilon: 0.010
+Episode 3390/5000 | Original Score: 22.70 | Shaped: 22.70 | Epsilon: 0.010
+Episode 3400/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3410/5000 | Original Score: 17.60 | Shaped: 17.60 | Epsilon: 0.010
+Episode 3420/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.010
+Episode 3430/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 3440/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 3450/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3460/5000 | Original Score: 20.60 | Shaped: 20.60 | Epsilon: 0.010
+Episode 3470/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 3480/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 3490/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+Episode 3500/5000 | Original Score: 16.00 | Shaped: 16.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3510/5000 | Original Score: 18.50 | Shaped: 18.50 | Epsilon: 0.010
+Episode 3520/5000 | Original Score: 17.30 | Shaped: 17.30 | Epsilon: 0.010
+Episode 3530/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 3540/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 3550/5000 | Original Score: 19.60 | Shaped: 19.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3560/5000 | Original Score: 19.90 | Shaped: 19.90 | Epsilon: 0.010
+Episode 3570/5000 | Original Score: 20.40 | Shaped: 20.40 | Epsilon: 0.010
+Episode 3580/5000 | Original Score: 17.80 | Shaped: 17.80 | Epsilon: 0.010
+Episode 3590/5000 | Original Score: 17.60 | Shaped: 17.60 | Epsilon: 0.010
+Episode 3600/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3610/5000 | Original Score: 17.70 | Shaped: 17.70 | Epsilon: 0.010
+Episode 3620/5000 | Original Score: 20.70 | Shaped: 20.70 | Epsilon: 0.010
+Episode 3630/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+Episode 3640/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 3650/5000 | Original Score: 17.50 | Shaped: 17.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3660/5000 | Original Score: 16.60 | Shaped: 16.60 | Epsilon: 0.010
+Episode 3670/5000 | Original Score: 20.10 | Shaped: 20.10 | Epsilon: 0.010
+Episode 3680/5000 | Original Score: 20.90 | Shaped: 20.90 | Epsilon: 0.010
+Episode 3690/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+Episode 3700/5000 | Original Score: 20.60 | Shaped: 20.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3710/5000 | Original Score: 17.30 | Shaped: 17.30 | Epsilon: 0.010
+Episode 3720/5000 | Original Score: 16.00 | Shaped: 16.00 | Epsilon: 0.010
+Episode 3730/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 3740/5000 | Original Score: 24.10 | Shaped: 24.10 | Epsilon: 0.010
+Episode 3750/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3760/5000 | Original Score: 16.00 | Shaped: 16.00 | Epsilon: 0.010
+Episode 3770/5000 | Original Score: 20.60 | Shaped: 20.60 | Epsilon: 0.010
+Episode 3780/5000 | Original Score: 15.80 | Shaped: 15.80 | Epsilon: 0.010
+Episode 3790/5000 | Original Score: 20.30 | Shaped: 20.30 | Epsilon: 0.010
+Episode 3800/5000 | Original Score: 18.10 | Shaped: 18.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3810/5000 | Original Score: 17.00 | Shaped: 17.00 | Epsilon: 0.010
+Episode 3820/5000 | Original Score: 20.10 | Shaped: 20.10 | Epsilon: 0.010
+Episode 3830/5000 | Original Score: 19.10 | Shaped: 19.10 | Epsilon: 0.010
+Episode 3840/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 3850/5000 | Original Score: 18.70 | Shaped: 18.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3860/5000 | Original Score: 21.40 | Shaped: 21.40 | Epsilon: 0.010
+Episode 3870/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 3880/5000 | Original Score: 16.70 | Shaped: 16.70 | Epsilon: 0.010
+Episode 3890/5000 | Original Score: 16.00 | Shaped: 16.00 | Epsilon: 0.010
+Episode 3900/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3910/5000 | Original Score: 20.40 | Shaped: 20.40 | Epsilon: 0.010
+Episode 3920/5000 | Original Score: 19.90 | Shaped: 19.90 | Epsilon: 0.010
+Episode 3930/5000 | Original Score: 16.60 | Shaped: 16.60 | Epsilon: 0.010
+Episode 3940/5000 | Original Score: 18.60 | Shaped: 18.60 | Epsilon: 0.010
+Episode 3950/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3960/5000 | Original Score: 17.90 | Shaped: 17.90 | Epsilon: 0.010
+Episode 3970/5000 | Original Score: 19.20 | Shaped: 19.20 | Epsilon: 0.010
+Episode 3980/5000 | Original Score: 17.50 | Shaped: 17.50 | Epsilon: 0.010
+Episode 3990/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 4000/5000 | Original Score: 17.30 | Shaped: 17.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/baseline/checkpoint_ep04000_score17.6.pt
+🏆 New best checkpoint! Original score: 17.55
+🗑️  Removed old checkpoint: checkpoint_ep02000_score14.1.pt
+Episode 4010/5000 | Original Score: 19.00 | Shaped: 19.00 | Epsilon: 0.010
+Episode 4020/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+Episode 4030/5000 | Original Score: 18.80 | Shaped: 18.80 | Epsilon: 0.010
+Episode 4040/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 4050/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4060/5000 | Original Score: 19.10 | Shaped: 19.10 | Epsilon: 0.010
+Episode 4070/5000 | Original Score: 20.80 | Shaped: 20.80 | Epsilon: 0.010
+Episode 4080/5000 | Original Score: 17.50 | Shaped: 17.50 | Epsilon: 0.010
+Episode 4090/5000 | Original Score: 19.50 | Shaped: 19.50 | Epsilon: 0.010
+Episode 4100/5000 | Original Score: 16.30 | Shaped: 16.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4110/5000 | Original Score: 19.50 | Shaped: 19.50 | Epsilon: 0.010
+Episode 4120/5000 | Original Score: 20.10 | Shaped: 20.10 | Epsilon: 0.010
+Episode 4130/5000 | Original Score: 18.10 | Shaped: 18.10 | Epsilon: 0.010
+Episode 4140/5000 | Original Score: 19.20 | Shaped: 19.20 | Epsilon: 0.010
+Episode 4150/5000 | Original Score: 17.30 | Shaped: 17.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4160/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 4170/5000 | Original Score: 20.70 | Shaped: 20.70 | Epsilon: 0.010
+Episode 4180/5000 | Original Score: 19.90 | Shaped: 19.90 | Epsilon: 0.010
+Episode 4190/5000 | Original Score: 16.20 | Shaped: 16.20 | Epsilon: 0.010
+Episode 4200/5000 | Original Score: 18.20 | Shaped: 18.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4210/5000 | Original Score: 18.00 | Shaped: 18.00 | Epsilon: 0.010
+Episode 4220/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 4230/5000 | Original Score: 14.60 | Shaped: 14.60 | Epsilon: 0.010
+Episode 4240/5000 | Original Score: 19.30 | Shaped: 19.30 | Epsilon: 0.010
+Episode 4250/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4260/5000 | Original Score: 18.10 | Shaped: 18.10 | Epsilon: 0.010
+Episode 4270/5000 | Original Score: 18.00 | Shaped: 18.00 | Epsilon: 0.010
+Episode 4280/5000 | Original Score: 22.60 | Shaped: 22.60 | Epsilon: 0.010
+Episode 4290/5000 | Original Score: 18.20 | Shaped: 18.20 | Epsilon: 0.010
+Episode 4300/5000 | Original Score: 18.00 | Shaped: 18.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4310/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 4320/5000 | Original Score: 18.70 | Shaped: 18.70 | Epsilon: 0.010
+Episode 4330/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 4340/5000 | Original Score: 19.80 | Shaped: 19.80 | Epsilon: 0.010
+Episode 4350/5000 | Original Score: 18.50 | Shaped: 18.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4360/5000 | Original Score: 17.30 | Shaped: 17.30 | Epsilon: 0.010
+Episode 4370/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+Episode 4380/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+Episode 4390/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 4400/5000 | Original Score: 16.90 | Shaped: 16.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4410/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 4420/5000 | Original Score: 16.40 | Shaped: 16.40 | Epsilon: 0.010
+Episode 4430/5000 | Original Score: 16.30 | Shaped: 16.30 | Epsilon: 0.010
+Episode 4440/5000 | Original Score: 15.50 | Shaped: 15.50 | Epsilon: 0.010
+Episode 4450/5000 | Original Score: 21.70 | Shaped: 21.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4460/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+Episode 4470/5000 | Original Score: 15.80 | Shaped: 15.80 | Epsilon: 0.010
+Episode 4480/5000 | Original Score: 21.30 | Shaped: 21.30 | Epsilon: 0.010
+Episode 4490/5000 | Original Score: 19.70 | Shaped: 19.70 | Epsilon: 0.010
+Episode 4500/5000 | Original Score: 22.30 | Shaped: 22.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4510/5000 | Original Score: 19.30 | Shaped: 19.30 | Epsilon: 0.010
+Episode 4520/5000 | Original Score: 21.60 | Shaped: 21.60 | Epsilon: 0.010
+Episode 4530/5000 | Original Score: 18.30 | Shaped: 18.30 | Epsilon: 0.010
+Episode 4540/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 4550/5000 | Original Score: 18.40 | Shaped: 18.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4560/5000 | Original Score: 19.60 | Shaped: 19.60 | Epsilon: 0.010
+Episode 4570/5000 | Original Score: 22.80 | Shaped: 22.80 | Epsilon: 0.010
+Episode 4580/5000 | Original Score: 20.20 | Shaped: 20.20 | Epsilon: 0.010
+Episode 4590/5000 | Original Score: 20.00 | Shaped: 20.00 | Epsilon: 0.010
+Episode 4600/5000 | Original Score: 17.20 | Shaped: 17.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4610/5000 | Original Score: 18.70 | Shaped: 18.70 | Epsilon: 0.010
+Episode 4620/5000 | Original Score: 17.50 | Shaped: 17.50 | Epsilon: 0.010
+Episode 4630/5000 | Original Score: 17.90 | Shaped: 17.90 | Epsilon: 0.010
+Episode 4640/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 4650/5000 | Original Score: 18.50 | Shaped: 18.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4660/5000 | Original Score: 19.50 | Shaped: 19.50 | Epsilon: 0.010
+Episode 4670/5000 | Original Score: 19.30 | Shaped: 19.30 | Epsilon: 0.010
+Episode 4680/5000 | Original Score: 20.40 | Shaped: 20.40 | Epsilon: 0.010
+Episode 4690/5000 | Original Score: 17.60 | Shaped: 17.60 | Epsilon: 0.010
+Episode 4700/5000 | Original Score: 16.40 | Shaped: 16.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4710/5000 | Original Score: 15.80 | Shaped: 15.80 | Epsilon: 0.010
+Episode 4720/5000 | Original Score: 17.60 | Shaped: 17.60 | Epsilon: 0.010
+Episode 4730/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+Episode 4740/5000 | Original Score: 23.70 | Shaped: 23.70 | Epsilon: 0.010
+Episode 4750/5000 | Original Score: 16.40 | Shaped: 16.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4760/5000 | Original Score: 22.40 | Shaped: 22.40 | Epsilon: 0.010
+Episode 4770/5000 | Original Score: 23.70 | Shaped: 23.70 | Epsilon: 0.010
+Episode 4780/5000 | Original Score: 18.70 | Shaped: 18.70 | Epsilon: 0.010
+Episode 4790/5000 | Original Score: 18.90 | Shaped: 18.90 | Epsilon: 0.010
+Episode 4800/5000 | Original Score: 20.60 | Shaped: 20.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4810/5000 | Original Score: 21.30 | Shaped: 21.30 | Epsilon: 0.010
+Episode 4820/5000 | Original Score: 23.10 | Shaped: 23.10 | Epsilon: 0.010
+Episode 4830/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 4840/5000 | Original Score: 20.20 | Shaped: 20.20 | Epsilon: 0.010
+Episode 4850/5000 | Original Score: 20.00 | Shaped: 20.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4860/5000 | Original Score: 23.80 | Shaped: 23.80 | Epsilon: 0.010
+Episode 4870/5000 | Original Score: 20.90 | Shaped: 20.90 | Epsilon: 0.010
+Episode 4880/5000 | Original Score: 18.70 | Shaped: 18.70 | Epsilon: 0.010
+Episode 4890/5000 | Original Score: 23.70 | Shaped: 23.70 | Epsilon: 0.010
+Episode 4900/5000 | Original Score: 20.20 | Shaped: 20.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4910/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+Episode 4920/5000 | Original Score: 24.20 | Shaped: 24.20 | Epsilon: 0.010
+Episode 4930/5000 | Original Score: 20.10 | Shaped: 20.10 | Epsilon: 0.010
+Episode 4940/5000 | Original Score: 15.60 | Shaped: 15.60 | Epsilon: 0.010
+Episode 4950/5000 | Original Score: 20.90 | Shaped: 20.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4960/5000 | Original Score: 21.30 | Shaped: 21.30 | Epsilon: 0.010
+Episode 4970/5000 | Original Score: 19.90 | Shaped: 19.90 | Epsilon: 0.010
+Episode 4980/5000 | Original Score: 18.20 | Shaped: 18.20 | Epsilon: 0.010
+Episode 4990/5000 | Original Score: 21.20 | Shaped: 21.20 | Epsilon: 0.010
+Episode 5000/5000 | Original Score: 18.10 | Shaped: 18.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/baseline/checkpoint_ep05000_score19.6.pt
+🏆 New best checkpoint! Original score: 19.60
+🗑️  Removed old checkpoint: checkpoint_ep03000_score16.6.pt
+💾 Results saved to: experiments/results/baseline_results.json
+
+================================================================================
+✅ Experiment 'baseline' completed in 9.28 hours
+
+📊 FAIR COMPARISON METRICS (Original Game Score):
+   Average Score: 14.52
+   Max Score: 56.00
+   Final Average (last 10): 18.10
+   Improvement: 16.70
+
+📈 LEARNING EFFICIENCY:
+   Episodes to reach 5 score: 17
+   Episodes to reach 10 score: 148
+   Success rate (score > 0): 99.3%
+
+🎯 CONSISTENCY:
+   Score std deviation: 7.33
+   Median score: 14.00
+   Top 10% average: 29.35
+
+⏱️  SURVIVAL:
+   Average episode length: 768 steps
+   Max episode length: 4798 steps
+
+💾 Best checkpoint: experiments/results/checkpoints/baseline/best_checkpoint.pt
+================================================================================
+
+🖥️  GPU Memory Used: 0.13 GB
+
+================================================================================
+Progress: Experiment 2/10
+================================================================================
+
+================================================================================
+🧪 Running Experiment: paddle_hit_only
+📝 Description: Only paddle hit bonus
+📊 Episodes: 5000
+💾 Checkpoints: experiments/results/checkpoints/paddle_hit_only
+🖥️  Device: cuda
+⚡ GPU Memory Available: 23.58 GB
+================================================================================
+
+/home/anjo19go/reinforcement_learning_breakout/environment/reward_shaping.py:310: RuntimeWarning: overflow encountered in scalar subtract
+  if abs(ball_y - self.last_ball_pos[1]) < 5 and abs(ball_x - paddle_x) < 20:
+/home/anjo19go/reinforcement_learning_breakout/environment/reward_shaping.py:247: RuntimeWarning: overflow encountered in scalar subtract
+  distance = abs(paddle_x - ball_x)
+Episode 10/5000 | Original Score: 1.40 | Shaped: 1.40 | Epsilon: 0.951
+Episode 20/5000 | Original Score: 1.70 | Shaped: 1.70 | Epsilon: 0.905
+Episode 30/5000 | Original Score: 0.80 | Shaped: 0.80 | Epsilon: 0.860
+Episode 40/5000 | Original Score: 0.80 | Shaped: 0.80 | Epsilon: 0.818
+Episode 50/5000 | Original Score: 1.90 | Shaped: 1.90 | Epsilon: 0.778
+   GPU Memory: 0.08 GB
+Episode 60/5000 | Original Score: 1.50 | Shaped: 1.50 | Epsilon: 0.740
+Episode 70/5000 | Original Score: 0.60 | Shaped: 0.60 | Epsilon: 0.704
+Episode 80/5000 | Original Score: 1.50 | Shaped: 1.50 | Epsilon: 0.670
+Episode 90/5000 | Original Score: 1.00 | Shaped: 1.00 | Epsilon: 0.637
+Episode 100/5000 | Original Score: 2.10 | Shaped: 2.10 | Epsilon: 0.606
+   GPU Memory: 0.08 GB
+Episode 110/5000 | Original Score: 0.50 | Shaped: 0.50 | Epsilon: 0.576
+Episode 120/5000 | Original Score: 1.60 | Shaped: 1.60 | Epsilon: 0.548
+Episode 130/5000 | Original Score: 2.50 | Shaped: 2.50 | Epsilon: 0.521
+Episode 140/5000 | Original Score: 1.20 | Shaped: 1.20 | Epsilon: 0.496
+Episode 150/5000 | Original Score: 1.50 | Shaped: 1.50 | Epsilon: 0.471
+   GPU Memory: 0.08 GB
+Episode 160/5000 | Original Score: 2.90 | Shaped: 2.90 | Epsilon: 0.448
+Episode 170/5000 | Original Score: 1.90 | Shaped: 1.90 | Epsilon: 0.427
+Episode 180/5000 | Original Score: 2.00 | Shaped: 2.00 | Epsilon: 0.406
+Episode 190/5000 | Original Score: 3.30 | Shaped: 3.30 | Epsilon: 0.386
+Episode 200/5000 | Original Score: 4.30 | Shaped: 4.30 | Epsilon: 0.367
+   GPU Memory: 0.08 GB
+Episode 210/5000 | Original Score: 5.60 | Shaped: 5.60 | Epsilon: 0.349
+Episode 220/5000 | Original Score: 4.60 | Shaped: 4.60 | Epsilon: 0.332
+Episode 230/5000 | Original Score: 5.40 | Shaped: 5.40 | Epsilon: 0.316
+Episode 240/5000 | Original Score: 6.10 | Shaped: 6.10 | Epsilon: 0.300
+Episode 250/5000 | Original Score: 4.50 | Shaped: 4.50 | Epsilon: 0.286
+   GPU Memory: 0.08 GB
+Episode 260/5000 | Original Score: 5.30 | Shaped: 5.30 | Epsilon: 0.272
+Episode 270/5000 | Original Score: 5.50 | Shaped: 5.50 | Epsilon: 0.258
+Episode 280/5000 | Original Score: 4.50 | Shaped: 4.50 | Epsilon: 0.246
+Episode 290/5000 | Original Score: 5.70 | Shaped: 5.70 | Epsilon: 0.234
+Episode 300/5000 | Original Score: 5.40 | Shaped: 5.40 | Epsilon: 0.222
+   GPU Memory: 0.08 GB
+Episode 310/5000 | Original Score: 5.30 | Shaped: 5.30 | Epsilon: 0.211
+Episode 320/5000 | Original Score: 4.60 | Shaped: 4.60 | Epsilon: 0.201
+Episode 330/5000 | Original Score: 6.50 | Shaped: 6.50 | Epsilon: 0.191
+Episode 340/5000 | Original Score: 6.70 | Shaped: 6.70 | Epsilon: 0.182
+Episode 350/5000 | Original Score: 4.30 | Shaped: 4.30 | Epsilon: 0.173
+   GPU Memory: 0.08 GB
+Episode 360/5000 | Original Score: 7.10 | Shaped: 7.10 | Epsilon: 0.165
+Episode 370/5000 | Original Score: 7.50 | Shaped: 7.50 | Epsilon: 0.157
+Episode 380/5000 | Original Score: 7.30 | Shaped: 7.30 | Epsilon: 0.149
+Episode 390/5000 | Original Score: 6.90 | Shaped: 6.90 | Epsilon: 0.142
+Episode 400/5000 | Original Score: 7.60 | Shaped: 7.60 | Epsilon: 0.135
+   GPU Memory: 0.08 GB
+Episode 410/5000 | Original Score: 9.40 | Shaped: 9.40 | Epsilon: 0.128
+Episode 420/5000 | Original Score: 9.70 | Shaped: 9.70 | Epsilon: 0.122
+Episode 430/5000 | Original Score: 9.60 | Shaped: 9.60 | Epsilon: 0.116
+Episode 440/5000 | Original Score: 7.00 | Shaped: 7.00 | Epsilon: 0.110
+Episode 450/5000 | Original Score: 9.80 | Shaped: 9.80 | Epsilon: 0.105
+   GPU Memory: 0.08 GB
+Episode 460/5000 | Original Score: 9.70 | Shaped: 9.70 | Epsilon: 0.100
+Episode 470/5000 | Original Score: 9.50 | Shaped: 9.50 | Epsilon: 0.095
+Episode 480/5000 | Original Score: 7.90 | Shaped: 7.90 | Epsilon: 0.090
+Episode 490/5000 | Original Score: 11.70 | Shaped: 11.70 | Epsilon: 0.086
+Episode 500/5000 | Original Score: 10.60 | Shaped: 10.60 | Epsilon: 0.082
+   GPU Memory: 0.08 GB
+Episode 510/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.078
+Episode 520/5000 | Original Score: 10.40 | Shaped: 10.40 | Epsilon: 0.074
+Episode 530/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.070
+Episode 540/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.067
+Episode 550/5000 | Original Score: 10.50 | Shaped: 10.50 | Epsilon: 0.063
+   GPU Memory: 0.08 GB
+Episode 560/5000 | Original Score: 10.50 | Shaped: 10.50 | Epsilon: 0.060
+Episode 570/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.057
+Episode 580/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.055
+Episode 590/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.052
+Episode 600/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.049
+   GPU Memory: 0.08 GB
+Episode 610/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.047
+Episode 620/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.045
+Episode 630/5000 | Original Score: 17.40 | Shaped: 17.40 | Epsilon: 0.043
+Episode 640/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.040
+Episode 650/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.038
+   GPU Memory: 0.08 GB
+Episode 660/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.037
+Episode 670/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.035
+Episode 680/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.033
+Episode 690/5000 | Original Score: 15.60 | Shaped: 15.60 | Epsilon: 0.031
+Episode 700/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.030
+   GPU Memory: 0.08 GB
+Episode 710/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.028
+Episode 720/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.027
+Episode 730/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.026
+Episode 740/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.024
+Episode 750/5000 | Original Score: 14.60 | Shaped: 14.60 | Epsilon: 0.023
+   GPU Memory: 0.08 GB
+Episode 760/5000 | Original Score: 10.40 | Shaped: 10.40 | Epsilon: 0.022
+Episode 770/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.021
+Episode 780/5000 | Original Score: 10.70 | Shaped: 10.70 | Epsilon: 0.020
+Episode 790/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.019
+Episode 800/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.018
+   GPU Memory: 0.08 GB
+Episode 810/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.017
+Episode 820/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.016
+Episode 830/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.016
+Episode 840/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.015
+Episode 850/5000 | Original Score: 14.90 | Shaped: 14.90 | Epsilon: 0.014
+   GPU Memory: 0.08 GB
+Episode 860/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.013
+Episode 870/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.013
+Episode 880/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.012
+Episode 890/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.012
+Episode 900/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.011
+   GPU Memory: 0.08 GB
+Episode 910/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 920/5000 | Original Score: 18.10 | Shaped: 18.10 | Epsilon: 0.010
+Episode 930/5000 | Original Score: 17.40 | Shaped: 17.40 | Epsilon: 0.010
+Episode 940/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 950/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 960/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+Episode 970/5000 | Original Score: 11.10 | Shaped: 11.10 | Epsilon: 0.010
+Episode 980/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 990/5000 | Original Score: 10.00 | Shaped: 10.00 | Epsilon: 0.010
+Episode 1000/5000 | Original Score: 10.70 | Shaped: 10.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/paddle_hit_only/checkpoint_ep01000_score13.6.pt
+🏆 New best checkpoint! Original score: 13.64
+Episode 1010/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+Episode 1020/5000 | Original Score: 10.30 | Shaped: 10.30 | Epsilon: 0.010
+Episode 1030/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 1040/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+Episode 1050/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1060/5000 | Original Score: 9.90 | Shaped: 9.90 | Epsilon: 0.010
+Episode 1070/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 1080/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+Episode 1090/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 1100/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1110/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 1120/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 1130/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 1140/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 1150/5000 | Original Score: 11.70 | Shaped: 11.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1160/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+Episode 1170/5000 | Original Score: 10.00 | Shaped: 10.00 | Epsilon: 0.010
+Episode 1180/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 1190/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 1200/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1210/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 1220/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 1230/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 1240/5000 | Original Score: 11.70 | Shaped: 11.70 | Epsilon: 0.010
+Episode 1250/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1260/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 1270/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 1280/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 1290/5000 | Original Score: 10.20 | Shaped: 10.20 | Epsilon: 0.010
+Episode 1300/5000 | Original Score: 9.10 | Shaped: 9.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1310/5000 | Original Score: 17.00 | Shaped: 17.00 | Epsilon: 0.010
+Episode 1320/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 1330/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.010
+Episode 1340/5000 | Original Score: 10.90 | Shaped: 10.90 | Epsilon: 0.010
+Episode 1350/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1360/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 1370/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 1380/5000 | Original Score: 10.90 | Shaped: 10.90 | Epsilon: 0.010
+Episode 1390/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 1400/5000 | Original Score: 16.60 | Shaped: 16.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1410/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 1420/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 1430/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 1440/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 1450/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1460/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.010
+Episode 1470/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 1480/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 1490/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 1500/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1510/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 1520/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 1530/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 1540/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 1550/5000 | Original Score: 11.20 | Shaped: 11.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1560/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 1570/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 1580/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+Episode 1590/5000 | Original Score: 11.10 | Shaped: 11.10 | Epsilon: 0.010
+Episode 1600/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1610/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 1620/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 1630/5000 | Original Score: 10.50 | Shaped: 10.50 | Epsilon: 0.010
+Episode 1640/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 1650/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1660/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 1670/5000 | Original Score: 16.20 | Shaped: 16.20 | Epsilon: 0.010
+Episode 1680/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 1690/5000 | Original Score: 10.90 | Shaped: 10.90 | Epsilon: 0.010
+Episode 1700/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1710/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 1720/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 1730/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 1740/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+Episode 1750/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1760/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 1770/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.010
+Episode 1780/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 1790/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 1800/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1810/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 1820/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 1830/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 1840/5000 | Original Score: 10.50 | Shaped: 10.50 | Epsilon: 0.010
+Episode 1850/5000 | Original Score: 10.20 | Shaped: 10.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1860/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 1870/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.010
+Episode 1880/5000 | Original Score: 10.70 | Shaped: 10.70 | Epsilon: 0.010
+Episode 1890/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 1900/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1910/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 1920/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 1930/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 1940/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 1950/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1960/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.010
+Episode 1970/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 1980/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 1990/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 2000/5000 | Original Score: 15.50 | Shaped: 15.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/paddle_hit_only/checkpoint_ep02000_score13.7.pt
+🏆 New best checkpoint! Original score: 13.74
+Episode 2010/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 2020/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 2030/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 2040/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 2050/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2060/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 2070/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 2080/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 2090/5000 | Original Score: 15.50 | Shaped: 15.50 | Epsilon: 0.010
+Episode 2100/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2110/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 2120/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 2130/5000 | Original Score: 10.60 | Shaped: 10.60 | Epsilon: 0.010
+Episode 2140/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 2150/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2160/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 2170/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 2180/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 2190/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 2200/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2210/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 2220/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 2230/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 2240/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 2250/5000 | Original Score: 15.60 | Shaped: 15.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2260/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.010
+Episode 2270/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 2280/5000 | Original Score: 11.40 | Shaped: 11.40 | Epsilon: 0.010
+Episode 2290/5000 | Original Score: 10.00 | Shaped: 10.00 | Epsilon: 0.010
+Episode 2300/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2310/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 2320/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+Episode 2330/5000 | Original Score: 17.20 | Shaped: 17.20 | Epsilon: 0.010
+Episode 2340/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 2350/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2360/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 2370/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 2380/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.010
+Episode 2390/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 2400/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2410/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 2420/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 2430/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 2440/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.010
+Episode 2450/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2460/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 2470/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 2480/5000 | Original Score: 16.60 | Shaped: 16.60 | Epsilon: 0.010
+Episode 2490/5000 | Original Score: 10.90 | Shaped: 10.90 | Epsilon: 0.010
+Episode 2500/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2510/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 2520/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.010
+Episode 2530/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+Episode 2540/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 2550/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2560/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 2570/5000 | Original Score: 9.90 | Shaped: 9.90 | Epsilon: 0.010
+Episode 2580/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 2590/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 2600/5000 | Original Score: 11.20 | Shaped: 11.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2610/5000 | Original Score: 11.00 | Shaped: 11.00 | Epsilon: 0.010
+Episode 2620/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 2630/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.010
+Episode 2640/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 2650/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2660/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.010
+Episode 2670/5000 | Original Score: 10.30 | Shaped: 10.30 | Epsilon: 0.010
+Episode 2680/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 2690/5000 | Original Score: 11.00 | Shaped: 11.00 | Epsilon: 0.010
+Episode 2700/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2710/5000 | Original Score: 15.50 | Shaped: 15.50 | Epsilon: 0.010
+Episode 2720/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 2730/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 2740/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 2750/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2760/5000 | Original Score: 8.80 | Shaped: 8.80 | Epsilon: 0.010
+Episode 2770/5000 | Original Score: 9.80 | Shaped: 9.80 | Epsilon: 0.010
+Episode 2780/5000 | Original Score: 11.70 | Shaped: 11.70 | Epsilon: 0.010
+Episode 2790/5000 | Original Score: 15.50 | Shaped: 15.50 | Epsilon: 0.010
+Episode 2800/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2810/5000 | Original Score: 11.20 | Shaped: 11.20 | Epsilon: 0.010
+Episode 2820/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 2830/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 2840/5000 | Original Score: 14.90 | Shaped: 14.90 | Epsilon: 0.010
+Episode 2850/5000 | Original Score: 16.90 | Shaped: 16.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2860/5000 | Original Score: 11.30 | Shaped: 11.30 | Epsilon: 0.010
+Episode 2870/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 2880/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+Episode 2890/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 2900/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2910/5000 | Original Score: 16.30 | Shaped: 16.30 | Epsilon: 0.010
+Episode 2920/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 2930/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 2940/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 2950/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2960/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+Episode 2970/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.010
+Episode 2980/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 2990/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+Episode 3000/5000 | Original Score: 14.40 | Shaped: 14.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/paddle_hit_only/checkpoint_ep03000_score13.4.pt
+🗑️  Removed old checkpoint: checkpoint_ep03000_score13.4.pt
+Episode 3010/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+Episode 3020/5000 | Original Score: 11.40 | Shaped: 11.40 | Epsilon: 0.010
+Episode 3030/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 3040/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+Episode 3050/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3060/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 3070/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 3080/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 3090/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 3100/5000 | Original Score: 15.20 | Shaped: 15.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3110/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 3120/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 3130/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 3140/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 3150/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3160/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 3170/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+Episode 3180/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 3190/5000 | Original Score: 16.20 | Shaped: 16.20 | Epsilon: 0.010
+Episode 3200/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3210/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 3220/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 3230/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+Episode 3240/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 3250/5000 | Original Score: 9.60 | Shaped: 9.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3260/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 3270/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 3280/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+Episode 3290/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 3300/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3310/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+Episode 3320/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 3330/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 3340/5000 | Original Score: 14.60 | Shaped: 14.60 | Epsilon: 0.010
+Episode 3350/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3360/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 3370/5000 | Original Score: 15.80 | Shaped: 15.80 | Epsilon: 0.010
+Episode 3380/5000 | Original Score: 11.10 | Shaped: 11.10 | Epsilon: 0.010
+Episode 3390/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 3400/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3410/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+Episode 3420/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 3430/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 3440/5000 | Original Score: 14.60 | Shaped: 14.60 | Epsilon: 0.010
+Episode 3450/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3460/5000 | Original Score: 16.80 | Shaped: 16.80 | Epsilon: 0.010
+Episode 3470/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 3480/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 3490/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 3500/5000 | Original Score: 16.90 | Shaped: 16.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3510/5000 | Original Score: 16.90 | Shaped: 16.90 | Epsilon: 0.010
+Episode 3520/5000 | Original Score: 18.60 | Shaped: 18.60 | Epsilon: 0.010
+Episode 3530/5000 | Original Score: 14.70 | Shaped: 14.70 | Epsilon: 0.010
+Episode 3540/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 3550/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3560/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 3570/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 3580/5000 | Original Score: 15.40 | Shaped: 15.40 | Epsilon: 0.010
+Episode 3590/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 3600/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3610/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+Episode 3620/5000 | Original Score: 15.50 | Shaped: 15.50 | Epsilon: 0.010
+Episode 3630/5000 | Original Score: 18.30 | Shaped: 18.30 | Epsilon: 0.010
+Episode 3640/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+Episode 3650/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3660/5000 | Original Score: 9.90 | Shaped: 9.90 | Epsilon: 0.010
+Episode 3670/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+Episode 3680/5000 | Original Score: 22.10 | Shaped: 22.10 | Epsilon: 0.010
+Episode 3690/5000 | Original Score: 14.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 3700/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3710/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.010
+Episode 3720/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 3730/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 3740/5000 | Original Score: 12.90 | Shaped: 12.90 | Epsilon: 0.010
+Episode 3750/5000 | Original Score: 15.60 | Shaped: 15.60 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3760/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+Episode 3770/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 3780/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 3790/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+Episode 3800/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3810/5000 | Original Score: 11.40 | Shaped: 11.40 | Epsilon: 0.010
+Episode 3820/5000 | Original Score: 12.50 | Shaped: 12.50 | Epsilon: 0.010
+Episode 3830/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 3840/5000 | Original Score: 11.00 | Shaped: 11.00 | Epsilon: 0.010
+Episode 3850/5000 | Original Score: 11.40 | Shaped: 11.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3860/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 3870/5000 | Original Score: 9.40 | Shaped: 9.40 | Epsilon: 0.010
+Episode 3880/5000 | Original Score: 11.10 | Shaped: 11.10 | Epsilon: 0.010
+Episode 3890/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 3900/5000 | Original Score: 14.10 | Shaped: 14.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3910/5000 | Original Score: 14.60 | Shaped: 14.60 | Epsilon: 0.010
+Episode 3920/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 3930/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 3940/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 3950/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 3960/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+Episode 3970/5000 | Original Score: 15.90 | Shaped: 15.90 | Epsilon: 0.010
+Episode 3980/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 3990/5000 | Original Score: 12.60 | Shaped: 12.60 | Epsilon: 0.010
+Episode 4000/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/paddle_hit_only/checkpoint_ep04000_score13.4.pt
+🗑️  Removed old checkpoint: checkpoint_ep04000_score13.4.pt
+Episode 4010/5000 | Original Score: 16.40 | Shaped: 16.40 | Epsilon: 0.010
+Episode 4020/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 4030/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 4040/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+Episode 4050/5000 | Original Score: 11.10 | Shaped: 11.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4060/5000 | Original Score: 10.90 | Shaped: 10.90 | Epsilon: 0.010
+Episode 4070/5000 | Original Score: 10.90 | Shaped: 10.90 | Epsilon: 0.010
+Episode 4080/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 4090/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+Episode 4100/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4110/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 4120/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 4130/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 4140/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 4150/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4160/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 4170/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 4180/5000 | Original Score: 15.50 | Shaped: 15.50 | Epsilon: 0.010
+Episode 4190/5000 | Original Score: 10.70 | Shaped: 10.70 | Epsilon: 0.010
+Episode 4200/5000 | Original Score: 11.10 | Shaped: 11.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4210/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 4220/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 4230/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 4240/5000 | Original Score: 17.80 | Shaped: 17.80 | Epsilon: 0.010
+Episode 4250/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4260/5000 | Original Score: 16.00 | Shaped: 16.00 | Epsilon: 0.010
+Episode 4270/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 4280/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+Episode 4290/5000 | Original Score: 12.40 | Shaped: 12.40 | Epsilon: 0.010
+Episode 4300/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4310/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 4320/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 4330/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 4340/5000 | Original Score: 12.20 | Shaped: 12.20 | Epsilon: 0.010
+Episode 4350/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4360/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 4370/5000 | Original Score: 11.10 | Shaped: 11.10 | Epsilon: 0.010
+Episode 4380/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+Episode 4390/5000 | Original Score: 13.90 | Shaped: 13.90 | Epsilon: 0.010
+Episode 4400/5000 | Original Score: 13.40 | Shaped: 13.40 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4410/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 4420/5000 | Original Score: 13.50 | Shaped: 13.50 | Epsilon: 0.010
+Episode 4430/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+Episode 4440/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 4450/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4460/5000 | Original Score: 14.60 | Shaped: 14.60 | Epsilon: 0.010
+Episode 4470/5000 | Original Score: 16.40 | Shaped: 16.40 | Epsilon: 0.010
+Episode 4480/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 4490/5000 | Original Score: 14.00 | Shaped: 14.00 | Epsilon: 0.010
+Episode 4500/5000 | Original Score: 11.80 | Shaped: 11.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4510/5000 | Original Score: 12.70 | Shaped: 12.70 | Epsilon: 0.010
+Episode 4520/5000 | Original Score: 12.30 | Shaped: 12.30 | Epsilon: 0.010
+Episode 4530/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+Episode 4540/5000 | Original Score: 15.10 | Shaped: 15.10 | Epsilon: 0.010
+Episode 4550/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4560/5000 | Original Score: 15.70 | Shaped: 15.70 | Epsilon: 0.010
+Episode 4570/5000 | Original Score: 14.90 | Shaped: 14.90 | Epsilon: 0.010
+Episode 4580/5000 | Original Score: 15.00 | Shaped: 15.00 | Epsilon: 0.010
+Episode 4590/5000 | Original Score: 17.40 | Shaped: 17.40 | Epsilon: 0.010
+Episode 4600/5000 | Original Score: 14.30 | Shaped: 14.30 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4610/5000 | Original Score: 17.40 | Shaped: 17.40 | Epsilon: 0.010
+Episode 4620/5000 | Original Score: 11.60 | Shaped: 11.60 | Epsilon: 0.010
+Episode 4630/5000 | Original Score: 10.80 | Shaped: 10.80 | Epsilon: 0.010
+Episode 4640/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 4650/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4660/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 4670/5000 | Original Score: 13.00 | Shaped: 13.00 | Epsilon: 0.010
+Episode 4680/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 4690/5000 | Original Score: 13.30 | Shaped: 13.30 | Epsilon: 0.010
+Episode 4700/5000 | Original Score: 11.50 | Shaped: 11.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4710/5000 | Original Score: 13.80 | Shaped: 13.80 | Epsilon: 0.010
+Episode 4720/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+Episode 4730/5000 | Original Score: 12.10 | Shaped: 12.10 | Epsilon: 0.010
+Episode 4740/5000 | Original Score: 10.50 | Shaped: 10.50 | Epsilon: 0.010
+Episode 4750/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4760/5000 | Original Score: 12.80 | Shaped: 12.80 | Epsilon: 0.010
+Episode 4770/5000 | Original Score: 13.60 | Shaped: 13.60 | Epsilon: 0.010
+Episode 4780/5000 | Original Score: 11.10 | Shaped: 11.10 | Epsilon: 0.010
+Episode 4790/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 4800/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4810/5000 | Original Score: 16.50 | Shaped: 16.50 | Epsilon: 0.010
+Episode 4820/5000 | Original Score: 16.00 | Shaped: 16.00 | Epsilon: 0.010
+Episode 4830/5000 | Original Score: 13.10 | Shaped: 13.10 | Epsilon: 0.010
+Episode 4840/5000 | Original Score: 15.60 | Shaped: 15.60 | Epsilon: 0.010
+Episode 4850/5000 | Original Score: 16.80 | Shaped: 16.80 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4860/5000 | Original Score: 9.60 | Shaped: 9.60 | Epsilon: 0.010
+Episode 4870/5000 | Original Score: 14.90 | Shaped: 14.90 | Epsilon: 0.010
+Episode 4880/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 4890/5000 | Original Score: 13.70 | Shaped: 13.70 | Epsilon: 0.010
+Episode 4900/5000 | Original Score: 18.00 | Shaped: 18.00 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4910/5000 | Original Score: 14.50 | Shaped: 14.50 | Epsilon: 0.010
+Episode 4920/5000 | Original Score: 15.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 4930/5000 | Original Score: 12.00 | Shaped: 12.00 | Epsilon: 0.010
+Episode 4940/5000 | Original Score: 14.20 | Shaped: 14.20 | Epsilon: 0.010
+Episode 4950/5000 | Original Score: 13.20 | Shaped: 13.20 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 4960/5000 | Original Score: 17.10 | Shaped: 17.10 | Epsilon: 0.010
+Episode 4970/5000 | Original Score: 17.40 | Shaped: 17.40 | Epsilon: 0.010
+Episode 4980/5000 | Original Score: 11.90 | Shaped: 11.90 | Epsilon: 0.010
+Episode 4990/5000 | Original Score: 11.00 | Shaped: 11.00 | Epsilon: 0.010
+Episode 5000/5000 | Original Score: 16.10 | Shaped: 16.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/paddle_hit_only/checkpoint_ep05000_score14.3.pt
+🏆 New best checkpoint! Original score: 14.27
+🗑️  Removed old checkpoint: checkpoint_ep01000_score13.6.pt
+💾 Results saved to: experiments/results/paddle_hit_only_results.json
+
+================================================================================
+✅ Experiment 'paddle_hit_only' completed in 8.65 hours
+
+📊 FAIR COMPARISON METRICS (Original Game Score):
+   Average Score: 12.46
+   Max Score: 51.00
+   Final Average (last 10): 16.10
+   Improvement: 14.70
+
+📈 LEARNING EFFICIENCY:
+   Episodes to reach 5 score: 14
+   Episodes to reach 10 score: 208
+   Success rate (score > 0): 98.8%
+
+🎯 CONSISTENCY:
+   Score std deviation: 5.64
+   Median score: 12.00
+   Top 10% average: 23.51
+
+⏱️  SURVIVAL:
+   Average episode length: 698 steps
+   Max episode length: 5561 steps
+
+💾 Best checkpoint: experiments/results/checkpoints/paddle_hit_only/best_checkpoint.pt
+================================================================================
+
+🖥️  GPU Memory Used: 0.17 GB
+
+================================================================================
+Progress: Experiment 3/10
+================================================================================
+
+================================================================================
+🧪 Running Experiment: center_position_only
+📝 Description: Only center positioning bonus
+📊 Episodes: 5000
+💾 Checkpoints: experiments/results/checkpoints/center_position_only
+🖥️  Device: cuda
+⚡ GPU Memory Available: 23.58 GB
+================================================================================
+
+❌ Experiment 'center_position_only' failed: Found dtype Double but expected Float
+Traceback (most recent call last):
+  File "/home/anjo19go/reinforcement_learning_breakout/experiments/experiment_runner.py", line 122, in run_experiment
+    rewards, epsilon_history, stats, checkpoints = self._run_training(
+  File "/home/anjo19go/reinforcement_learning_breakout/experiments/experiment_runner.py", line 326, in _run_training
+    loss = agent.optimize(mini_batch, policy_dqn, target_dqn)
+  File "/home/anjo19go/reinforcement_learning_breakout/breakout_dqn.py", line 236, in optimize
+    loss.backward()
+  File "/home/anjo19go/micromamba/envs/tf/lib/python3.9/site-packages/torch/_tensor.py", line 647, in backward
+    torch.autograd.backward(
+  File "/home/anjo19go/micromamba/envs/tf/lib/python3.9/site-packages/torch/autograd/__init__.py", line 354, in backward
+    _engine_run_backward(
+  File "/home/anjo19go/micromamba/envs/tf/lib/python3.9/site-packages/torch/autograd/graph.py", line 829, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+RuntimeError: Found dtype Double but expected Float
+⚠️  Skipping center_position_only due to error: Found dtype Double but expected Float
+
+================================================================================
+Progress: Experiment 4/10
+================================================================================
+
+================================================================================
+🧪 Running Experiment: side_angle_only
+📝 Description: Only side angle bonus
+📊 Episodes: 5000
+💾 Checkpoints: experiments/results/checkpoints/side_angle_only
+🖥️  Device: cuda
+⚡ GPU Memory Available: 23.58 GB
+================================================================================
+
+Episode 10/5000 | Original Score: 0.80 | Shaped: 0.98 | Epsilon: 0.951
+Episode 20/5000 | Original Score: 1.00 | Shaped: 1.10 | Epsilon: 0.905
+Episode 30/5000 | Original Score: 0.60 | Shaped: 0.73 | Epsilon: 0.860
+Episode 40/5000 | Original Score: 1.50 | Shaped: 1.69 | Epsilon: 0.818
+Episode 50/5000 | Original Score: 1.50 | Shaped: 1.74 | Epsilon: 0.778
+   GPU Memory: 0.08 GB
+Episode 60/5000 | Original Score: 0.90 | Shaped: 0.99 | Epsilon: 0.740
+Episode 70/5000 | Original Score: 1.60 | Shaped: 1.91 | Epsilon: 0.704
+Episode 80/5000 | Original Score: 1.10 | Shaped: 1.23 | Epsilon: 0.670
+Episode 90/5000 | Original Score: 1.00 | Shaped: 1.30 | Epsilon: 0.637
+Episode 100/5000 | Original Score: 1.70 | Shaped: 1.93 | Epsilon: 0.606
+   GPU Memory: 0.08 GB
+Episode 110/5000 | Original Score: 2.20 | Shaped: 2.33 | Epsilon: 0.576
+Episode 120/5000 | Original Score: 1.60 | Shaped: 1.73 | Epsilon: 0.548
+Episode 130/5000 | Original Score: 1.90 | Shaped: 2.14 | Epsilon: 0.521
+Episode 140/5000 | Original Score: 2.10 | Shaped: 2.35 | Epsilon: 0.496
+Episode 150/5000 | Original Score: 2.40 | Shaped: 2.67 | Epsilon: 0.471
+   GPU Memory: 0.08 GB
+Episode 160/5000 | Original Score: 3.10 | Shaped: 3.35 | Epsilon: 0.448
+Episode 170/5000 | Original Score: 3.10 | Shaped: 3.30 | Epsilon: 0.427
+Episode 180/5000 | Original Score: 4.00 | Shaped: 4.22 | Epsilon: 0.406
+Episode 190/5000 | Original Score: 3.20 | Shaped: 3.49 | Epsilon: 0.386
+Episode 200/5000 | Original Score: 3.30 | Shaped: 3.55 | Epsilon: 0.367
+   GPU Memory: 0.08 GB
+Episode 210/5000 | Original Score: 4.10 | Shaped: 4.41 | Epsilon: 0.349
+Episode 220/5000 | Original Score: 3.80 | Shaped: 4.45 | Epsilon: 0.332
+Episode 230/5000 | Original Score: 4.20 | Shaped: 4.82 | Epsilon: 0.316
+Episode 240/5000 | Original Score: 5.60 | Shaped: 6.26 | Epsilon: 0.300
+Episode 250/5000 | Original Score: 5.60 | Shaped: 6.23 | Epsilon: 0.286
+   GPU Memory: 0.08 GB
+Episode 260/5000 | Original Score: 6.10 | Shaped: 6.82 | Epsilon: 0.272
+Episode 270/5000 | Original Score: 5.30 | Shaped: 5.89 | Epsilon: 0.258
+Episode 280/5000 | Original Score: 6.80 | Shaped: 7.78 | Epsilon: 0.246
+Episode 290/5000 | Original Score: 6.70 | Shaped: 7.56 | Epsilon: 0.234
+Episode 300/5000 | Original Score: 6.80 | Shaped: 7.49 | Epsilon: 0.222
+   GPU Memory: 0.08 GB
+Episode 310/5000 | Original Score: 6.20 | Shaped: 7.10 | Epsilon: 0.211
+Episode 320/5000 | Original Score: 6.20 | Shaped: 7.17 | Epsilon: 0.201
+Episode 330/5000 | Original Score: 6.90 | Shaped: 7.76 | Epsilon: 0.191
+Episode 340/5000 | Original Score: 8.20 | Shaped: 9.22 | Epsilon: 0.182
+Episode 350/5000 | Original Score: 4.70 | Shaped: 5.78 | Epsilon: 0.173
+   GPU Memory: 0.08 GB
+Episode 360/5000 | Original Score: 7.60 | Shaped: 8.49 | Epsilon: 0.165
+Episode 370/5000 | Original Score: 4.50 | Shaped: 5.50 | Epsilon: 0.157
+Episode 380/5000 | Original Score: 6.20 | Shaped: 7.09 | Epsilon: 0.149
+Episode 390/5000 | Original Score: 6.50 | Shaped: 7.16 | Epsilon: 0.142
+Episode 400/5000 | Original Score: 6.20 | Shaped: 7.27 | Epsilon: 0.135
+   GPU Memory: 0.08 GB
+Episode 410/5000 | Original Score: 5.50 | Shaped: 6.49 | Epsilon: 0.128
+Episode 420/5000 | Original Score: 6.70 | Shaped: 7.87 | Epsilon: 0.122
+Episode 430/5000 | Original Score: 6.50 | Shaped: 7.58 | Epsilon: 0.116
+Episode 440/5000 | Original Score: 6.80 | Shaped: 7.76 | Epsilon: 0.110
+Episode 450/5000 | Original Score: 6.90 | Shaped: 7.97 | Epsilon: 0.105
+   GPU Memory: 0.08 GB
+Episode 460/5000 | Original Score: 9.20 | Shaped: 10.22 | Epsilon: 0.100
+Episode 470/5000 | Original Score: 7.80 | Shaped: 8.91 | Epsilon: 0.095
+Episode 480/5000 | Original Score: 8.60 | Shaped: 9.56 | Epsilon: 0.090
+Episode 490/5000 | Original Score: 7.20 | Shaped: 8.25 | Epsilon: 0.086
+Episode 500/5000 | Original Score: 9.70 | Shaped: 10.86 | Epsilon: 0.082
+   GPU Memory: 0.08 GB
+Episode 510/5000 | Original Score: 7.60 | Shaped: 8.54 | Epsilon: 0.078
+Episode 520/5000 | Original Score: 5.80 | Shaped: 6.88 | Epsilon: 0.074
+Episode 530/5000 | Original Score: 7.40 | Shaped: 8.33 | Epsilon: 0.070
+Episode 540/5000 | Original Score: 6.30 | Shaped: 7.10 | Epsilon: 0.067
+Episode 550/5000 | Original Score: 8.90 | Shaped: 10.29 | Epsilon: 0.063
+   GPU Memory: 0.08 GB
+Episode 560/5000 | Original Score: 6.40 | Shaped: 7.63 | Epsilon: 0.060
+Episode 570/5000 | Original Score: 6.70 | Shaped: 7.95 | Epsilon: 0.057
+Episode 580/5000 | Original Score: 7.80 | Shaped: 8.85 | Epsilon: 0.055
+Episode 590/5000 | Original Score: 8.00 | Shaped: 9.14 | Epsilon: 0.052
+Episode 600/5000 | Original Score: 10.60 | Shaped: 11.94 | Epsilon: 0.049
+   GPU Memory: 0.08 GB
+Episode 610/5000 | Original Score: 8.50 | Shaped: 9.79 | Epsilon: 0.047
+Episode 620/5000 | Original Score: 9.30 | Shaped: 10.88 | Epsilon: 0.045
+Episode 630/5000 | Original Score: 10.50 | Shaped: 11.99 | Epsilon: 0.043
+Episode 640/5000 | Original Score: 7.80 | Shaped: 9.39 | Epsilon: 0.040
+Episode 650/5000 | Original Score: 9.50 | Shaped: 10.91 | Epsilon: 0.038
+   GPU Memory: 0.08 GB
+Episode 660/5000 | Original Score: 9.60 | Shaped: 10.92 | Epsilon: 0.037
+Episode 670/5000 | Original Score: 9.60 | Shaped: 11.14 | Epsilon: 0.035
+Episode 680/5000 | Original Score: 10.10 | Shaped: 11.71 | Epsilon: 0.033
+Episode 690/5000 | Original Score: 9.00 | Shaped: 10.25 | Epsilon: 0.031
+Episode 700/5000 | Original Score: 12.00 | Shaped: 13.59 | Epsilon: 0.030
+   GPU Memory: 0.08 GB
+Episode 710/5000 | Original Score: 9.30 | Shaped: 10.57 | Epsilon: 0.028
+Episode 720/5000 | Original Score: 9.50 | Shaped: 11.08 | Epsilon: 0.027
+Episode 730/5000 | Original Score: 12.60 | Shaped: 14.10 | Epsilon: 0.026
+Episode 740/5000 | Original Score: 11.90 | Shaped: 13.66 | Epsilon: 0.024
+Episode 750/5000 | Original Score: 9.90 | Shaped: 11.39 | Epsilon: 0.023
+   GPU Memory: 0.08 GB
+Episode 760/5000 | Original Score: 12.10 | Shaped: 13.80 | Epsilon: 0.022
+Episode 770/5000 | Original Score: 11.20 | Shaped: 13.09 | Epsilon: 0.021
+Episode 780/5000 | Original Score: 12.60 | Shaped: 14.36 | Epsilon: 0.020
+Episode 790/5000 | Original Score: 12.30 | Shaped: 13.91 | Epsilon: 0.019
+Episode 800/5000 | Original Score: 9.60 | Shaped: 11.28 | Epsilon: 0.018
+   GPU Memory: 0.08 GB
+Episode 810/5000 | Original Score: 9.70 | Shaped: 10.96 | Epsilon: 0.017
+Episode 820/5000 | Original Score: 11.60 | Shaped: 13.21 | Epsilon: 0.016
+Episode 830/5000 | Original Score: 12.20 | Shaped: 13.76 | Epsilon: 0.016
+Episode 840/5000 | Original Score: 13.40 | Shaped: 15.04 | Epsilon: 0.015
+Episode 850/5000 | Original Score: 8.50 | Shaped: 9.84 | Epsilon: 0.014
+   GPU Memory: 0.08 GB
+Episode 860/5000 | Original Score: 10.90 | Shaped: 12.54 | Epsilon: 0.013
+Episode 870/5000 | Original Score: 11.70 | Shaped: 13.43 | Epsilon: 0.013
+Episode 880/5000 | Original Score: 10.70 | Shaped: 12.35 | Epsilon: 0.012
+Episode 890/5000 | Original Score: 14.40 | Shaped: 16.11 | Epsilon: 0.012
+Episode 900/5000 | Original Score: 10.80 | Shaped: 12.45 | Epsilon: 0.011
+   GPU Memory: 0.08 GB
+Episode 910/5000 | Original Score: 13.10 | Shaped: 14.76 | Epsilon: 0.010
+Episode 920/5000 | Original Score: 15.30 | Shaped: 17.43 | Epsilon: 0.010
+Episode 930/5000 | Original Score: 12.00 | Shaped: 13.72 | Epsilon: 0.010
+Episode 940/5000 | Original Score: 12.80 | Shaped: 14.63 | Epsilon: 0.010
+Episode 950/5000 | Original Score: 11.30 | Shaped: 13.06 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 960/5000 | Original Score: 10.30 | Shaped: 12.12 | Epsilon: 0.010
+Episode 970/5000 | Original Score: 11.30 | Shaped: 12.96 | Epsilon: 0.010
+Episode 980/5000 | Original Score: 13.50 | Shaped: 15.23 | Epsilon: 0.010
+Episode 990/5000 | Original Score: 13.00 | Shaped: 14.74 | Epsilon: 0.010
+Episode 1000/5000 | Original Score: 11.90 | Shaped: 13.52 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/side_angle_only/checkpoint_ep01000_score12.4.pt
+🏆 New best checkpoint! Original score: 12.45
+Episode 1010/5000 | Original Score: 12.40 | Shaped: 14.23 | Epsilon: 0.010
+Episode 1020/5000 | Original Score: 12.60 | Shaped: 14.47 | Epsilon: 0.010
+Episode 1030/5000 | Original Score: 12.80 | Shaped: 14.75 | Epsilon: 0.010
+Episode 1040/5000 | Original Score: 14.30 | Shaped: 16.31 | Epsilon: 0.010
+Episode 1050/5000 | Original Score: 13.20 | Shaped: 14.87 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1060/5000 | Original Score: 14.30 | Shaped: 16.24 | Epsilon: 0.010
+Episode 1070/5000 | Original Score: 10.70 | Shaped: 12.29 | Epsilon: 0.010
+Episode 1080/5000 | Original Score: 11.20 | Shaped: 12.94 | Epsilon: 0.010
+Episode 1090/5000 | Original Score: 13.60 | Shaped: 15.52 | Epsilon: 0.010
+Episode 1100/5000 | Original Score: 12.80 | Shaped: 14.78 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1110/5000 | Original Score: 13.40 | Shaped: 15.35 | Epsilon: 0.010
+Episode 1120/5000 | Original Score: 12.40 | Shaped: 14.43 | Epsilon: 0.010
+Episode 1130/5000 | Original Score: 12.10 | Shaped: 13.92 | Epsilon: 0.010
+Episode 1140/5000 | Original Score: 13.60 | Shaped: 15.54 | Epsilon: 0.010
+Episode 1150/5000 | Original Score: 11.70 | Shaped: 13.57 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1160/5000 | Original Score: 12.10 | Shaped: 13.78 | Epsilon: 0.010
+Episode 1170/5000 | Original Score: 13.20 | Shaped: 15.26 | Epsilon: 0.010
+Episode 1180/5000 | Original Score: 12.80 | Shaped: 14.42 | Epsilon: 0.010
+Episode 1190/5000 | Original Score: 13.50 | Shaped: 15.33 | Epsilon: 0.010
+Episode 1200/5000 | Original Score: 14.10 | Shaped: 15.62 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1210/5000 | Original Score: 12.30 | Shaped: 13.98 | Epsilon: 0.010
+Episode 1220/5000 | Original Score: 14.40 | Shaped: 16.21 | Epsilon: 0.010
+Episode 1230/5000 | Original Score: 11.70 | Shaped: 13.52 | Epsilon: 0.010
+Episode 1240/5000 | Original Score: 10.00 | Shaped: 11.52 | Epsilon: 0.010
+Episode 1250/5000 | Original Score: 10.90 | Shaped: 12.75 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1260/5000 | Original Score: 12.40 | Shaped: 14.09 | Epsilon: 0.010
+Episode 1270/5000 | Original Score: 13.50 | Shaped: 15.27 | Epsilon: 0.010
+Episode 1280/5000 | Original Score: 13.20 | Shaped: 15.04 | Epsilon: 0.010
+Episode 1290/5000 | Original Score: 10.60 | Shaped: 12.30 | Epsilon: 0.010
+Episode 1300/5000 | Original Score: 11.80 | Shaped: 13.72 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1310/5000 | Original Score: 14.00 | Shaped: 15.86 | Epsilon: 0.010
+Episode 1320/5000 | Original Score: 12.90 | Shaped: 14.78 | Epsilon: 0.010
+Episode 1330/5000 | Original Score: 13.70 | Shaped: 15.68 | Epsilon: 0.010
+Episode 1340/5000 | Original Score: 13.90 | Shaped: 15.64 | Epsilon: 0.010
+Episode 1350/5000 | Original Score: 14.60 | Shaped: 16.14 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1360/5000 | Original Score: 10.40 | Shaped: 12.19 | Epsilon: 0.010
+Episode 1370/5000 | Original Score: 15.40 | Shaped: 17.23 | Epsilon: 0.010
+Episode 1380/5000 | Original Score: 11.60 | Shaped: 13.66 | Epsilon: 0.010
+Episode 1390/5000 | Original Score: 11.90 | Shaped: 13.59 | Epsilon: 0.010
+Episode 1400/5000 | Original Score: 12.30 | Shaped: 14.21 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1410/5000 | Original Score: 11.90 | Shaped: 13.40 | Epsilon: 0.010
+Episode 1420/5000 | Original Score: 12.80 | Shaped: 14.72 | Epsilon: 0.010
+Episode 1430/5000 | Original Score: 13.80 | Shaped: 15.84 | Epsilon: 0.010
+Episode 1440/5000 | Original Score: 12.30 | Shaped: 13.86 | Epsilon: 0.010
+Episode 1450/5000 | Original Score: 13.40 | Shaped: 15.02 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1460/5000 | Original Score: 13.00 | Shaped: 14.76 | Epsilon: 0.010
+Episode 1470/5000 | Original Score: 12.70 | Shaped: 14.37 | Epsilon: 0.010
+Episode 1480/5000 | Original Score: 13.50 | Shaped: 15.21 | Epsilon: 0.010
+Episode 1490/5000 | Original Score: 11.50 | Shaped: 13.15 | Epsilon: 0.010
+Episode 1500/5000 | Original Score: 12.50 | Shaped: 14.42 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1510/5000 | Original Score: 13.70 | Shaped: 15.61 | Epsilon: 0.010
+Episode 1520/5000 | Original Score: 12.30 | Shaped: 14.23 | Epsilon: 0.010
+Episode 1530/5000 | Original Score: 11.10 | Shaped: 12.74 | Epsilon: 0.010
+Episode 1540/5000 | Original Score: 15.00 | Shaped: 16.62 | Epsilon: 0.010
+Episode 1550/5000 | Original Score: 12.60 | Shaped: 14.22 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1560/5000 | Original Score: 15.10 | Shaped: 16.89 | Epsilon: 0.010
+Episode 1570/5000 | Original Score: 13.60 | Shaped: 15.60 | Epsilon: 0.010
+Episode 1580/5000 | Original Score: 11.80 | Shaped: 13.42 | Epsilon: 0.010
+Episode 1590/5000 | Original Score: 13.10 | Shaped: 14.94 | Epsilon: 0.010
+Episode 1600/5000 | Original Score: 12.10 | Shaped: 13.86 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1610/5000 | Original Score: 11.10 | Shaped: 12.68 | Epsilon: 0.010
+Episode 1620/5000 | Original Score: 13.10 | Shaped: 14.87 | Epsilon: 0.010
+Episode 1630/5000 | Original Score: 11.50 | Shaped: 13.24 | Epsilon: 0.010
+Episode 1640/5000 | Original Score: 11.90 | Shaped: 13.85 | Epsilon: 0.010
+Episode 1650/5000 | Original Score: 13.30 | Shaped: 15.10 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1660/5000 | Original Score: 12.70 | Shaped: 14.65 | Epsilon: 0.010
+Episode 1670/5000 | Original Score: 14.20 | Shaped: 16.17 | Epsilon: 0.010
+Episode 1680/5000 | Original Score: 12.80 | Shaped: 14.51 | Epsilon: 0.010
+Episode 1690/5000 | Original Score: 14.30 | Shaped: 16.13 | Epsilon: 0.010
+Episode 1700/5000 | Original Score: 13.20 | Shaped: 15.09 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1710/5000 | Original Score: 10.60 | Shaped: 12.19 | Epsilon: 0.010
+Episode 1720/5000 | Original Score: 11.90 | Shaped: 13.59 | Epsilon: 0.010
+Episode 1730/5000 | Original Score: 12.50 | Shaped: 14.11 | Epsilon: 0.010
+Episode 1740/5000 | Original Score: 13.20 | Shaped: 15.18 | Epsilon: 0.010
+Episode 1750/5000 | Original Score: 11.30 | Shaped: 13.08 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1760/5000 | Original Score: 14.50 | Shaped: 16.64 | Epsilon: 0.010
+Episode 1770/5000 | Original Score: 12.80 | Shaped: 14.45 | Epsilon: 0.010
+Episode 1780/5000 | Original Score: 11.70 | Shaped: 13.47 | Epsilon: 0.010
+Episode 1790/5000 | Original Score: 12.30 | Shaped: 14.23 | Epsilon: 0.010
+Episode 1800/5000 | Original Score: 13.60 | Shaped: 15.55 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1810/5000 | Original Score: 12.00 | Shaped: 13.72 | Epsilon: 0.010
+Episode 1820/5000 | Original Score: 11.80 | Shaped: 13.54 | Epsilon: 0.010
+Episode 1830/5000 | Original Score: 13.30 | Shaped: 15.30 | Epsilon: 0.010
+Episode 1840/5000 | Original Score: 11.10 | Shaped: 12.82 | Epsilon: 0.010
+Episode 1850/5000 | Original Score: 10.90 | Shaped: 12.55 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1860/5000 | Original Score: 12.50 | Shaped: 14.09 | Epsilon: 0.010
+Episode 1870/5000 | Original Score: 13.50 | Shaped: 15.18 | Epsilon: 0.010
+Episode 1880/5000 | Original Score: 10.80 | Shaped: 12.18 | Epsilon: 0.010
+Episode 1890/5000 | Original Score: 10.60 | Shaped: 12.13 | Epsilon: 0.010
+Episode 1900/5000 | Original Score: 9.70 | Shaped: 11.26 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1910/5000 | Original Score: 9.30 | Shaped: 10.68 | Epsilon: 0.010
+Episode 1920/5000 | Original Score: 10.00 | Shaped: 11.53 | Epsilon: 0.010
+Episode 1930/5000 | Original Score: 10.50 | Shaped: 12.21 | Epsilon: 0.010
+Episode 1940/5000 | Original Score: 9.80 | Shaped: 11.54 | Epsilon: 0.010
+Episode 1950/5000 | Original Score: 10.70 | Shaped: 12.26 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 1960/5000 | Original Score: 10.10 | Shaped: 11.64 | Epsilon: 0.010
+Episode 1970/5000 | Original Score: 14.00 | Shaped: 15.81 | Epsilon: 0.010
+Episode 1980/5000 | Original Score: 12.20 | Shaped: 13.93 | Epsilon: 0.010
+Episode 1990/5000 | Original Score: 15.30 | Shaped: 16.98 | Epsilon: 0.010
+Episode 2000/5000 | Original Score: 11.70 | Shaped: 13.46 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+💾 Checkpoint saved: experiments/results/checkpoints/side_angle_only/checkpoint_ep02000_score11.4.pt
+Episode 2010/5000 | Original Score: 10.60 | Shaped: 12.37 | Epsilon: 0.010
+Episode 2020/5000 | Original Score: 11.30 | Shaped: 13.04 | Epsilon: 0.010
+Episode 2030/5000 | Original Score: 13.00 | Shaped: 14.92 | Epsilon: 0.010
+Episode 2040/5000 | Original Score: 10.90 | Shaped: 12.81 | Epsilon: 0.010
+Episode 2050/5000 | Original Score: 12.30 | Shaped: 14.01 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2060/5000 | Original Score: 10.90 | Shaped: 12.66 | Epsilon: 0.010
+Episode 2070/5000 | Original Score: 13.00 | Shaped: 14.98 | Epsilon: 0.010
+Episode 2080/5000 | Original Score: 13.60 | Shaped: 15.46 | Epsilon: 0.010
+Episode 2090/5000 | Original Score: 12.30 | Shaped: 14.16 | Epsilon: 0.010
+Episode 2100/5000 | Original Score: 13.20 | Shaped: 15.09 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2110/5000 | Original Score: 8.90 | Shaped: 10.61 | Epsilon: 0.010
+Episode 2120/5000 | Original Score: 13.80 | Shaped: 15.80 | Epsilon: 0.010
+Episode 2130/5000 | Original Score: 12.60 | Shaped: 14.37 | Epsilon: 0.010
+Episode 2140/5000 | Original Score: 12.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 2150/5000 | Original Score: 10.30 | Shaped: 11.89 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2160/5000 | Original Score: 12.40 | Shaped: 14.28 | Epsilon: 0.010
+Episode 2170/5000 | Original Score: 9.10 | Shaped: 10.81 | Epsilon: 0.010
+Episode 2180/5000 | Original Score: 10.30 | Shaped: 12.13 | Epsilon: 0.010
+Episode 2190/5000 | Original Score: 11.70 | Shaped: 13.56 | Epsilon: 0.010
+Episode 2200/5000 | Original Score: 10.70 | Shaped: 12.50 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2210/5000 | Original Score: 13.20 | Shaped: 15.04 | Epsilon: 0.010
+Episode 2220/5000 | Original Score: 12.50 | Shaped: 14.30 | Epsilon: 0.010
+Episode 2230/5000 | Original Score: 12.50 | Shaped: 14.15 | Epsilon: 0.010
+Episode 2240/5000 | Original Score: 12.10 | Shaped: 14.07 | Epsilon: 0.010
+Episode 2250/5000 | Original Score: 13.50 | Shaped: 15.42 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2260/5000 | Original Score: 13.30 | Shaped: 15.00 | Epsilon: 0.010
+Episode 2270/5000 | Original Score: 13.20 | Shaped: 15.05 | Epsilon: 0.010
+Episode 2280/5000 | Original Score: 12.80 | Shaped: 14.84 | Epsilon: 0.010
+Episode 2290/5000 | Original Score: 15.70 | Shaped: 17.74 | Epsilon: 0.010
+Episode 2300/5000 | Original Score: 13.70 | Shaped: 15.65 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2310/5000 | Original Score: 11.20 | Shaped: 12.97 | Epsilon: 0.010
+Episode 2320/5000 | Original Score: 12.60 | Shaped: 14.54 | Epsilon: 0.010
+Episode 2330/5000 | Original Score: 12.70 | Shaped: 14.72 | Epsilon: 0.010
+Episode 2340/5000 | Original Score: 12.00 | Shaped: 13.80 | Epsilon: 0.010
+Episode 2350/5000 | Original Score: 13.40 | Shaped: 15.25 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2360/5000 | Original Score: 11.50 | Shaped: 13.35 | Epsilon: 0.010
+Episode 2370/5000 | Original Score: 13.60 | Shaped: 15.48 | Epsilon: 0.010
+Episode 2380/5000 | Original Score: 13.80 | Shaped: 15.97 | Epsilon: 0.010
+Episode 2390/5000 | Original Score: 16.60 | Shaped: 18.77 | Epsilon: 0.010
+Episode 2400/5000 | Original Score: 11.10 | Shaped: 12.96 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2410/5000 | Original Score: 10.80 | Shaped: 12.42 | Epsilon: 0.010
+Episode 2420/5000 | Original Score: 12.80 | Shaped: 14.80 | Epsilon: 0.010
+Episode 2430/5000 | Original Score: 13.90 | Shaped: 15.85 | Epsilon: 0.010
+Episode 2440/5000 | Original Score: 12.60 | Shaped: 14.52 | Epsilon: 0.010
+Episode 2450/5000 | Original Score: 11.00 | Shaped: 12.70 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2460/5000 | Original Score: 14.30 | Shaped: 16.31 | Epsilon: 0.010
+Episode 2470/5000 | Original Score: 11.30 | Shaped: 13.27 | Epsilon: 0.010
+Episode 2480/5000 | Original Score: 15.60 | Shaped: 17.77 | Epsilon: 0.010
+Episode 2490/5000 | Original Score: 11.30 | Shaped: 13.12 | Epsilon: 0.010
+Episode 2500/5000 | Original Score: 11.40 | Shaped: 13.17 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2510/5000 | Original Score: 13.90 | Shaped: 15.67 | Epsilon: 0.010
+Episode 2520/5000 | Original Score: 14.00 | Shaped: 15.98 | Epsilon: 0.010
+Episode 2530/5000 | Original Score: 11.60 | Shaped: 13.57 | Epsilon: 0.010
+Episode 2540/5000 | Original Score: 15.20 | Shaped: 16.97 | Epsilon: 0.010
+Episode 2550/5000 | Original Score: 13.30 | Shaped: 15.22 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2560/5000 | Original Score: 11.40 | Shaped: 13.12 | Epsilon: 0.010
+Episode 2570/5000 | Original Score: 10.60 | Shaped: 12.34 | Epsilon: 0.010
+Episode 2580/5000 | Original Score: 14.00 | Shaped: 15.80 | Epsilon: 0.010
+Episode 2590/5000 | Original Score: 11.80 | Shaped: 13.65 | Epsilon: 0.010
+Episode 2600/5000 | Original Score: 13.00 | Shaped: 14.68 | Epsilon: 0.010
+   GPU Memory: 0.08 GB
+Episode 2610/5000 | Original Score: 11.90 | Shaped: 13.37 | Epsilon: 0.010
