@@ -696,7 +696,7 @@ class ExperimentRunner:
             return
 
         print(f"\n{'=' * 80}")
-        print("📊 EXPERIMENT COMPARISON REPORT (Fair Metrics)")
+        print("📊 EXPERIMENT COMPARISON REPORT")
         print(f"{'=' * 80}\n")
 
         # PRIMARY COMPARISON: Original Game Score
@@ -907,7 +907,7 @@ class ExperimentRunner:
         gs = fig.add_gridspec(3, 3, hspace=0.3, wspace=0.3)
 
         fig.suptitle(
-            "Reward Shaping Experiments - Fair Comparison (Original Game Score)",
+            "Reward Shaping Experiments Comparison (Original Game Score)",
             fontsize=18,
             fontweight="bold",
         )
@@ -1113,9 +1113,9 @@ class ExperimentRunner:
             ax9.text(val, i, f" {val:.0f}", va="center", fontsize=9)
 
         # Save plot
-        plot_path = os.path.join(self.output_dir, "experiment_comparison_fair.png")
+        plot_path = os.path.join(self.output_dir, "experiment_comparison.png")
         plt.savefig(plot_path, dpi=200, bbox_inches="tight")
-        print(f"\n📈 Fair comparison plots saved to: {plot_path}")
+        print(f"\n📈 Comparison plots saved to: {plot_path}")
 
         plt.close()
 

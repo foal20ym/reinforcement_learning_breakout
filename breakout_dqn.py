@@ -12,7 +12,7 @@ import numpy as np
 import random
 import os
 from utils import config
-import ale_pyd
+import ale_py
 
 from helpers.FileIO import (
     save_current_episode,
